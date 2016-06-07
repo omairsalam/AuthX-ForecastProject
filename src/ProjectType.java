@@ -11,23 +11,19 @@ import java.util.HashMap;
 
 public class ProjectType {
 
-	HashMap<Date, Double> hmap = new HashMap<Date,Double>();
+	HashMap<Date, Double> wMap = new HashMap<Date,Double>();
 	
 	
 	/**
 	 * This  defines the getters and setters for the Map type variable.
 	 * @return
 	 */
-	public HashMap<Date, Double> getHmap() {
-		return hmap;
+	public HashMap<Date, Double> getWMap() {
+		return wMap;
 	}
-
-
-
-	public void setHmap(HashMap<Date, Double> hmap) {
-		this.hmap = hmap;
+	public void setWMap(HashMap<Date, Double> wMap) {
+		this.wMap = wMap;
 	}
-
 
 /**
  * This method accumulate the no.of hrs of that particular week selected by the user.
@@ -35,7 +31,13 @@ public class ProjectType {
  * @param hours
  */
 	public void addtoMap(Date date,Double hours){
-		
+		if (wMap.containsKey(date)){
+			double oldHours = wMap.get(date);
+			hours += oldHours;
+		}
+		wMap.put(date, hours);
+		System.out.println("Adding to Map: " + date + ", " + hours);
+		System.out.println();
 	}
 	
 	/**
@@ -45,7 +47,7 @@ public class ProjectType {
 	 * @return
 	 */
 	public HashMap<Date,Double> scaleMap(Double n){
-		return hmap;
+		return wMap;
 		
 	}
 }
