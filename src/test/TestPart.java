@@ -8,9 +8,7 @@ public class TestPart {
 	public static void main(String args[]) throws IOException, ParseException{
 		Execute exec = new Execute();
 		exec.populateForecastStatic();
-		
-		
-	
+
 	}
 }
 
