@@ -1,5 +1,3 @@
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,7 +6,6 @@ import java.util.Calendar;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 /**
  * This is the execute class with with a variable type of Map. It links  -> particular role.
@@ -19,6 +16,8 @@ import org.json.simple.parser.ParseException;
  * @author user
  *
  */
+
+//TODO: Handle the case in which project type is empty, ""
 public class Execute {
 
 	private HashMap<String, Role> roleMap = new HashMap<String,Role>();
@@ -28,7 +27,6 @@ public class Execute {
     public void setForecastData(JSONArray forecastData){
         this.forecastData = forecastData;
     }
-
 
 	/**
 	 * This defines getters and setters for roleMap variable of key-Value pair.
@@ -49,28 +47,30 @@ public class Execute {
 
 	public void populateForecastStatic() throws IOException, ParseException{
 
-		JSONParser jparser = new JSONParser();
-		FileReader file = new FileReader("/Users/user/Documents/JSONFile.json"); // Change the file path
+		for(int tuple=0;tuple<forecastData.size();tuple++){
 
-		Object object = jparser.parse(file);
-
-		JSONArray jarray = (JSONArray)object;
-
-		for(int tuple=0;tuple<jarray.size();tuple++){
-
-			JSONObject jobject =(JSONObject) jarray.get(tuple);
+			JSONObject jobject =(JSONObject) forecastData.get(tuple);
 
 			String tag= (String)jobject.get("Tags");
 			String projectCode=(String)jobject.get("Project Code");
 
-			Role roleobj = new Role();
-			ProjectType projecttypeobj = new ProjectType();
+            ProjectType projecttypeobj = new ProjectType();
 
-			roleobj.getPmap().put(projectCode,projecttypeobj);
-			roleobj.getEmp_list().add((String)(jobject.get("Person")));
-			roleMap.put(tag, roleobj);
 
-			System.out.print(tag + " "+roleMap.get(tag).getEmp_list() + " ");
+            //Checks if the role already exists
+            //Sort of an "accumulator"
+            if (roleMap.containsKey(tag)){
+                Role oldRole = roleMap.get(tag);
+                oldRole.getPmap().put(projectCode, projecttypeobj);
+                oldRole.getEmp_Set().add((String)(jobject.get("Person")));
+
+            }else{
+                Role roleobj = new Role();
+                roleobj.getEmp_Set().add((String)(jobject.get("Person")));
+                roleMap.put(tag, roleobj);
+            }
+
+			System.out.println(tag + " "+roleMap.get(tag).getEmp_Set() + " ");
 
 		}
 
@@ -88,7 +88,7 @@ public class Execute {
         //This also clears the project types to reaccumulate hours
 		for (String key : roleMap.keySet()){
             Role role = roleMap.get(key);
-			role.getEmp_list().clear();
+			role.getEmp_Set().clear();
             for (String keyProject : role.getPmap().keySet()){
                 role.getPmap().get(keyProject).getWMap().clear();
             }
@@ -102,13 +102,12 @@ public class Execute {
             String projectTypeString = (String) jsonObject.get("Project Code");
 
             //This gets the appropriate roles and project types
-            //TODO: Handle the case in which project type is empty, ""
             Role role = roleMap.get(roleString);
             ProjectType projectType = role.getPmap().get(projectTypeString);
 
             //This builds up the list of employees
             String personString = (String) jsonObject.get("Person");
-            role.getEmp_list().add(personString);
+            role.getEmp_Set().add(personString);
 
             System.out.println("Role Name: " + roleString);
             System.out.println("ProjectType Name: " + projectTypeString);
@@ -124,12 +123,14 @@ public class Execute {
                 //This checks if the json array actually has the string key
                 if (hoursString == null){
                     projectType.addtoMap(tmp, 0d);
+
                 }else{
                     double hoursDouble = Double.parseDouble(hoursString);
 
                     System.out.println("Week Key: " + forecastDateString);
                     System.out.println("Hours: " + hoursDouble);
 
+                    //ERROR: ProjectType is null
                     projectType.addtoMap(tmp, hoursDouble);
                 }
 

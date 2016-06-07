@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 
 /**
@@ -11,35 +12,35 @@ import java.util.HashMap;
  */
 public class Role {
 
-	HashMap<String, ProjectType> pmap = new HashMap<String,ProjectType>();
+	HashMap<String, ProjectType> pMap = new HashMap<String,ProjectType>();
 
 	/**
 	 * 
 	 * @return This  defines the getters and setters for the Map type variable . 
 	 */
 	public HashMap<String, ProjectType> getPmap() {
-		return pmap;
+		return pMap;
 	}
 
-	public void setPmap(HashMap<String, ProjectType> pmap) {
-		this.pmap = pmap;
+	public void setPmap(HashMap<String, ProjectType> pMap) {
+		this.pMap = pMap;
 	}
 	
 
 	
-	ArrayList<String> emp_list = new ArrayList<String>();
+	LinkedHashSet<String> emp_set = new LinkedHashSet<String>();
 	/**
 	 * 
 	 * @return  This  defines the getters and setters for the employee list.
 	 */
 	
 
-	public ArrayList<String> getEmp_list() {
-		return emp_list;
+	public LinkedHashSet<String> getEmp_Set() {
+		return emp_set;
 	}
 
-	public void setEmp_list(ArrayList<String> emp_list) {
-		this.emp_list = emp_list;
+	public void setEmp_List(ArrayList<String> emp_list) {
+		this.emp_set = emp_set;
 	}
 
 

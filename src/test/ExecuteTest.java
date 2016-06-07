@@ -1,5 +1,6 @@
 
 import java.io.FileReader;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,9 +13,9 @@ import org.json.simple.parser.JSONParser;
 /**
  * Created by user on 6/7/16.
  */
-public class PopulateForecastDynamicTester {
+public class ExecuteTest {
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException {
 
         JSONArray contentArray = new JSONArray();
 
@@ -27,16 +28,21 @@ public class PopulateForecastDynamicTester {
         Execute execute = new Execute();
         execute.setForecastData(contentArray);
 
+        execute.populateForecastStatic();
+
+        /*
         ProjectType pTypeHighlyLikely = new ProjectType();
         ProjectType pTypeLikely = new ProjectType();
         ProjectType pTypeSigned = new ProjectType();
         Role role = new Role();
+
 
         role.getPmap().put("Highly Likely", pTypeHighlyLikely);
         role.getPmap().put("Likely", pTypeLikely);
         role.getPmap().put("Signed", pTypeSigned);
 
         execute.getRoleMap().put("Front End", role);
+        */
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //setting the format that we want
 
