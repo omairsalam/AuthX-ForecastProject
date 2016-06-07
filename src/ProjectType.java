@@ -55,7 +55,7 @@ public class ProjectType {
 		/**
 		 * This makes the deep clone of the HashMap named as wmap that link the particular week -> hours
 		 */
-		HashMap<Date,Double> scaledMap = (HashMap<Date, Double>) this.wmap.clone();
+		HashMap<Date,Double> scaledMap = (HashMap<Date, Double>) this.wMap.clone();
 
 		for(Date key:scaledMap.keySet()){
 			scaledMap.put(key,(scaledMap.get(key)-(5*8*n))/8);
