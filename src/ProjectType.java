@@ -1,5 +1,9 @@
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 
@@ -11,7 +15,7 @@ import java.util.HashMap;
 
 public class ProjectType {
 
-	HashMap<Date, Double> hmap = new HashMap<Date,Double>();
+	HashMap<Date, Double> wmap = new HashMap<Date,Double>();
 	
 	
 	/**
@@ -19,13 +23,13 @@ public class ProjectType {
 	 * @return
 	 */
 	public HashMap<Date, Double> getHmap() {
-		return hmap;
+		return wmap;
 	}
 
 
 
 	public void setHmap(HashMap<Date, Double> hmap) {
-		this.hmap = hmap;
+		this.wmap = hmap;
 	}
 
 
@@ -45,7 +49,20 @@ public class ProjectType {
 	 * @return
 	 */
 	public HashMap<Date,Double> scaleMap(Double n){
-		return hmap;
 		
-	}
+		
+		
+		/**
+		 * This makes the deep clone of the HashMap named as wmap that link the particular week -> hours
+		 */
+		HashMap<Date,Double> scaledMap = (HashMap<Date, Double>) this.wmap.clone();
+		
+		for(Date key:scaledMap.keySet()){
+			scaledMap.put(key,(scaledMap.get(key)-(5*8*n))/8);
+		}
+		return scaledMap;
+		
+		}
+		
+
 }
