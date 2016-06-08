@@ -57,7 +57,6 @@ public class Execute {
 
             ProjectType projecttypeobj = new ProjectType();
 
-
             //Checks if the role already exists
             //Sort of an "accumulator"
             if (roleMap.containsKey(tag)){
