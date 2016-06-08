@@ -18,8 +18,9 @@ public class Driver {
 
     /**
      * Sets the roleMap of this class
+     * @throws java.text.ParseException 
      */
-    public static void main(String[] args) throws InterruptedException, ParseException, JSONException, IOException {
+    public static void main(String[] args) throws InterruptedException, ParseException, JSONException, IOException, java.text.ParseException {
 
         String downloadPath = args[0];
         String username = args[1];
