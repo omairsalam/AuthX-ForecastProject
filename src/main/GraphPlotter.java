@@ -95,17 +95,24 @@ public class GraphPlotter {
 					 true,
 					 true,
 					 false);
+
+			ChartFrame frame = new ChartFrame("Internal Admin Graphs", chart);
+			myFrameList.add(frame);
+			frame.pack();
+			frame.setVisible(true);
+
+			/*
 			try {
-				 ChartUtilities.saveChartAsPNG(new File("/Users/alam/Documents/chart1.png"), chart, 500, 300);
+				 ChartUtilities.saveChartAsPNG(new File("/Users/user/Documents/chart1.png"), chart, 500, 300);
 				// create and display a frame...
-			        ChartFrame frame = new ChartFrame("Internal Admin Graphs", chart);
-			        myFrameList.add(frame);
-			        frame.pack();
-			        frame.setVisible(true);
+
+
 
 				 } catch (IOException e) {
 				 System.err.println("Problem occurred creating chart.");
 				 }
+				 */
+			//TODO: Implement this exporting, do not hardcode it
 		}
 		return myFrameList;
 	}
@@ -121,7 +128,7 @@ public class GraphPlotter {
 
 	public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException, InterruptedException, JSONException {
 		
-		String dir = "/Users/alam/Documents";
+		String dir = "/Users/user/Documents";
 		WebScrapper webScrapper = new WebScrapper(dir, "theoriginalsine@gmail.com", "forecast");
 
         JSONArray contentArray = webScrapper.downloadJSONArray();

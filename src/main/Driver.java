@@ -22,9 +22,13 @@ public class Driver {
      */
     public static void main(String[] args) throws InterruptedException, ParseException, JSONException, IOException, java.text.ParseException {
 
-        String downloadPath = args[0];
-        String username = args[1];
-        String password = args[2];
+        //String downloadPath = args[0];
+        //String username = args[1];
+        //String password = args[2];
+
+        String downloadPath = "/Users/user/Desktop";
+        String username = "theoriginalsine@gmail.com";
+        String password = "forecast";
 
         WebScrapper webScrapper = new WebScrapper(downloadPath, username, password);
 

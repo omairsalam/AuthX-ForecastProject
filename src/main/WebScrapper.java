@@ -58,9 +58,7 @@ public final class WebScrapper {
 	}
 
 	/**
-	 * 
-	 * @param username The username to login to Forecastapp
-	 * @param Password The password to login to Forecastapp
+	 *
 	 * 
 	 * Logins into the website, by entering provided username and password
 	 * @throws InterruptedException 
@@ -162,7 +160,6 @@ public final class WebScrapper {
 	
 	/**
 	 * Exports the JSON String as a .JSON file
-	 * @param JSONObject The file that we want to export 
 	 * @throws JSONException
 	 * @throws IOException
 	 */
