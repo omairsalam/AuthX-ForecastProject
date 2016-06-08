@@ -8,5 +8,7 @@
 	<classpathentry kind="lib" path="/Users/alam/Documents/AuthX/AuthX-ForecastProject/ExternalJars/selenium-htmlunit-driver-2.9.0.jar"/>
 	<classpathentry kind="lib" path="/Users/alam/Documents/AuthX/AuthX-ForecastProject/ExternalJars/selenium-java-2.53.0.jar"/>
 	<classpathentry kind="lib" path="/Users/alam/Documents/AuthX/AuthX-ForecastProject/ExternalJars/selenium-server-standalone-2.53.0.jar"/>
+	<classpathentry kind="lib" path="/Users/alam/Downloads/jfreechart-1.0.19/lib/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="/Users/alam/Downloads/jfreechart-1.0.19/lib/jfreechart-1.0.19.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
