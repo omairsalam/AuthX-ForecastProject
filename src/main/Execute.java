@@ -40,7 +40,34 @@ public class Execute {
 	public HashMap<String, Role> getRoleMap() {
 		return roleMap;
 	}
-	
+
+	/**
+	 * Sets the intial data for the roleMap, and then returns it
+	 * @param startDate The start date to look in the data for
+	 * @param contentArray JSON file that was converted from the CSV; the raw data as a JSON
+	 */
+	public HashMap<String, Role> initialize(Date startDate, JSONArray contentArray){
+		setForecastData(contentArray);
+
+		//Increments month by one
+		Calendar currentDate = Calendar.getInstance();
+		currentDate.setTime(startDate);
+		currentDate.add(Calendar.MONTH, 1);
+		Date endDate = currentDate.getTime();
+
+		try {
+			populateForecastStatic();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		populateForcastDyanamic(startDate, endDate);
+
+		return getRoleMap();
+	}
+
+
 	/**
 	 * Sets the roleMap of this class 
 	 * @param roleMap The new role map which we want to use as the default role map
