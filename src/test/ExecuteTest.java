@@ -46,7 +46,7 @@ public class ExecuteTest {
 
         printOut(execute.getRoleMap());
 
-        execute.createPointLists(execute.getRoleMap());
+       // execute.createPointLists(execute.getRoleMap());
 
     }
 
