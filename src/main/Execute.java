@@ -31,7 +31,7 @@ public class Execute {
 
 	/**
 	 * This defines getters and setters for roleMap variable of key-Value pair.
-	 * @return
+	 * @return roleMap
 	 */
 	public HashMap<String, Role> getRoleMap() {
 		return roleMap;
@@ -57,29 +57,26 @@ public class Execute {
 
             ProjectType projecttypeobj = new ProjectType();
 
-            //Checks if the role already exists
-            //Sort of an "accumulator"
-            if (roleMap.containsKey(tag)){
-                Role oldRole = roleMap.get(tag);
-                oldRole.getPmap().put(projectCode, projecttypeobj);
-                oldRole.getEmp_Set().add((String)(jobject.get("Person")));
+			System.out.println(projectCode);
 
-            }else{
-                Role roleobj = new Role();
-                roleobj.getEmp_Set().add((String)(jobject.get("Person")));
-                roleMap.put(tag, roleobj);
-            }
+			Role roleobj = new Role();
 
-			System.out.println(tag + " "+roleMap.get(tag).getEmp_Set() + " ");
+			//If the role map contains the role already, then work on that one instead of a new one
+			if (roleMap.containsKey(tag)){ roleobj = roleMap.get(tag); }
 
+			roleobj.getPmap().put(projectCode, projecttypeobj);
+			roleobj.getEmp_Set().add((String)(jobject.get("Person")));
+
+			roleMap.put(tag, roleobj);
+
+			System.out.println(tag + " " +roleMap.get(tag).getEmp_Set() + " ");
 		}
-
 	}
 
 	/**
 	 * This method goes through the JSON and generates the Week -> Hours map
-	 * @param start_date
-	 * @param end_date
+	 * @param start_date - The start date for which the data should be evaluated for
+	 * @param end_date - The end date for which the data should be evaluated for
 	 */
 
 	public void populateForcastDyanamic(Date start_date, Date end_date){
