@@ -29,23 +29,29 @@ public class Execute {
         this.forecastData = forecastData;
     }
 
-	/**
-	 * This defines getters and setters for roleMap variable of key-Value pair.
-	 * @return
-	 */
+    /**
+     * Gets this roleMap
+     * @return the roleMap attribute for this instance of the class 
+     */
 	public HashMap<String, Role> getRoleMap() {
 		return roleMap;
 	}
+	
+	/**
+	 * Sets the roleMap of this class 
+	 * @param roleMap The new role map which we want to use as the default role map
+	 */
 	public void setRoleMap(HashMap<String, Role> roleMap) {
 		this.roleMap = roleMap;
 	}
 
 	/**
-	 * @throws ParseException
+	 * Populates the roleMap with a tag (as the key) and a Role instance, which in turn is populated with the Employee name of the tuple we are at
+	 * as well as Project codes and the project types. The only thing that is not populated after this step is the wMap in the Project class which
+	 * contains a week-hours method 
 	 * @throws IOException
-	 *
+	 * @throws ParseException
 	 */
-
 	public void populateForecastStatic() throws IOException, ParseException{
 
 		for(int tuple=0;tuple<forecastData.size();tuple++){
@@ -143,6 +149,11 @@ public class Execute {
 
 	}
 
+	/**
+	 * Incrmements a specific date by 7 days 
+	 * @param cDate The initial date 
+	 * @return The new date 
+	 */
 	public static Date incementBy7(Date cDate){
 
 		Calendar currentDate = Calendar.getInstance();
@@ -154,7 +165,7 @@ public class Execute {
 
 	/**
 	 * This method converts a date into string that forecast uses for the same date
-	 * @param date
+	 * @param date The date which we want to convert to string 
 	 */
 	public static String convertDatetoForecastString(Date date){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
