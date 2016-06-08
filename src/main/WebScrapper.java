@@ -202,7 +202,7 @@ public final class WebScrapper {
 	/**stem.
 	 * This is the driver method for this class. Calling this with the right parameters will successfully download a JSON file in the directory 
 	 * specified 
-	 * @return
+	 * @return A JSON Array that can then be used to access tuples
 	 * @throws InterruptedException
 	 * @throws JSONException
 	 * @throws IOException
