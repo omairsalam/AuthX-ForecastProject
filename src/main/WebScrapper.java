@@ -1,5 +1,9 @@
 package main;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +31,7 @@ public final class WebScrapper {
 	private String fileDirectory = null;
 	private String username = new String(); 
 	private String password = new String();
+	private String startDate = new String();
 
 	public WebScrapper(String downloadDirectory, String username, String password){
  
@@ -106,6 +111,13 @@ public final class WebScrapper {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='button button-primary button-active-like-disabled']")));
 		
 		//We are on the exports page now
+		
+		//Get the start date from this page 
+		WebElement startDateContent = driver.findElement(By.xpath("//*[@class='range-start ']"));
+		startDate = startDateContent.getText();
+		
+		
+		
 		
 		WebElement downloadData = driver.findElement(By.xpath("//button[@class='button button-primary button-active-like-disabled']")); //clicks on export button in drop down
 		downloadData.click(); 
@@ -237,27 +249,24 @@ public final class WebScrapper {
 		
 		
 	}
+	
+	/**
+	 * Get the start date from a string that is a start date
+	 * @return The date object resembling the start date string 
+	 * @throws java.text.ParseException
+	 */
+	public Date getStartDate() throws java.text.ParseException{
+		
+		DateFormat format = new SimpleDateFormat("d MMM yyyy", Locale.ENGLISH);
+		Date date = format.parse(startDate);
+		return date;
+	}
 
-	private static void main(String[] args) throws IOException, InterruptedException, JSONException, ParseException {
-		String defaultDirectory = "/Users/alam/Documents/AuthX";
-		WebScrapper webSrcapper = new WebScrapper(defaultDirectory, "theoriginalsine@gmail.com","forecast"); //this will be given as a parameter 
-		/*webSrcapper.openTestSite();
-		webSrcapper.login("theoriginalsine@gmail.com", "forecast");
-		webSrcapper.getData();
-		webSrcapper.closeBrowser();
+	public static void main(String[] args) throws IOException, InterruptedException, JSONException, ParseException, java.text.ParseException {
 		
-		try {
-		    Thread.sleep(1000);                 //1000 milliseconds is one second.
-		} catch(InterruptedException ex) {
-		    Thread.currentThread().interrupt();
-		}
-		
-		
-		File csvFileAddr = getLatestFilefromDir(defaultDirectory + "/");
-		System.out.println("Address of latest File is + " + csvFileAddr.getPath());
-		webSrcapper.exportJSON(csvFileAddr);
-		*/
+		WebScrapper webSrcapper = new WebScrapper("/Users/alam/Documents/AuthX", "theoriginalsine@gmail.com","forecast"); //this will be given as a parameter 
 		webSrcapper.downloadJSONArray();
+		System.out.println(webSrcapper.getStartDate());
 		
 	}
 }
