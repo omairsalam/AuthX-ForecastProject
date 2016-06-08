@@ -43,11 +43,14 @@ public class ExecuteTest {
         Date endDate = endCalenderDate.getTime();
 
         execute.populateForcastDyanamic(startDate, endDate);
-        makeList(execute.getRoleMap());
+
+        printOut(execute.getRoleMap());
+
+        execute.createPointLists(execute.getRoleMap());
 
     }
 
-    public static void makeList(HashMap<String, Role> roleMap){
+    public static void printOut(HashMap<String, Role> roleMap){
         for (String roleName : roleMap.keySet()){
             System.out.println("Role: " + roleName);
 
@@ -71,7 +74,6 @@ public class ExecuteTest {
 
                     System.out.print("        Date: " + forecastDate);
                     System.out.println(" Hours: " + hours + ", Employees: " + employeeHours);
-
                 }
             }
         }
