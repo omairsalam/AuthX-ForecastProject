@@ -1,4 +1,5 @@
 
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
@@ -6,8 +7,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import main.WebScrapper;
+import org.json.JSONException;
 import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
+
+import main.Execute;
 
 
 /**
@@ -15,34 +19,16 @@ import org.json.simple.parser.JSONParser;
  */
 public class ExecuteTest {
 
-    public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException {
+    public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException, JSONException, InterruptedException {
 
-        JSONArray contentArray = new JSONArray();
+        WebScrapper webScrapper = new WebScrapper("/Users/user/Downloads", "theoriginalsine@gmail.com", "forecast");
 
-        try {
-            JSONParser parser = new JSONParser();
-            contentArray = (JSONArray) parser.parse(new FileReader("/Users/user/Documents/JSONFile.json"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        JSONArray contentArray = webScrapper.downloadJSONArray();
+
         Execute execute = new Execute();
         execute.setForecastData(contentArray);
 
         execute.populateForecastStatic();
-
-        /*
-        ProjectType pTypeHighlyLikely = new ProjectType();
-        ProjectType pTypeLikely = new ProjectType();
-        ProjectType pTypeSigned = new ProjectType();
-        Role role = new Role();
-
-
-        role.getPmap().put("Highly Likely", pTypeHighlyLikely);
-        role.getPmap().put("Likely", pTypeLikely);
-        role.getPmap().put("Signed", pTypeSigned);
-
-        execute.getRoleMap().put("Front End", role);
-        */
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //setting the format that we want
 
