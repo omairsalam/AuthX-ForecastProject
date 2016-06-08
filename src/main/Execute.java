@@ -4,10 +4,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.testng.internal.Graph;
+
 /**
  * This is the execute class with with a variable type of Map. It links  -> particular role.
  * Another variable is the JSONObject that contains the complete JSONFile.
@@ -64,8 +67,6 @@ public class Execute {
 
             ProjectType projecttypeobj = new ProjectType();
 
-			System.out.println(projectCode);
-
 			Role roleobj = new Role();
 
 			//If the role map contains the role already, then work on that one instead of a new one
@@ -75,8 +76,6 @@ public class Execute {
 			roleobj.getEmp_Set().add((String)(jobject.get("Person")));
 
 			roleMap.put(tag, roleobj);
-
-			System.out.println(tag + " " +roleMap.get(tag).getEmp_Set() + " ");
 		}
 	}
 
@@ -113,10 +112,6 @@ public class Execute {
             String personString = (String) jsonObject.get("Person");
             role.getEmp_Set().add(personString);
 
-            System.out.println("Role Name: " + roleString);
-            System.out.println("ProjectType Name: " + projectTypeString);
-            System.out.println("Person: " + personString);
-
             //This for loop goes through the dates in the range
             //For each date in the range, it will add to the proper type map
 			for (Date tmp = start_date; tmp.before(end_date); tmp = incementBy7(tmp)){
@@ -131,19 +126,51 @@ public class Execute {
                 }else{
                     double hoursDouble = Double.parseDouble(hoursString);
 
-                    System.out.println("Week Key: " + forecastDateString);
-                    System.out.println("Hours: " + hoursDouble);
-
-                    //ERROR: ProjectType is null
                     projectType.addtoMap(tmp, hoursDouble);
                 }
-
 			}
-
-            System.out.println("----------------------NEW TUPLE----------------------");
-
 		}
+	}
 
+	/**
+	 * Converts the roleMap into a format readable by the plotting method
+	 */
+	public void createPointLists(HashMap<String, Role> roleMap){
+
+		//Iterate through Roles in the role map
+		for (String roleName : roleMap.keySet()){
+			System.out.println("Role: " + roleName);
+
+			Role role = roleMap.get(roleName);
+			HashMap<String, ProjectType> projectTypeMap = role.getPmap();
+
+			//Iterate through ProjectTypes in this role
+			for (String projectCode : projectTypeMap.keySet()){
+				System.out.println("    Project Code: " + projectCode);
+
+				//Scaling the map for the number of employees
+				double employeeNumber = role.getEmp_Set().size();
+				HashMap<Date, Double> weekMapEmployees = projectTypeMap.get(projectCode).scaleMap(employeeNumber);
+
+				//Goes through the weeks -> hours and builds up the points into a list
+				for (Date weekDate : weekMapEmployees.keySet()){
+					double employeeHours = weekMapEmployees.get(weekDate);
+
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(weekDate);
+					int year = cal.get(Calendar.YEAR);
+					int month = cal.get(Calendar.MONTH);
+					int day = cal.get(Calendar.DAY_OF_MONTH);
+
+					System.out.print("        Date: " + day + " " + month + " " + year);
+					System.out.println(" Employees: " + employeeHours);
+
+					//Omair: Do the plotting here
+					//X = Day, month, years
+					//Y = employeeHours
+				}
+			}
+		}
 	}
 
 	/**

@@ -41,8 +41,6 @@ public class ProjectType {
 			hours += oldHours;
 		}
 		wMap.put(date, hours);
-		System.out.println("Adding to Map: " + date + ", " + hours);
-		System.out.println();
 	}
 
 	/**
