@@ -64,8 +64,6 @@ public class Execute {
 
             ProjectType projecttypeobj = new ProjectType();
 
-			System.out.println(projectCode);
-
 			Role roleobj = new Role();
 
 			//If the role map contains the role already, then work on that one instead of a new one
@@ -76,7 +74,6 @@ public class Execute {
 
 			roleMap.put(tag, roleobj);
 
-			System.out.println(tag + " " +roleMap.get(tag).getEmp_Set() + " ");
 		}
 	}
 
@@ -113,10 +110,6 @@ public class Execute {
             String personString = (String) jsonObject.get("Person");
             role.getEmp_Set().add(personString);
 
-            System.out.println("Role Name: " + roleString);
-            System.out.println("ProjectType Name: " + projectTypeString);
-            System.out.println("Person: " + personString);
-
             //This for loop goes through the dates in the range
             //For each date in the range, it will add to the proper type map
 			for (Date tmp = start_date; tmp.before(end_date); tmp = incementBy7(tmp)){
@@ -131,17 +124,9 @@ public class Execute {
                 }else{
                     double hoursDouble = Double.parseDouble(hoursString);
 
-                    System.out.println("Week Key: " + forecastDateString);
-                    System.out.println("Hours: " + hoursDouble);
-
-                    //ERROR: ProjectType is null
                     projectType.addtoMap(tmp, hoursDouble);
                 }
-
 			}
-
-            System.out.println("----------------------NEW TUPLE----------------------");
-
 		}
 
 	}
