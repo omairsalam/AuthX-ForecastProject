@@ -1,4 +1,4 @@
-package test;
+//package test;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -46,7 +46,7 @@ public class ExecuteTest {
 
         printOut(execute.getRoleMap());
 
-        execute.createPointLists(execute.getRoleMap());
+       // execute.createPointLists(execute.getRoleMap());
 
     }
 
