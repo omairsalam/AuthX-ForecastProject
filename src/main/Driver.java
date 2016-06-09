@@ -4,7 +4,6 @@ import org.jfree.chart.ChartFrame;
 import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
-import org.testng.internal.Graph;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,14 +56,19 @@ public class Driver {
         password = "forecast";
 
         webScrapper = new WebScrapper(downloadPath, username, password);
+        webScrapper.downloadJSONArray();
+        System.out.println("Start date is " + webScrapper.getStartDate());
 
         JSONArray content = webScrapper.downloadJSONArray();
 
         Date startDate = webScrapper.getStartDate();
         HashMap<String, Role> roleMap = execute.initialize(startDate, content);
 
-        ArrayList<ChartFrame> chartFrames = GraphPlotter.getAllFrames(roleMap);
+        GraphPlotter p1 = new GraphPlotter();
+        
+        ArrayList<ChartFrame> chartFrames = p1.getAllFrames(roleMap);
 
+        //GUIHandler.makeGraphs(chartFrames);
         GUIHandler.setGraphs(chartFrames);
     }
 

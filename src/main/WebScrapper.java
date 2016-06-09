@@ -254,11 +254,11 @@ public final class WebScrapper {
 	 */
 	public Date getStartDate() throws java.text.ParseException{
 		
-		DateFormat format = new SimpleDateFormat("d MMM yyyy", Locale.ENGLISH);
+		DateFormat format = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
 		Date date = format.parse(startDate);
 		return date;
 	}
-
+	
 	public static void main(String[] args) throws IOException, InterruptedException, JSONException, ParseException, java.text.ParseException {
 		
 		WebScrapper webSrcapper = new WebScrapper("/Users/alam/Documents/AuthX", "theoriginalsine@gmail.com","forecast"); //this will be given as a parameter 
