@@ -157,9 +157,13 @@ public class Execute {
                 }
 			}
 		}
-	}
 
-	
+		//Iterates through the roles, then sets the employee number int to the size of the list
+		for (String roleKey : roleMap.keySet()){
+			Role role = roleMap.get(roleKey);
+			role.setNumEmployees(role.getEmp_Set().size());
+		}
+	}
 
 	/**
 	 * Incrmements a specific date by 7 days 
