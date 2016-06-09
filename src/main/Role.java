@@ -30,6 +30,20 @@ public class Role {
 
 	
 	LinkedHashSet<String> emp_set = new LinkedHashSet<String>();
+	private int numEmployees;
+
+    /**
+     *
+     * @return Returns the number of employees for this role
+     */
+	public int getNumEmployees(){
+		return numEmployees;
+	}
+
+	public void setNumEmployees(int numEmployees){
+		this.numEmployees = numEmployees;
+	}
+
 	/**
 	 * 
 	 * @return  This  defines the getters and setters for the employee list.
