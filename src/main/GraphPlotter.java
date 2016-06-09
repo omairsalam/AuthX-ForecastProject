@@ -88,9 +88,9 @@ public class GraphPlotter {
 	 * @param graphSet The Hash map that contains work-hours wMap for each project for each role 
 	 * @return An array list of charts for each role 
 	 */
-	public ArrayList<ChartFrame> createFrameList(HashMap<String, TimeSeriesCollection> graphSet){
+	public ArrayList<JFreeChart> createFrameList(HashMap<String, TimeSeriesCollection> graphSet){
 		
-		ArrayList<ChartFrame> myFrameList = new ArrayList<ChartFrame>();
+		ArrayList<JFreeChart> myChartList = new ArrayList<JFreeChart>();
 		for(String tag: graphSet.keySet()){
 			System.out.println("Tag is " + tag);
 		}
@@ -105,10 +105,10 @@ public class GraphPlotter {
 					 true,
 					 false);
 
-			ChartFrame frame = new ChartFrame("Internal Admin Graphs", chart);
-			myFrameList.add(frame);
-			frame.pack();
-			frame.setVisible(true);
+			//ChartFrame frame = new ChartFrame("Internal Admin Graphs", chart);
+			myChartList.add(chart);
+			//frame.pack();
+			//frame.setVisible(true);
 
 			/*
 			try {
@@ -123,7 +123,7 @@ public class GraphPlotter {
 				 */
 			//TODO: Implement this exporting, do not hardcode it
 		}
-		return myFrameList;
+		return myChartList;
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class GraphPlotter {
 	 * @param myDataSet The roleMap that contains all the roles and the respective projects etc
 	 * @return A list of all the charts (i.e. one chart for each role) 
 	 */
-	public ArrayList<ChartFrame> getAllFrames(HashMap<String, Role> myDataSet){
+	public ArrayList<JFreeChart> getAllFrames(HashMap<String, Role> myDataSet){
 		roleMap = myDataSet; 
 		HashMap<String, TimeSeriesCollection> graphSets = getFormattedData(roleMap);
         return createFrameList(graphSets);

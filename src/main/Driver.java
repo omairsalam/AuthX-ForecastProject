@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import org.jfree.chart.JFreeChart;
 
 /**
  * Created by user on 6/8/16.
@@ -36,8 +37,8 @@ public class Driver {
      */
     public static void rescaleMap(String roleName, int employeeNumber){
         HashMap<String, Role> roleMapClone = graphPlotter.rescale(roleName, employeeNumber);
-        ArrayList<ChartFrame> chartList = graphPlotter.getAllFrames(roleMapClone);
-        guiHandler.setGraphs(chartList);
+        ArrayList<JFreeChart> chartList = graphPlotter.getAllFrames(roleMapClone);
+        //guiHandler.setGraphs(chartList);
     }
 
 
@@ -45,19 +46,19 @@ public class Driver {
      * Sets the roleMap of this class
      * @throws java.text.ParseException 
      */
-    public static void login(String username, String password, String downloadPath) throws InterruptedException, ParseException, JSONException, IOException, java.text.ParseException {
+    public static ArrayList<JFreeChart> login(String username, String password, String downloadPath) throws InterruptedException, ParseException, JSONException, IOException, java.text.ParseException {
 
         //String downloadPath = args[0];
         //String username = args[1];
         //String password = args[2];
 
-        downloadPath = "/Users/user/Desktop";
-        username = "theoriginalsine@gmail.com";
-        password = "forecast";
+        //downloadPath = "/Users/user/Desktop";
+        //username = "theoriginalsine@gmail.com";
+        //password = "forecast";
 
         webScrapper = new WebScrapper(downloadPath, username, password);
-        webScrapper.downloadJSONArray();
-        System.out.println("Start date is " + webScrapper.getStartDate());
+        //webScrapper.downloadJSONArray();
+        //System.out.println("Start date is " + webScrapper.getStartDate());
 
         JSONArray content = webScrapper.downloadJSONArray();
 
@@ -66,10 +67,11 @@ public class Driver {
 
         GraphPlotter p1 = new GraphPlotter();
         
-        ArrayList<ChartFrame> chartFrames = p1.getAllFrames(roleMap);
+        ArrayList<JFreeChart> charts = p1.getAllFrames(roleMap);
+        return charts;
 
         //GUIHandler.makeGraphs(chartFrames);
-        GUIHandler.setGraphs(chartFrames);
+        //GUIHandler.setGraphs(chartFrames);
     }
 
     //TODO: Modify end date
