@@ -26,11 +26,13 @@ public class Driver {
         //String username = args[1];
         //String password = args[2];
 
-        String downloadPath = "/Users/user/Desktop";
+        String downloadPath = "/Users/alam/Desktop";
         String username = "theoriginalsine@gmail.com";
         String password = "forecast";
 
         WebScrapper webScrapper = new WebScrapper(downloadPath, username, password);
+        webScrapper.downloadJSONArray();
+        System.out.println("Start date is " + webScrapper.getStartDate());
 
         JSONArray content = webScrapper.downloadJSONArray();
 
@@ -39,9 +41,11 @@ public class Driver {
         Date startDate = webScrapper.getStartDate();
         HashMap<String, Role> roleMap = execute.initialize(startDate, content);
 
-        ArrayList<ChartFrame> chartFrames = GraphPlotter.getAllFrames(roleMap);
+        GraphPlotter p1 = new GraphPlotter();
+        
+        ArrayList<ChartFrame> chartFrames = p1.getAllFrames(roleMap);
 
-        GUIHandler.makeGraphs(chartFrames);
+        //GUIHandler.makeGraphs(chartFrames);
     }
 
     //TODO: Modify end date

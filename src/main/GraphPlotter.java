@@ -19,12 +19,15 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class GraphPlotter {
+	
+	private HashMap<String, Role> roleMap = new HashMap<String,Role>(); 
 		
 	/**
 	 * Converts the roleMap into a format readable by the plotting method
 	 * @param roleMap The hashmap that contains all the details for the execute, role and project class 
+	 * @return Returns a hasmap which represents the tag (or role name) as a key and the time series collection i.e. works-hours as a value 
 	 */
-	public static HashMap<String, TimeSeriesCollection> getFormattedData(HashMap<String, Role> roleMap){
+	public HashMap<String, TimeSeriesCollection> getFormattedData(HashMap<String, Role> roleMap){
 		
 		//Create a collection of graph sets which store the graphs for each role type (i.e. FED's etc)
 		HashMap<String, TimeSeriesCollection> graphSets = new HashMap<String, TimeSeriesCollection>();
@@ -79,7 +82,13 @@ public class GraphPlotter {
 	}
 	
 	
-	public static ArrayList<ChartFrame> createFrameList(HashMap<String, TimeSeriesCollection> graphSet){
+	/**
+	 * Takes a hashmap of essentially a tag or a role name and its respective time series, which is the data of day-hours for every project and returns an array
+	 * list of all the charts corresponding to these roles
+	 * @param graphSet The Hash map that contains work-hours wMap for each project for each role 
+	 * @return An array list of charts for each role 
+	 */
+	public ArrayList<ChartFrame> createFrameList(HashMap<String, TimeSeriesCollection> graphSet){
 		
 		ArrayList<ChartFrame> myFrameList = new ArrayList<ChartFrame>();
 		for(String tag: graphSet.keySet()){
@@ -117,11 +126,47 @@ public class GraphPlotter {
 		return myFrameList;
 	}
 	
-	public static ArrayList<ChartFrame> getAllFrames(HashMap<String, Role> myDataSet){
-		
-		HashMap<String, TimeSeriesCollection> graphSets = getFormattedData(myDataSet);
+	/**
+	 * Gets all chart frames from a specific roleMap
+	 * @param myDataSet The roleMap that contains all the roles and the respective projects etc
+	 * @return A list of all the charts (i.e. one chart for each role) 
+	 */
+	public ArrayList<ChartFrame> getAllFrames(HashMap<String, Role> myDataSet){
+		roleMap = myDataSet; 
+		HashMap<String, TimeSeriesCollection> graphSets = getFormattedData(roleMap);
         return createFrameList(graphSets);
 	}
+	
+	/**
+	 * Takes a tag and the number of employees and rescales a particular role 
+	 * @param tag The key for the role 
+	 * @param numEmployees The new number of employees we want to use
+	 * @return A new hashmap with the scaled data 
+	 */
+	public HashMap<String, Role> rescale(String tag, int numEmployees){
+		rescaleRole(roleMap.get(tag), numEmployees); 
+		return roleMap; 
+	}
+	
+	/**
+	 * Takes a particular role and rescales its week-hours map
+	 * @param currentRole The role that we want to rescale 
+	 * @param numEmployees The number of employees which we want to use as a rescale factor 
+	 */
+	public void rescaleRole(Role currentRole, int numEmployees){
+		if (currentRole == null){
+			System.err.println("There was no role for this tag!");
+		}
+		HashMap<String, ProjectType> projects = currentRole.getPmap();
+		for (String pCode: projects.keySet()){
+			HashMap<Date,Double> wMap = projects.get(pCode).getWMap();
+			for(Date key:wMap.keySet()){
+				wMap.put(key,(wMap.get(key)-(5*8*numEmployees))/8);
+			}
+		}
+		
+	}
+ 
 	
 
 
@@ -149,9 +194,10 @@ public class GraphPlotter {
         Date endDate = endCalenderDate.getTime();
 
         execute.populateForcastDyanamic(startDate, endDate);
+        
 
-        HashMap<String, TimeSeriesCollection> graphSets = getFormattedData(execute.getRoleMap());
-        createFrameList(graphSets);
+        //HashMap<String, TimeSeriesCollection> graphSets = getFormattedData(execute.getRoleMap());
+        //createFrameList(graphSets);
         
 		
 			
