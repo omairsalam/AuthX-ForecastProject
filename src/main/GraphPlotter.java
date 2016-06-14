@@ -179,7 +179,7 @@ public class GraphPlotter {
 
 	public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException, InterruptedException, JSONException {
 		
-		String dir = "/Users/user/Documents";
+		String dir = "/Users/alam/Documents";
 		WebScrapper webScrapper = new WebScrapper(dir, "theoriginalsine@gmail.com", "forecast");
 
         JSONArray contentArray = webScrapper.downloadJSONArray();
