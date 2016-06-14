@@ -1,10 +1,7 @@
 package main;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,6 +24,8 @@ public class Execute {
 	private HashMap<String, Role> roleMap = new HashMap<String,Role>();
 
 	private JSONArray forecastData;
+
+	LinkedHashSet<Date> dateSet = new LinkedHashSet<Date>();
 
     public void setForecastData(JSONArray forecastData){
         this.forecastData = forecastData;
@@ -155,6 +154,9 @@ public class Execute {
                     Double hoursDouble = Double.parseDouble(hoursString);
 
                     projectType.addtoMap(tmp, hoursDouble);
+
+					dateSet.add(tmp);
+
                 }
             }
         }
@@ -164,7 +166,96 @@ public class Execute {
 			Role role = roleMap.get(roleKey);
 			role.setNumEmployees(role.getEmp_Set().size());
 		}
-}
+
+		processRoleHierarchy();
+
+	}
+
+	public void processRoleHierarchy(){
+		for (String roleName : roleMap.keySet()){
+			Role role = roleMap.get(roleName);
+
+			HashMap<String, ProjectType> ProjectMap = role.getPmap();
+
+
+            HashMap<Date, Double> weekMapLikely = null;
+            ProjectType projectTypeLikely = ProjectMap.get("Likely");
+            if (projectTypeLikely != null){ weekMapLikely = projectTypeLikely.getWMap(); }
+
+			HashMap<Date, Double> weekMapHighlyLikely = null;
+			ProjectType projectTypeHighlyLikely = ProjectMap.get("Highly Likely");
+			if (projectTypeHighlyLikely != null){ weekMapHighlyLikely = projectTypeHighlyLikely.getWMap(); }
+
+			HashMap<Date, Double> weekMapSigned = null;
+			ProjectType projectTypeSigned = ProjectMap.get("Signed");
+			if (projectTypeSigned != null){ weekMapSigned = projectTypeSigned.getWMap(); }
+
+			HashMap<Date, Double> weekMapAtRisk = null;
+			ProjectType projectTypeAtRisk = ProjectMap.get("AT-RISK");
+			if (projectTypeAtRisk != null){ weekMapAtRisk = projectTypeAtRisk.getWMap(); }
+
+			HashMap<Date, Double> weekMapAtRisk2 = null;
+			ProjectType projectTypeAtRisk2 = ProjectMap.get("At Risk");
+			if (projectTypeAtRisk2 != null){ weekMapAtRisk = projectTypeAtRisk2.getWMap(); }
+			
+
+			for (Date date : dateSet){
+				
+				double signedHours  = 0;
+				double highlyLikelyHours  = 0;
+				double likelyHours  = 0;
+
+                //Checks if "AT-RISK" projects exists
+				//For ones that inherit "AT-RISK"
+				if (weekMapAtRisk != null){
+					double hours = weekMapAtRisk.get(date);
+
+					signedHours += hours;
+					highlyLikelyHours += hours;
+					likelyHours += hours;
+				}
+
+                //Checks if "At Risk" projects exists
+				//For ones that inherit "At Risk"
+				if (weekMapAtRisk2 != null){
+					double hours = weekMapAtRisk2.get(date);
+
+					signedHours += hours;
+					highlyLikelyHours += hours;
+					likelyHours += hours;
+				}
+
+                //Checks if "Signed" projects exists
+				//For ones that inherit "Signed"
+				if (weekMapSigned != null){
+					double hours = weekMapSigned.get(date);
+
+					highlyLikelyHours += hours;
+					likelyHours += hours;
+
+                    ProjectMap.get("Signed").addtoMap(date, signedHours);
+
+				}
+
+                //Checks if "Highly Likely" projects exists
+				//For ones that inherit "Highly Likely"
+				if (weekMapHighlyLikely != null){
+					double hours = weekMapHighlyLikely.get(date);
+
+					likelyHours += hours;
+
+
+                    ProjectMap.get("Highly Likely").addtoMap(date, highlyLikelyHours);
+				}
+
+                //Checks if "Likely" projects exists
+                if (weekMapLikely != null){
+                    ProjectMap.get("Likely").addtoMap(date, likelyHours);
+                }
+
+			}
+		}
+	}
 
 	/**
 	 * Incrmements a specific date by 7 days 
@@ -189,7 +280,6 @@ public class Execute {
 		String forecastDate = sdf.format(date);
 		return forecastDate;*/
                 
-                
                 Calendar c = Calendar.getInstance();
                 c.setTime(date);
                 int year = c.get(Calendar.YEAR);
@@ -199,8 +289,6 @@ public class Execute {
                 String formattedDate =  month + "/" + day + "/" + year%100;
                 //System.out.println("Date is " + formattedDate);
                 return formattedDate;
-                
-
 	}
 
 }
