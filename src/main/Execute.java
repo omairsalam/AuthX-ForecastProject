@@ -52,7 +52,7 @@ public class Execute {
 		//Increments month by one
 		Calendar currentDate = Calendar.getInstance();
 		currentDate.setTime(startDate);
-		currentDate.add(Calendar.MONTH, 1);
+		currentDate.add(Calendar.MONTH, 12); //changing to a year 
 		Date endDate = currentDate.getTime();
 
 		try {
@@ -90,7 +90,7 @@ public class Execute {
 			JSONObject jobject =(JSONObject) forecastData.get(tuple);
 
 			String tag= (String)jobject.get("Tags");
-			String projectCode=(String)jobject.get("Project Code");
+			String projectCode=(String)jobject.get("Project Label");
 
             ProjectType projecttypeobj = new ProjectType();
 
@@ -113,6 +113,7 @@ public class Execute {
 	 */
 
 	public void populateForcastDyanamic(Date start_date, Date end_date){
+            
 
         //This clears the employee list so that the number of employees is set properly
         //This also clears the project types to reaccumulate hours
@@ -129,7 +130,7 @@ public class Execute {
 
             //This gets the proper objects from the JSON
 			String roleString = (String) jsonObject.get("Tags");
-            String projectTypeString = (String) jsonObject.get("Project Code");
+            String projectTypeString = (String) jsonObject.get("Project Label"); //changed project code to project label 
 
             //This gets the appropriate roles and project types
             Role role = roleMap.get(roleString);
@@ -141,7 +142,7 @@ public class Execute {
 
             //This for loop goes through the dates in the range
             //For each date in the range, it will add to the proper type map
-			for (Date tmp = start_date; tmp.before(end_date); tmp = incementBy7(tmp)){
+            for (Date tmp = start_date; tmp.before(end_date); tmp = incementBy7(tmp)){
                 String forecastDateString = convertDatetoForecastString(tmp);
 
                 String hoursString = (String) jsonObject.get(forecastDateString);
@@ -151,19 +152,19 @@ public class Execute {
                     projectType.addtoMap(tmp, 0d);
 
                 }else{
-                    double hoursDouble = Double.parseDouble(hoursString);
+                    Double hoursDouble = Double.parseDouble(hoursString);
 
                     projectType.addtoMap(tmp, hoursDouble);
                 }
-			}
-		}
+            }
+        }
 
 		//Iterates through the roles, then sets the employee number int to the size of the list
 		for (String roleKey : roleMap.keySet()){
 			Role role = roleMap.get(roleKey);
 			role.setNumEmployees(role.getEmp_Set().size());
 		}
-	}
+}
 
 	/**
 	 * Incrmements a specific date by 7 days 
@@ -184,9 +185,21 @@ public class Execute {
 	 * @param date The date which we want to convert to string 
 	 */
 	public static String convertDatetoForecastString(Date date){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		/*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String forecastDate = sdf.format(date);
-		return forecastDate;
+		return forecastDate;*/
+                
+                
+                Calendar c = Calendar.getInstance();
+                c.setTime(date);
+                int year = c.get(Calendar.YEAR);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                int month = c.get(Calendar.MONTH)+1;
+
+                String formattedDate =  month + "/" + day + "/" + year%100;
+                //System.out.println("Date is " + formattedDate);
+                return formattedDate;
+                
 
 	}
 

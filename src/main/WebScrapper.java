@@ -165,7 +165,8 @@ public final class WebScrapper {
 	 */
 	private void exportJSON(File csvFile) throws JSONException, IOException{
 		String path = fileDirectory + "/JSONFile.json";
-		String jsonFile = convertToJSON(csvFile);
+		//String jsonFile = convertToJSON(csvFile);
+                String jsonFile = convertToJSON(csvFile);
 		System.out.println("Converted stream is " + jsonFile);
 		FileWriter writer = new FileWriter(new File(path));
 		writer.append(jsonFile);
@@ -190,7 +191,8 @@ public final class WebScrapper {
 	           lastModifiedFile = files[i];
 	       }
 	    }
-	    return lastModifiedFile;
+	    //return lastModifiedFile; //commented out so we can try the csv file 
+            return new File("/Users/alam/Documents/forecast-project-export-from-2016-06-13-to-2017-06-30.csv");
 	}
 	
 	/**
@@ -264,6 +266,9 @@ public final class WebScrapper {
 		WebScrapper webSrcapper = new WebScrapper("/Users/alam/Documents/AuthX", "theoriginalsine@gmail.com","forecast"); //this will be given as a parameter 
 		webSrcapper.downloadJSONArray();
 		System.out.println(webSrcapper.getStartDate());
+                
+                //String jSONResult = convertToJSON(new File("/Users/alam/Documents/forecast-project-export-from-2016-06-13-to-2017-06-30.csv"));
+                //System.out.println(jSONResult);
 		
 	}
 }

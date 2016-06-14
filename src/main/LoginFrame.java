@@ -34,6 +34,7 @@ public class LoginFrame extends javax.swing.JFrame {
         initComponents();
         PromptSupport.setPrompt("Enter Username", uName); //Sets placeholder text for username
         PromptSupport.setPrompt("Enter Password", pWord); //Sets placeholder text for password 
+        
     }
 
     /**
