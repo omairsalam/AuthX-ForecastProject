@@ -1,4 +1,6 @@
 package main;
+import sun.jvm.hotspot.tools.PMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -14,7 +16,7 @@ import java.util.LinkedHashSet;
 public class Role {
 
 	HashMap<String, ProjectType> pMap = new HashMap<String,ProjectType>();
-        private int numEmployees;
+        private double numEmployees;
 
 	/**
 	 * 
@@ -36,12 +38,12 @@ public class Role {
      *
      * @return Returns the number of employees for this role
      */
-	public int getNumEmployees(){
+	public double getNumEmployees(){
 		return numEmployees;
 	}
 
-	public void setNumEmployees(int numEmployees){
-		this.numEmployees = emp_set.size();
+	public void setNumEmployees(double numEmployees){
+		this.numEmployees = numEmployees;
 	}
 
 	/**
@@ -54,9 +56,22 @@ public class Role {
 		return emp_set;
 	}
 
-	public void setEmp_List(ArrayList<String> emp_list) {
+	public void setEmp_Set(LinkedHashSet<String> emp_list) {
 		this.emp_set = emp_set;
 	}
 
+
+	public Role clone(){
+		Role clone = new Role();
+
+		clone.setNumEmployees(this.getNumEmployees());
+		clone.setEmp_Set(this.getEmp_Set());
+
+		for (String projectKey : pMap.keySet()){
+			clone.getPmap().put(projectKey, pMap.get(projectKey).clone());
+		}
+
+		return clone;
+	}
 
 }
