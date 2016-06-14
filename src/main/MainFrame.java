@@ -19,6 +19,7 @@ import javax.swing.DefaultComboBoxModel;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+import org.jdesktop.swingx.prompt.PromptSupport;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.json.JSONException;
@@ -48,6 +49,8 @@ public class MainFrame extends javax.swing.JFrame {
         //Driver.execute.populateForcastDyanamic(start_date, end_date);
       //  int numEmployees = myRoleMap.get(currentRole).getNumEmployees();
      //   numEmpText.setText(String.valueOf(numEmployees));
+     recalculateData.setEnabled(false); //recalculate should be false initially 
+     PromptSupport.setPrompt("Number of Employees", employeeNumString); //Sets placeholder text for password 
     }
 
     /**
@@ -77,11 +80,12 @@ public class MainFrame extends javax.swing.JFrame {
         graphPanel = new javax.swing.JPanel();
         rolePickerLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        employeeNumString = new javax.swing.JTextField();
         datePicker = new javax.swing.JLabel();
         startDatePicker = new org.jdesktop.swingx.JXDatePicker();
         datePicker1 = new javax.swing.JLabel();
         endDatePicker = new org.jdesktop.swingx.JXDatePicker();
+        recalculateData = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,10 +115,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Number Of Employees");
 
-        jTextField1.setText("Num Employees");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        employeeNumString.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                employeeNumStringActionPerformed(evt);
             }
         });
 
@@ -131,6 +134,13 @@ public class MainFrame extends javax.swing.JFrame {
         endDatePicker.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 endDatePickerActionPerformed(evt);
+            }
+        });
+
+        recalculateData.setText("Recalculate");
+        recalculateData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recalculateDataActionPerformed(evt);
             }
         });
 
@@ -152,8 +162,8 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(9, 9, 9)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1))))
+                                    .addComponent(jLabel1)
+                                    .addComponent(employeeNumString, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(74, 74, 74)
@@ -161,7 +171,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(datePicker)
                     .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(datePicker1)
-                    .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(recalculateData))
                 .addContainerGap(53, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -184,7 +195,9 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(44, 44, 44)
                         .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(recalculateData))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(49, 49, 49)
                         .addComponent(rolePickerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,7 +206,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(48, 48, 48)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(employeeNumString, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(50, 50, 50))
         );
 
@@ -205,23 +218,25 @@ public class MainFrame extends javax.swing.JFrame {
         showGraphs();
     }//GEN-LAST:event_rolePickerActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void employeeNumStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeNumStringActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_employeeNumStringActionPerformed
 
     private void startDatePickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startDatePickerActionPerformed
         Date startDate = startDatePicker.getDate();
         Date endDate = getEndDate(startDate); //gets end dat which is 3 months ahead of start date
         endDatePicker.setDate(endDate); //sets the end date picker to this 
+        recalculateData.setEnabled(true); //if we pick a start date, enable this button 
     }//GEN-LAST:event_startDatePickerActionPerformed
 
     private void endDatePickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endDatePickerActionPerformed
+
+    }//GEN-LAST:event_endDatePickerActionPerformed
+
+    private void recalculateDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recalculateDataActionPerformed
+        recalculateData.setEnabled(false);  
         
-        //Set the end date to what we want 
-        Date endDate = endDatePicker.getDate();   
-        
-        //Recalculate graphs           
-        try {
+         try {
             ArrayList<JFreeChart> importedCharts = Driver.recalculateMaps(startDatePicker.getDate(), endDatePicker.getDate()); //get new charts based on
             //new start and end dates 
             myRoleMap = Driver.execute.getRoleMap(); //get the new rolemap for this chart
@@ -231,8 +246,7 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (InterruptedException | ParseException | JSONException | IOException | java.text.ParseException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }//GEN-LAST:event_endDatePickerActionPerformed
+    }//GEN-LAST:event_recalculateDataActionPerformed
 
     public static void getTagList(ArrayList<JFreeChart> importedChartList){
         tagArray.clear();
@@ -268,7 +282,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         int numEmployees = myRoleMap.get(currentRole).getNumEmployees();
-        jTextField1.setText(String.valueOf(numEmployees));
+        employeeNumString.setText(String.valueOf(numEmployees));
      
 
     }
@@ -325,6 +339,7 @@ public class MainFrame extends javax.swing.JFrame {
     private datechooser.beans.DateChooserDialog dateChooserDialog6;
     private javax.swing.JLabel datePicker;
     private javax.swing.JLabel datePicker1;
+    private javax.swing.JTextField employeeNumString;
     private org.jdesktop.swingx.JXDatePicker endDatePicker;
     private javax.swing.JPanel graphPanel;
     private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
@@ -334,8 +349,8 @@ public class MainFrame extends javax.swing.JFrame {
     private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil5;
     private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private javax.swing.JButton recalculateData;
     private javax.swing.JComboBox<String> rolePicker;
     private javax.swing.JLabel rolePickerLabel;
     private org.jdesktop.swingx.JXDatePicker startDatePicker;
