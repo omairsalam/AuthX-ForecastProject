@@ -207,7 +207,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void employeeNumStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeNumStringActionPerformed
         String currentRoleName = rolePicker.getSelectedItem().toString();
 
-        //TODO: Throw an error if it's unparsable
         double employeeNumber = Double.parseDouble(employeeNumString.getText());
 
 
