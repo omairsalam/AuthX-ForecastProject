@@ -122,14 +122,11 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="uName">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="username"/>
-          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="uNameActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="pWord">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="password"/>
-          </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="fileChooserPanel">
 

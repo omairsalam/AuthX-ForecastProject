@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import org.jdesktop.swingx.prompt.PromptSupport;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.json.JSONException;
@@ -31,6 +32,8 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     public LoginFrame() {
         initComponents();
+        PromptSupport.setPrompt("Enter Username", uName); //Sets placeholder text for username
+        PromptSupport.setPrompt("Enter Password", pWord); //Sets placeholder text for password 
     }
 
     /**
@@ -62,9 +65,11 @@ public class LoginFrame extends javax.swing.JFrame {
 
         Username.setText("Password");
 
-        uName.setText("username");
-
-        pWord.setText("password");
+        uName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                uNameActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Choose directory:");
 
@@ -205,6 +210,10 @@ public class LoginFrame extends javax.swing.JFrame {
         s.populateComboBox();
         s.setVisible(true);
     }//GEN-LAST:event_LoginActionPerformed
+
+    private void uNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_uNameActionPerformed
 
     public ArrayList<JFreeChart> getAllCharts(){
         return myCharts;
