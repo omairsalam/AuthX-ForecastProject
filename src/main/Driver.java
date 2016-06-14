@@ -26,7 +26,9 @@ public class Driver {
      * Executes when the program starts
      */
     public static void main(String[] args){
-        guiHandler.displayLogin();
+        
+        
+        //guiHandler.displayLogin();
     }
 
     //Rescales the specified map for the number of employees
@@ -73,6 +75,20 @@ public class Driver {
         //GUIHandler.makeGraphs(chartFrames);
         //GUIHandler.setGraphs(chartFrames);
     }
+    
+        public static ArrayList<JFreeChart> recalculateMaps(Date startDate, Date endDate) throws InterruptedException, ParseException, JSONException, IOException, java.text.ParseException {
+
+        execute.populateForcastDyanamic(startDate, endDate);
+        HashMap<String, Role> roleMap = execute.getRoleMap();
+
+        
+        ArrayList<JFreeChart> charts = graphPlotter.getAllFrames(roleMap);
+        return charts;
+
+        //GUIHandler.makeGraphs(chartFrames);
+        //GUIHandler.setGraphs(chartFrames);
+    }
+
 
     //TODO: Modify end date
     //TODO: modify employee number

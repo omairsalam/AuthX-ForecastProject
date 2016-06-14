@@ -14,6 +14,7 @@ import java.util.LinkedHashSet;
 public class Role {
 
 	HashMap<String, ProjectType> pMap = new HashMap<String,ProjectType>();
+        private int numEmployees;
 
 	/**
 	 * 
@@ -30,7 +31,6 @@ public class Role {
 
 	
 	LinkedHashSet<String> emp_set = new LinkedHashSet<String>();
-	private int numEmployees;
 
     /**
      *
@@ -41,7 +41,7 @@ public class Role {
 	}
 
 	public void setNumEmployees(int numEmployees){
-		this.numEmployees = numEmployees;
+		this.numEmployees = emp_set.size();
 	}
 
 	/**
