@@ -34,6 +34,8 @@ public class MainFrame extends javax.swing.JFrame {
     private static ArrayList<String> tagArray = new ArrayList<>();
     private static ArrayList<JFreeChart> chartList = new ArrayList<>();
     private static HashMap<String, Role> myRoleMap = new HashMap<>(); 
+    private static Date startDate;
+    private static Date endDate; 
 
     /**
      * Creates new form MainFrame
@@ -235,10 +237,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void recalculateDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recalculateDataActionPerformed
         recalculateData.setEnabled(false);  
-        
+        System.out.println("Start date is " + getStartOfWeek(startDatePicker.getDate()));
+        System.out.println("End date is " + getStartOfWeek(endDatePicker.getDate()));
          try {
-            ArrayList<JFreeChart> importedCharts = Driver.recalculateMaps(startDatePicker.getDate(), endDatePicker.getDate()); //get new charts based on
-            //new start and end dates 
+            ArrayList<JFreeChart> importedCharts = Driver.recalculateMaps(getStartOfWeek(startDatePicker.getDate()), getStartOfWeek(endDatePicker.getDate())); //get new charts based on
+            //new start and end dates which have been rounded off to the first day of the week 
             myRoleMap = Driver.execute.getRoleMap(); //get the new rolemap for this chart
             getTagList(importedCharts); //get a new tag list for these charts 
             populateComboBox(); //repopulate the combo box with the new tags
@@ -271,7 +274,7 @@ public class MainFrame extends javax.swing.JFrame {
         for (JFreeChart s1 : chartList){
 
             if (s1.getTitle().getText().equals(currentRole)){
-                System.out.println("Chart Title is " + s1.getTitle().getText() + " and Role Picked is " + currentRole);
+                //System.out.println("Chart Title is " + s1.getTitle().getText() + " and Role Picked is " + currentRole);
                 ChartPanel p = new ChartPanel(s1);
                 p.setSize(graphPanel.getWidth(), graphPanel.getHeight());
                 p.setVisible(true);
@@ -287,10 +290,29 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
     
+    /**
+     * Given a start date, increments it by a months and returns it 
+     * @param startDate The date we start with 
+     * @return The date incremented by one month 
+     */
     public Date getEndDate(Date startDate){
         Calendar cal = Calendar.getInstance(); //make a date for 1 month after the start date
         cal.setTime(startDate);
         cal.add(Calendar.MONTH, 1);
+        return cal.getTime();
+    }
+    
+    /**
+     * Given a date, gets the first day of that week
+     * @param startDate The start date
+     * @return The first day of that week 
+     */
+    public Date getStartOfWeek(Date startDate){
+        Calendar cal = Calendar.getInstance();
+        cal.setFirstDayOfWeek(Calendar.MONDAY); //Default first day is Sunday, lets change that to Monday 
+        cal.setTime(startDate);
+        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+        System.out.println("Start of this week:       " + cal.getTime());
         return cal.getTime();
     }
     

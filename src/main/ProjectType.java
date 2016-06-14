@@ -37,7 +37,7 @@ public class ProjectType {
  */
 	public void addtoMap(Date date,Double hours){
 		if (wMap.containsKey(date)){
-			double oldHours = wMap.get(date);
+			Double oldHours = wMap.get(date);
 			hours += oldHours;
 		}
 		wMap.put(date, hours);

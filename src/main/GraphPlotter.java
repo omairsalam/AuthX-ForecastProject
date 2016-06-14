@@ -61,7 +61,7 @@ public class GraphPlotter {
 					Calendar cal = Calendar.getInstance();
 					cal.setTime(weekDate);
 					int year = cal.get(Calendar.YEAR);
-					int month = cal.get(Calendar.MONTH);
+					int month = cal.get(Calendar.MONTH)+1;
 					int day = cal.get(Calendar.DAY_OF_MONTH);
 
 					System.out.print("        Date: " + day + " " + month + " " + year);
@@ -72,6 +72,7 @@ public class GraphPlotter {
 					//Y = employeeHours
 					
 					//Add a point to the time series
+                                        
 					pop.add(new Day(day, month, year), employeeHours);
 				}
 				dataset.addSeries(pop);
@@ -134,7 +135,7 @@ public class GraphPlotter {
 	public ArrayList<JFreeChart> getAllFrames(HashMap<String, Role> myDataSet){
 		roleMap = myDataSet; 
 		HashMap<String, TimeSeriesCollection> graphSets = getFormattedData(roleMap);
-        return createFrameList(graphSets);
+                return createFrameList(graphSets);
 	}
 	
 	/**
