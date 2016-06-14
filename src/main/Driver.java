@@ -38,7 +38,7 @@ public class Driver {
      * @param employeeNumber the number of employees to scale the map for
      */
     public static void rescaleMap(String roleName, int employeeNumber){
-        HashMap<String, Role> roleMapClone = graphPlotter.rescale(roleName, employeeNumber);
+        HashMap<String, Role> roleMapClone = graphPlotter.rescale(execute.getRoleMap(), roleName, employeeNumber);
         ArrayList<JFreeChart> chartList = graphPlotter.getAllFrames(roleMapClone);
         //guiHandler.setGraphs(chartList);
     }

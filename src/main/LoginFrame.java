@@ -198,7 +198,7 @@ public class LoginFrame extends javax.swing.JFrame {
             String directory = dir;
             username = "theoriginalsine@gmail.com";
             password = "forecast";
-            directory = "/Users/alam/Desktop";
+            directory = "/Users/user/Desktop";
             myCharts = Driver.login(username, password, directory );      
         } catch (InterruptedException | ParseException | JSONException | IOException | java.text.ParseException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);

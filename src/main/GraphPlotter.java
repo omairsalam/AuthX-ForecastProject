@@ -19,15 +19,13 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class GraphPlotter {
-	
-	private HashMap<String, Role> roleMap = new HashMap<String,Role>(); 
 		
 	/**
 	 * Converts the roleMap into a format readable by the plotting method
 	 * @param roleMap The hashmap that contains all the details for the execute, role and project class 
 	 * @return Returns a hasmap which represents the tag (or role name) as a key and the time series collection i.e. works-hours as a value 
 	 */
-	public HashMap<String, TimeSeriesCollection> getFormattedData(HashMap<String, Role> roleMap){
+	public static HashMap<String, TimeSeriesCollection> getFormattedData(HashMap<String, Role> roleMap){
 		
 		//Create a collection of graph sets which store the graphs for each role type (i.e. FED's etc)
 		HashMap<String, TimeSeriesCollection> graphSets = new HashMap<String, TimeSeriesCollection>();
@@ -48,7 +46,7 @@ public class GraphPlotter {
 				System.out.println("    Project Code: " + projectCode);
 
 				//Scaling the map for the number of employees
-				double employeeNumber = role.getEmp_Set().size();
+				double employeeNumber = role.getNumEmployees();
 				HashMap<Date, Double> weekMapEmployees = projectTypeMap.get(projectCode).scaleMap(employeeNumber);
 				
 				//Make a time series for this project 
@@ -88,7 +86,7 @@ public class GraphPlotter {
 	 * @param graphSet The Hash map that contains work-hours wMap for each project for each role 
 	 * @return An array list of charts for each role 
 	 */
-	public ArrayList<JFreeChart> createFrameList(HashMap<String, TimeSeriesCollection> graphSet){
+	public static ArrayList<JFreeChart> createFrameList(HashMap<String, TimeSeriesCollection> graphSet){
 		
 		ArrayList<JFreeChart> myChartList = new ArrayList<JFreeChart>();
 		for(String tag: graphSet.keySet()){
@@ -128,11 +126,10 @@ public class GraphPlotter {
 	
 	/**
 	 * Gets all chart frames from a specific roleMap
-	 * @param myDataSet The roleMap that contains all the roles and the respective projects etc
+	 * @param roleMap The roleMap that contains all the roles and the respective projects etc
 	 * @return A list of all the charts (i.e. one chart for each role) 
 	 */
-	public ArrayList<JFreeChart> getAllFrames(HashMap<String, Role> myDataSet){
-		roleMap = myDataSet; 
+	public static ArrayList<JFreeChart> getAllFrames(HashMap<String, Role> roleMap){
 		HashMap<String, TimeSeriesCollection> graphSets = getFormattedData(roleMap);
         return createFrameList(graphSets);
 	}
@@ -143,9 +140,20 @@ public class GraphPlotter {
 	 * @param numEmployees The new number of employees we want to use
 	 * @return A new hashmap with the scaled data 
 	 */
-	public HashMap<String, Role> rescale(String tag, int numEmployees){
-		rescaleRole(roleMap.get(tag), numEmployees); 
-		return roleMap; 
+	public static HashMap<String, Role> rescale(HashMap<String, Role> roleMap, String tag, int numEmployees){
+
+		HashMap<String, Role> scaledRoleMap = new HashMap<String, Role>();
+
+		roleMap.get(tag).setNumEmployees(numEmployees);
+
+		for (String roleName : roleMap.keySet()){
+			Role role = roleMap.get(roleName);
+			Role roleClone = role.clone();
+
+			scaledRoleMap.put(roleName, roleClone);
+		}
+
+		return scaledRoleMap;
 	}
 	
 	/**
@@ -153,7 +161,7 @@ public class GraphPlotter {
 	 * @param currentRole The role that we want to rescale 
 	 * @param numEmployees The number of employees which we want to use as a rescale factor 
 	 */
-	public void rescaleRole(Role currentRole, int numEmployees){
+	public static void rescaleRole(Role currentRole, int numEmployees){
 		if (currentRole == null){
 			System.err.println("There was no role for this tag!");
 		}
@@ -166,10 +174,7 @@ public class GraphPlotter {
 		}
 		
 	}
- 
 	
-
-
 
 	public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException, InterruptedException, JSONException {
 		
