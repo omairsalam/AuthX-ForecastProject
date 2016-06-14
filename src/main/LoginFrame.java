@@ -68,7 +68,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Choose directory:");
 
-        fileChooserButton.setText("File Chooser");
+        fileChooserButton.setText("Directory Chooser");
         fileChooserButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fileChooserButtonActionPerformed(evt);
@@ -84,7 +84,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fileChooserButton)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         fileChooserPanelLayout.setVerticalGroup(
             fileChooserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,15 +195,7 @@ public class LoginFrame extends javax.swing.JFrame {
             password = "forecast";
             directory = "/Users/alam/Desktop";
             myCharts = Driver.login(username, password, directory );      
-        } catch (InterruptedException ex) {
-            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (JSONException ex) {
-            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (java.text.ParseException ex) {
+        } catch (InterruptedException | ParseException | JSONException | IOException | java.text.ParseException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
