@@ -5,25 +5,21 @@
  */
 package main;
 
-import java.awt.Container;
-import java.awt.GridBagLayout;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 import org.jdesktop.swingx.prompt.PromptSupport;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
+import org.testng.internal.Graph;
 
 /**
  *
@@ -64,18 +60,6 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        dateChooserDialog1 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog2 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog3 = new datechooser.beans.DateChooserDialog();
-        jDatePickerUtil1 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil2 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil3 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil4 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil5 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil6 = new org.jdatepicker.util.JDatePickerUtil();
-        dateChooserDialog4 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog5 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog6 = new datechooser.beans.DateChooserDialog();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         authXLogo = new javax.swing.JLabel();
         rolePicker = new javax.swing.JComboBox<>();
@@ -221,7 +205,22 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_rolePickerActionPerformed
 
     private void employeeNumStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeNumStringActionPerformed
-        // TODO add your handling code here:
+        String currentRoleName = rolePicker.getSelectedItem().toString();
+
+        //TODO: Throw an error if it's unparsable
+        double employeeNumber = Double.parseDouble(employeeNumString.getText());
+
+
+        //Role is not null
+        Role role = myRoleMap.get(currentRoleName);
+
+        role.setNumEmployees(employeeNumber);
+
+        chartList = GraphPlotter.getAllFrames(myRoleMap);
+
+        showGraphs();
+
+
     }//GEN-LAST:event_employeeNumStringActionPerformed
 
     private void startDatePickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startDatePickerActionPerformed
@@ -283,11 +282,9 @@ public class MainFrame extends javax.swing.JFrame {
 
             }
         }
-        
-        int numEmployees = myRoleMap.get(currentRole).getNumEmployees();
-        employeeNumString.setText(String.valueOf(numEmployees));
-     
 
+        double numEmployees = myRoleMap.get(currentRole).getNumEmployees();
+        employeeNumString.setText(String.valueOf(numEmployees));
     }
     
     /**
@@ -353,23 +350,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authXLogo;
-    private datechooser.beans.DateChooserDialog dateChooserDialog1;
-    private datechooser.beans.DateChooserDialog dateChooserDialog2;
-    private datechooser.beans.DateChooserDialog dateChooserDialog3;
-    private datechooser.beans.DateChooserDialog dateChooserDialog4;
-    private datechooser.beans.DateChooserDialog dateChooserDialog5;
-    private datechooser.beans.DateChooserDialog dateChooserDialog6;
     private javax.swing.JLabel datePicker;
     private javax.swing.JLabel datePicker1;
     private javax.swing.JTextField employeeNumString;
     private org.jdesktop.swingx.JXDatePicker endDatePicker;
     private javax.swing.JPanel graphPanel;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil2;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil3;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil4;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil5;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil6;
     private javax.swing.JLabel jLabel1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JButton recalculateData;
