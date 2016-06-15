@@ -5,6 +5,7 @@
  */
 package main;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -34,6 +35,8 @@ public class MainFrame extends javax.swing.JFrame {
     private static HashMap<String, Role> myRoleMap = new HashMap<>(); 
     private static Date startDate;
     private static Date endDate; 
+    private static String previousRoleMapItem;
+    
 
     /**
      * Creates new form MainFrame
@@ -41,7 +44,8 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         startDatePicker.setDate(new Date()); //set the start date picker to today's date
-        endDatePicker.setDate(getEndDate(startDatePicker.getDate()));
+        endDatePicker.setDate(Driver.execute.getEndDate()); //set the end date to a week from the start date 
+       // endDatePicker.setDate(getEndDate(startDatePicker.getDate()));
        
         //Get current number of employees
        // String currentRole = rolePicker.getSelectedItem().toString();
@@ -260,7 +264,7 @@ public class MainFrame extends javax.swing.JFrame {
             //new start and end dates which have been rounded off to the first day of the week 
             myRoleMap = Driver.execute.getRoleMap(); //get the new rolemap for this chart
             getTagList(importedCharts); //get a new tag list for these charts 
-            populateComboBox(); //repopulate the combo box with the new tags
+            //populateComboBox(); //repopulate the combo box with the new tags
             showGraphs(); //repopulate all the graphs 
         } catch (InterruptedException | ParseException | JSONException | IOException | java.text.ParseException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,8 +279,8 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
                 System.out.println("Key pressed is " + evt.getKeyChar());
         char c = evt.getKeyChar();
-         if (!Character.isDigit(c)){
-             JOptionPane.showMessageDialog(this, "Please only enter digits!", "Error", JOptionPane.ERROR_MESSAGE);
+         if (!Character.isDigit(c) && c != '.' && evt.getExtendedKeyCode() != KeyEvent.VK_BACK_SPACE && evt.getExtendedKeyCode()!=KeyEvent.VK_ENTER){
+             JOptionPane.showMessageDialog(this, "Please only enter decimal numbers or digits!", "Error", JOptionPane.ERROR_MESSAGE);
             evt.consume();
          }
 
@@ -286,7 +290,11 @@ public class MainFrame extends javax.swing.JFrame {
         tagArray.clear();
         chartList = importedChartList;
         for (JFreeChart s : importedChartList){
-            tagArray.add(s.getTitle().getText());
+            if(s.getTitle().getText().equals("")){
+                
+            }else{
+                tagArray.add(s.getTitle().getText());
+            }
         }
     } 
     
@@ -307,6 +315,7 @@ public class MainFrame extends javax.swing.JFrame {
             if (s1.getTitle().getText().equals(currentRole)){
                 //System.out.println("Chart Title is " + s1.getTitle().getText() + " and Role Picked is " + currentRole);
                 ChartPanel p = new ChartPanel(s1);
+                //p.getChart().getXYPlot().getRangeAxis().setInverted(true);
                 p.setSize(graphPanel.getWidth(), graphPanel.getHeight());
                 p.setVisible(true);
                 graphPanel.add(p);

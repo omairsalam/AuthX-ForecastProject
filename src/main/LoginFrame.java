@@ -1,6 +1,7 @@
 package main;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -35,6 +36,9 @@ public class LoginFrame extends javax.swing.JFrame {
         PromptSupport.setPrompt("Enter Username", uName); //Sets placeholder text for username
         //PromptSupport.setPrompt("Enter Password", pWord); //Sets placeholder text for password 
         pWord.setEchoChar('*');
+        dir = System.getProperty("user.home")+File.separator+"Documents";
+        
+        currentDirString.setText(dir);//Set the text of the current directory 
         
     }
 
@@ -57,13 +61,19 @@ public class LoginFrame extends javax.swing.JFrame {
         fileChooserButton = new javax.swing.JButton();
         Login = new javax.swing.JButton();
         pWord = new javax.swing.JPasswordField();
+        fileChooserPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        currentDirString = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AuthX Login Page");
 
         authXLogo.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        authXLogo.setIcon(new javax.swing.ImageIcon("Images/authx-logo.png")); // NOI18N
+        authXLogo.setIcon(new javax.swing.ImageIcon("/Users/alam/Documents/AuthX/AuthX-ForecastProject/Images/authx-logo.png")); // NOI18N
+
+        loginPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        loginPanel.setForeground(new java.awt.Color(0, 51, 51));
 
         username.setText("Username:");
 
@@ -91,9 +101,9 @@ public class LoginFrame extends javax.swing.JFrame {
             .addGroup(fileChooserPanelLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(fileChooserButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         fileChooserPanelLayout.setVerticalGroup(
             fileChooserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,29 +128,63 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Current Directory:");
+
+        currentDirString.setForeground(new java.awt.Color(0, 0, 255));
+        currentDirString.setText("Current String Path");
+
+        javax.swing.GroupLayout fileChooserPanel1Layout = new javax.swing.GroupLayout(fileChooserPanel1);
+        fileChooserPanel1.setLayout(fileChooserPanel1Layout);
+        fileChooserPanel1Layout.setHorizontalGroup(
+            fileChooserPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fileChooserPanel1Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(fileChooserPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(currentDirString, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(fileChooserPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        fileChooserPanel1Layout.setVerticalGroup(
+            fileChooserPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fileChooserPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(currentDirString)
+                .addContainerGap(9, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
         loginPanel.setLayout(loginPanelLayout);
         loginPanelLayout.setHorizontalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(loginPanelLayout.createSequentialGroup()
-                .addGap(82, 82, 82)
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Username)
-                    .addComponent(username))
-                .addGap(71, 71, 71)
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(uName, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                    .addComponent(pWord))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
+                .addContainerGap(43, Short.MAX_VALUE)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fileChooserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Username)
+                            .addComponent(username))
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(loginPanelLayout.createSequentialGroup()
+                                .addGap(71, 71, 71)
+                                .addComponent(uName, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pWord, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(64, 64, 64))
+            .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                        .addComponent(fileChooserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                        .addComponent(Login)
-                        .addGap(151, 151, 151))))
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(fileChooserPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGap(166, 166, 166)
+                        .addComponent(Login)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,19 +193,17 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(username)
                     .addComponent(uName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(loginPanelLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(Username)
-                        .addGap(23, 23, 23))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pWord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addComponent(fileChooserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Username)
+                    .addComponent(pWord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(fileChooserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fileChooserPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(Login)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
@@ -181,7 +223,7 @@ public class LoginFrame extends javax.swing.JFrame {
                         .addGap(26, 26, 26))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(93, 93, 93))))
+                        .addGap(90, 90, 90))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,9 +232,9 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addComponent(authXLogo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(47, 47, 47))
         );
 
         pack();
@@ -201,14 +243,15 @@ public class LoginFrame extends javax.swing.JFrame {
     private void fileChooserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileChooserButtonActionPerformed
     JFileChooser chooser = new JFileChooser();
     chooser.setCurrentDirectory(new java.io.File("."));
-    chooser.setDialogTitle("choosertitle");
+    chooser.setDialogTitle("Working Directory");
     chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
     chooser.setAcceptAllFileFilterUsed(false);
 
     if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-      System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
-      dir = chooser.getCurrentDirectory().toString();
-      System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+     // System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+      dir = chooser.getSelectedFile().toString();
+      currentDirString.setText(dir);
+     // System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
     } else {
       System.out.println("No Selection ");
     }
@@ -216,16 +259,21 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         try {
+            //Make a directory in the folder the user chooses 
+            makeDir();
+            
+            System.out.println("Current working directory is " + dir);
             String username = uName.getText();
             String password = pWord.getText();
             String directory = dir;
 
-            if (dir == null){
-                directory = ".";
-            }
-            //username = "theoriginalsine@gmail.com";
-            //password = "forecast";
-            //directory = "/Users/alam/Documents";
+            /*---------COMMENT OUT THIS PIECE OF CODE TO USE DATA FROM FORECASTAPP.COM ----- DON'T COMMENT OUT IF USING RAHUL FILE */
+            username = "theoriginalsine@gmail.com";
+            password = "forecast";
+            directory = "/Users/alam/Documents";
+            /*--------------------------------------------------*/
+            
+            
             myCharts = Driver.login(username, password, directory );      
         } catch (InterruptedException | ParseException | JSONException | IOException | java.text.ParseException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -246,6 +294,17 @@ public class LoginFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_pWordActionPerformed
 
+    /**
+     * Makes a ForecastData folder in the specified directory 
+     */
+    public void makeDir(){
+        String mySubFolder = "ForecastData";
+        File newDir = new File(dir + File.separator + mySubFolder);
+        System.out.println("File path is " + newDir.getAbsolutePath());
+        dir = newDir.getAbsolutePath();
+        boolean success = newDir.mkdir();
+    }
+    
     public ArrayList<JFreeChart> getAllCharts(){
         return myCharts;
     }
@@ -288,9 +347,12 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JButton Login;
     private javax.swing.JLabel Username;
     private javax.swing.JLabel authXLogo;
+    private javax.swing.JLabel currentDirString;
     private javax.swing.JButton fileChooserButton;
     private javax.swing.JPanel fileChooserPanel;
+    private javax.swing.JPanel fileChooserPanel1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPasswordField pWord;
