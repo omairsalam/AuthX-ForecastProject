@@ -63,7 +63,7 @@ public class LoginFrame extends javax.swing.JFrame {
         setTitle("AuthX Login Page");
 
         authXLogo.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        authXLogo.setIcon(new javax.swing.ImageIcon("/Users/alam/Documents/AuthX/AuthX-ForecastProject/Images/authx-logo.png")); // NOI18N
+        authXLogo.setIcon(new javax.swing.ImageIcon("Images/authx-logo.png")); // NOI18N
 
         username.setText("Username:");
 
@@ -219,9 +219,13 @@ public class LoginFrame extends javax.swing.JFrame {
             String username = uName.getText();
             String password = pWord.getText();
             String directory = dir;
-            username = "theoriginalsine@gmail.com";
-            password = "forecast";
-            directory = "/Users/alam/Documents";
+
+            if (dir == null){
+                directory = ".";
+            }
+            //username = "theoriginalsine@gmail.com";
+            //password = "forecast";
+            //directory = "/Users/alam/Documents";
             myCharts = Driver.login(username, password, directory );      
         } catch (InterruptedException | ParseException | JSONException | IOException | java.text.ParseException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
