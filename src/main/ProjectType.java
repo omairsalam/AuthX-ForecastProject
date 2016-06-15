@@ -36,11 +36,11 @@ public class ProjectType {
  * @param hours
  */
 	public void addtoMap(Date date, Double hours){
-		if (wMap.containsKey(date)){
-			Double oldHours = wMap.get(date);
-			hours += oldHours;
-		}
-		wMap.put(date, hours);
+            if (wMap.containsKey(date)){
+		Double oldHours = wMap.get(date);		
+                hours += oldHours;
+            }
+            wMap.put(date, hours);
 	}
 
 	/**
@@ -64,7 +64,8 @@ public class ProjectType {
 		//Scales the cloned map for number of necessary employee
 		for(Date key:scaledMap.keySet()){
 			double numberNeeded = scaledMap.get(key)/32;
-			scaledMap.put(key,( numberNeeded - n ));
+                        //numberNeeded*=-1;
+			scaledMap.put(key,( numberNeeded  - n ));
 		}
 
 		return scaledMap;
