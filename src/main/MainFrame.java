@@ -5,14 +5,13 @@
  */
 package main;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -22,37 +21,37 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
-import org.testng.internal.Graph;
 
 /**
- *
+ * This class makes a JFrame in which the graphs are displayed and various graph options are provided therefore most of the GUI work 
+ * in displaying the graphs is done here. It is called on by the login class
+ * which passes in some parameters, along with some other parameters being passed from the Driver.java class. 
  * @author alam
  */
 public class MainFrame extends javax.swing.JFrame {
     
     private static ArrayList<String> tagArray = new ArrayList<>();
     private static ArrayList<JFreeChart> chartList = new ArrayList<>();
-    private static HashMap<String, Role> myRoleMap = new HashMap<>(); 
-    private static Date startDate;
-    private static Date endDate; 
-    private static String previousRoleMapItem;
+    private static HashMap<String, Role> myRoleMap = new HashMap<>();
+    private static final int MONTHLOOKAHEAD = 1; 
+    private static Date initStartDate;
+    private static Date initEndDate;
     
 
     /**
-     * Creates new form MainFrame
+     * Creates new MainFrame which contains the graphs that we want to plot, date pickers to change the start and 
+     * end dates, an option to change the number of employees, and an option to select a Role to display its graphs 
      */
     public MainFrame() {
         initComponents();
         startDatePicker.setDate(new Date()); //set the start date picker to today's date
+        initStartDate = startDatePicker.getDate();
         endDatePicker.setDate(Driver.execute.getEndDate()); //set the end date to a week from the start date 
-       // endDatePicker.setDate(getEndDate(startDatePicker.getDate()));
-       
+        initEndDate = endDatePicker.getDate();
+        resetButton.setEnabled(false);
+     
         //Get current number of employees
-       // String currentRole = rolePicker.getSelectedItem().toString();
         myRoleMap = Driver.execute.getRoleMap();
-        //Driver.execute.populateForcastDyanamic(start_date, end_date);
-      //  int numEmployees = myRoleMap.get(currentRole).getNumEmployees();
-     //   numEmpText.setText(String.valueOf(numEmployees));
      recalculateData.setEnabled(false); //recalculate should be false initially 
      PromptSupport.setPrompt("Number of Employees", employeeNumString); //Sets placeholder text for password 
     }
@@ -66,6 +65,19 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dateChooserDialog1 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog2 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog3 = new datechooser.beans.DateChooserDialog();
+        jDatePickerUtil1 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil2 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil3 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil4 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil5 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil6 = new org.jdatepicker.util.JDatePickerUtil();
+        dateChooserDialog4 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog5 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog6 = new datechooser.beans.DateChooserDialog();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         authXLogo = new javax.swing.JLabel();
         rolePicker = new javax.swing.JComboBox<>();
         graphPanel = new javax.swing.JPanel();
@@ -79,12 +91,13 @@ public class MainFrame extends javax.swing.JFrame {
         recalculateData = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
+        resetButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AuthX Employee Forecast");
 
         authXLogo.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        authXLogo.setIcon(new javax.swing.ImageIcon("Images/authx-logo.png")); // NOI18N
+        authXLogo.setIcon(new javax.swing.ImageIcon("/Users/alam/Documents/AuthX/AuthX-ForecastProject/Images/authx-logo.png")); // NOI18N
 
         rolePicker.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +161,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
 
+        resetButton.setForeground(new java.awt.Color(255, 102, 102));
+        resetButton.setText("Reset");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,31 +176,33 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 945, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(graphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(rolePickerLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rolePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(employeeNumString, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(datePicker)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(datePicker1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(endDatePicker, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                        .addGap(24, 24, 24)
-                        .addComponent(recalculateData, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(59, 59, 59))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 945, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(rolePickerLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rolePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(employeeNumString, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(datePicker)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(datePicker1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)
+                                .addComponent(recalculateData, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(resetButton))
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(30, 30, 30))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(authXLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -204,8 +227,9 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(recalculateData))
-                .addGap(18, 18, Short.MAX_VALUE)
+                    .addComponent(recalculateData)
+                    .addComponent(resetButton))
+                .addGap(18, 37, Short.MAX_VALUE)
                 .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
@@ -213,36 +237,52 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Shows the graphs when we click on a particular role in the role picker combo box 
+     * @param evt 
+     */
     private void rolePickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rolePickerActionPerformed
-        // TODO add your handling code here:
-        showGraphs();
+      showGraphs();
     }//GEN-LAST:event_rolePickerActionPerformed
 
+    /**
+     * Remake the chats based on a different number of employees entered by the user 
+     * @param evt 
+     */
     private void employeeNumStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeNumStringActionPerformed
+        
+        /*//Enable the recalculate button so the user can press it 
         recalculateData.setEnabled(true);  
+        //Get the current role that we are at 
         String currentRoleName = rolePicker.getSelectedItem().toString();
         
+        //The default value of number of employees
+        double employeeNumber = myRoleMap.get(currentRoleName).getNumEmployees();
         
+        
+        //If the field is empty, we need to simply switch back to the previous known value
+        //If its not empty, parse the text and use it as the default value 
         if (employeeNumString.getText().equals("")){
-            double numEmployees = myRoleMap.get(currentRoleName).getNumEmployees();
-            employeeNumString.setText(String.valueOf(numEmployees));
+            employeeNumString.setText(String.valueOf(employeeNumber));
+        }else{
+             employeeNumber = Double.parseDouble(employeeNumString.getText());
         }
-        //TODO: Throw an error if it's unparsable
-        double employeeNumber = Double.parseDouble(employeeNumString.getText());
-
-
-        //Role is not null
+        //We are in a current Role as specified by the combo box so go grab this 
         Role role = myRoleMap.get(currentRoleName);
-
+        //Change the number of employees in that role object
         role.setNumEmployees(employeeNumber);
-
+        //Based on this new number, remake the charts and obtain the chart list 
         chartList = GraphPlotter.getAllFrames(myRoleMap);
-
+        //use these new charts to show the graphs again 
         showGraphs();
 
-
+        */
     }//GEN-LAST:event_employeeNumStringActionPerformed
 
+    /**
+     * Gets a start date from the user and picks and end date based on that 
+     * @param evt 
+     */
     private void startDatePickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startDatePickerActionPerformed
         Date startDate = startDatePicker.getDate();
         Date endDate = getEndDate(startDate); //gets end dat which is 3 months ahead of start date
@@ -250,22 +290,45 @@ public class MainFrame extends javax.swing.JFrame {
         recalculateData.setEnabled(true); //if we pick a start date, enable this button 
     }//GEN-LAST:event_startDatePickerActionPerformed
 
+    /**
+     * Allows the user to recalculate the graphs 
+     * @param evt 
+     */
     private void endDatePickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endDatePickerActionPerformed
         recalculateData.setEnabled(true); //if we play with end date, end date picker should be enabled 
     }//GEN-LAST:event_endDatePickerActionPerformed
 
+    /**
+     * When the recalculate button is pressed, make new charts based on the start and end dates
+     * @param evt 
+     */
     private void recalculateDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recalculateDataActionPerformed
         recalculateData.setEnabled(false);  
-        System.out.println("Start date is " + getStartOfWeek(startDatePicker.getDate()));
-        System.out.println("End date is " + getStartOfWeek(endDatePicker.getDate()));
+        resetButton.setEnabled(true);
+       // System.out.println("Start date is " + getStartOfWeek(startDatePicker.getDate()));
+       // System.out.println("End date is " + getStartOfWeek(endDatePicker.getDate()));
          try {
             ArrayList<JFreeChart> importedCharts = Driver.recalculateMaps(getStartOfWeek(startDatePicker.getDate()), endDatePicker.getDate()); //get new charts based on
             //we didn't put an end date on the picker because our loop has something like iterate while its less than endDatePicker
-            //new start and end dates which have been rounded off to the first day of the week 
+            //so only start date has to be matched to start of the week so it can match up with the keys in the JSON file
             myRoleMap = Driver.execute.getRoleMap(); //get the new rolemap for this chart
-            getTagList(importedCharts); //get a new tag list for these charts 
-            //populateComboBox(); //repopulate the combo box with the new tags
-            showGraphs(); //repopulate all the graphs 
+            
+            //Check if the employee number changed or not 
+            String currentRoleName = rolePicker.getSelectedItem().toString();
+            Double currentNumboxVal = Double.parseDouble(employeeNumString.getText());
+            Double currentNumRoleMapVal = myRoleMap.get(currentRoleName).getNumEmployees();
+            
+            if (!Objects.equals(currentNumboxVal, currentNumRoleMapVal)){
+                //We are in a current Role as specified by the combo box so go grab this 
+                Role role = myRoleMap.get(currentRoleName);
+                //Change the number of employees in that role object
+                role.setNumEmployees(currentNumboxVal);
+                chartList = GraphPlotter.getAllFrames(myRoleMap); //refresh the chartList with this new value for numRoleMap
+                showGraphs();
+            }else{
+                getTagList(importedCharts); //get a new tag list for these charts 
+                showGraphs(); //repopulate all the graphs 
+            }
         } catch (InterruptedException | ParseException | JSONException | IOException | java.text.ParseException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -275,29 +338,60 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_employeeNumStringKeyPressed
 
+    /**
+     * Key checker for the number of employees. Only allows digits and dots
+     * @param evt 
+     */
     private void employeeNumStringKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_employeeNumStringKeyTyped
-        // TODO add your handling code here:
-                System.out.println("Key pressed is " + evt.getKeyChar());
+
+            //    System.out.println("Key pressed is " + evt.getKeyChar());
         char c = evt.getKeyChar();
          if (!Character.isDigit(c) && c != '.' && evt.getExtendedKeyCode() != KeyEvent.VK_BACK_SPACE && evt.getExtendedKeyCode()!=KeyEvent.VK_ENTER){
              JOptionPane.showMessageDialog(this, "Please only enter decimal numbers or digits!", "Error", JOptionPane.ERROR_MESSAGE);
             evt.consume();
+         }else{
+             recalculateData.setEnabled(true);
          }
 
     }//GEN-LAST:event_employeeNumStringKeyTyped
 
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        resetButton.setEnabled(false);
+        startDatePicker.setDate(initStartDate);
+        endDatePicker.setDate(initEndDate);
+        try {
+            ArrayList<JFreeChart> importedCharts = Driver.recalculateMaps(getStartOfWeek(initStartDate), initEndDate); //get new charts based on
+            //we didn't put an end date on the picker because our loop has something like iterate while its less than endDatePicker
+            //so only start date has to be matched to start of the week so it can match up with the keys in the JSON file
+
+            getTagList(importedCharts); //get a new tag list for these charts 
+            showGraphs(); //repopulate all the graphs 
+
+        } catch (InterruptedException | ParseException | JSONException | IOException | java.text.ParseException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_resetButtonActionPerformed
+
+    /**
+     * Generates a tagArray which is a list of role names populated by parsing the chartList and getting the title from
+     * each. 
+     * @param importedChartList The list of charts that contains the role names as the title 
+     */
     public static void getTagList(ArrayList<JFreeChart> importedChartList){
         tagArray.clear();
         chartList = importedChartList;
         for (JFreeChart s : importedChartList){
             if(s.getTitle().getText().equals("")){
-                
+                // do not this add an empty title graph to the tag list 
             }else{
                 tagArray.add(s.getTitle().getText());
             }
         }
     } 
     
+    /**
+     * Populates the role picker combo box based on the tag Array
+     */
     public void populateComboBox(){
         rolePicker.removeAll();
         rolePicker.setModel(new DefaultComboBoxModel());rolePicker.removeAll();
@@ -306,6 +400,11 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Adds the chart to the displaying JPanel. Gets the current role that is being displayed by the role picker combo box,
+     * gets the chart associated with this role title, for instance if role name is BED, then the chart with the title BED
+     * is needed. 
+     */
     public void showGraphs(){
         String currentRole = rolePicker.getSelectedItem().toString();
         //System.out.println("Current role picked is " + currentRole);
@@ -313,9 +412,7 @@ public class MainFrame extends javax.swing.JFrame {
         for (JFreeChart s1 : chartList){
 
             if (s1.getTitle().getText().equals(currentRole)){
-                //System.out.println("Chart Title is " + s1.getTitle().getText() + " and Role Picked is " + currentRole);
                 ChartPanel p = new ChartPanel(s1);
-                //p.getChart().getXYPlot().getRangeAxis().setInverted(true);
                 p.setSize(graphPanel.getWidth(), graphPanel.getHeight());
                 p.setVisible(true);
                 graphPanel.add(p);
@@ -323,20 +420,20 @@ public class MainFrame extends javax.swing.JFrame {
 
             }
         }
-
+        //In the box EmployeeNumString, display the number of employees corresponding to this graph 
         double numEmployees = myRoleMap.get(currentRole).getNumEmployees();
         employeeNumString.setText(String.valueOf(numEmployees));
     }
     
     /**
-     * Given a start date, increments it by a months and returns it 
+     * Given a start date, increments it by a certain period 
      * @param startDate The date we start with 
-     * @return The date incremented by one month 
+     * @return The date incremented by a predefined period 
      */
     public Date getEndDate(Date startDate){
-        Calendar cal = Calendar.getInstance(); //make a date for 1 month after the start date
+        Calendar cal = Calendar.getInstance(); 
         cal.setTime(startDate);
-        cal.add(Calendar.MONTH, 1);
+        cal.add(Calendar.MONTH, MONTHLOOKAHEAD);
         return cal.getTime();
     }
     
@@ -350,7 +447,7 @@ public class MainFrame extends javax.swing.JFrame {
         cal.setFirstDayOfWeek(Calendar.MONDAY); //Default first day is Sunday, lets change that to Monday 
         cal.setTime(startDate);
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-        System.out.println("Start of this week:       " + cal.getTime());
+        //System.out.println("Start of this week:       " + cal.getTime());
         return cal.getTime();
     }
     
@@ -391,16 +488,29 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authXLogo;
+    private datechooser.beans.DateChooserDialog dateChooserDialog1;
+    private datechooser.beans.DateChooserDialog dateChooserDialog2;
+    private datechooser.beans.DateChooserDialog dateChooserDialog3;
+    private datechooser.beans.DateChooserDialog dateChooserDialog4;
+    private datechooser.beans.DateChooserDialog dateChooserDialog5;
+    private datechooser.beans.DateChooserDialog dateChooserDialog6;
     private javax.swing.JLabel datePicker;
     private javax.swing.JLabel datePicker1;
     private javax.swing.JTextField employeeNumString;
     private org.jdesktop.swingx.JXDatePicker endDatePicker;
     private javax.swing.JPanel graphPanel;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil2;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil3;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil4;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil5;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JButton recalculateData;
+    private javax.swing.JButton resetButton;
     private javax.swing.JComboBox<String> rolePicker;
     private javax.swing.JLabel rolePickerLabel;
     private org.jdesktop.swingx.JXDatePicker startDatePicker;

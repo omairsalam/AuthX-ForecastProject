@@ -228,6 +228,10 @@ public class GraphPlotter {
 
     }
     
+    /**
+     * Prints out all the contents of a roleMap in the hierarchy of Role -> Project -> (Date, Hours)  
+     * @param roleMap The hashmap that we want to print out 
+     */
     public static void printOut(HashMap<String, Role> roleMap){
         for (String roleName : roleMap.keySet()){
             System.out.println("Role: " + roleName);

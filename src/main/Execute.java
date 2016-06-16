@@ -103,7 +103,7 @@ public class Execute {
 
             String tag = (String) jobject.get("Tags");
             String projectCode = (String) jobject.get("Project Label");
-            String personLabel = (String)jobject.get("Person");
+            String personLabel = (String) jobject.get("Person");
 
             ProjectType projecttypeobj = new ProjectType();
 
@@ -152,11 +152,11 @@ public class Execute {
 
             //This builds up the list of employees
             String personLabel = (String) jsonObject.get("Person");
-            
-             if (personLabel.contains("Unassigned")){
+
+            if (personLabel.contains("Unassigned")) {
                 System.out.println("Unassigned person found!");
-                
-            }else{
+
+            } else {
                 role.getEmp_Set().add(personLabel);
             }
 
@@ -193,9 +193,9 @@ public class Execute {
     }
 
     /**
-     * The role hierarchy is as follows: 
-     * Likely contains highly likely, Internal, Signed and at Risk so each project contains the hours of all the 
-     * preceeding project types in this list
+     * The role hierarchy is as follows: Likely contains highly likely,
+     * Internal, Signed and at Risk so each project contains the hours of all
+     * the preceeding project types in this list
      */
     public void processRoleHierarchy() {
         System.out.println("List of rolenames is" + roleMap.keySet());
@@ -209,12 +209,12 @@ public class Execute {
             ProjectType projectTypeLikely = ProjectMap.get("Likely");
             if (projectTypeLikely != null) {
                 weekMapLikely = projectTypeLikely.getWMap();
-                if (roleName.equals("BED")){
-                //    System.out.println("Hashmap for " + roleName + " with project label: Likely  is");
-                //     printHashMap(projectTypeLikely.getWMap());
+                if (roleName.equals("BED")) {
+                    //    System.out.println("Hashmap for " + roleName + " with project label: Likely  is");
+                    //     printHashMap(projectTypeLikely.getWMap());
                 }
-             }
-            for (int i=0; i<10;i++){
+            }
+            for (int i = 0; i < 10; i++) {
                 System.out.println("*");
             }
 
@@ -222,13 +222,13 @@ public class Execute {
             ProjectType projectTypeHighlyLikely = ProjectMap.get("High Likely");
             if (projectTypeHighlyLikely != null) {
                 weekMapHighlyLikely = projectTypeHighlyLikely.getWMap();
-                if (roleName.equals("BED")){
-                //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeHighlyLikely  is");
-                //    printHashMap(projectTypeHighlyLikely.getWMap());
+                if (roleName.equals("BED")) {
+                    //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeHighlyLikely  is");
+                    //    printHashMap(projectTypeHighlyLikely.getWMap());
                 }
             }
-            
-             for (int i=0; i<10;i++){
+
+            for (int i = 0; i < 10; i++) {
                 System.out.println("*");
             }
 
@@ -236,13 +236,13 @@ public class Execute {
             ProjectType projectTypeSigned = ProjectMap.get("Signed");
             if (projectTypeSigned != null) {
                 weekMapSigned = projectTypeSigned.getWMap();
-                if (roleName.equals("BED")){
-                //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeSigned  is");
-                //    printHashMap(projectTypeSigned.getWMap());
+                if (roleName.equals("BED")) {
+                    //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeSigned  is");
+                    //    printHashMap(projectTypeSigned.getWMap());
                 }
             }
-            
-             for (int i=0; i<10;i++){
+
+            for (int i = 0; i < 10; i++) {
                 System.out.println("*");
             }
 
@@ -253,22 +253,22 @@ public class Execute {
             ProjectType projectTypeAtRisk = ProjectMap.get("At Risk");
             if (projectTypeAtRisk != null) {
                 weekMapAtRisk = projectTypeAtRisk.getWMap();
-                if (roleName.equals("BED")){
-                //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeAtRisk  is: ");
-                //            printHashMap(projectTypeAtRisk.getWMap());
+                if (roleName.equals("BED")) {
+                    //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeAtRisk  is: ");
+                    //            printHashMap(projectTypeAtRisk.getWMap());
                 }
-    
+
             }
-            
+
             HashMap<Date, Double> weekMapInternal = null;
             ProjectType projectTypeInternal = ProjectMap.get("Internal Projects");
             if (projectTypeInternal != null) {
                 weekMapInternal = projectTypeInternal.getWMap();
-                if (roleName.equals("BED")){
-                //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeAtRisk  is: ");
-                //            printHashMap(projectTypeAtRisk.getWMap());
+                if (roleName.equals("BED")) {
+                    //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeAtRisk  is: ");
+                    //            printHashMap(projectTypeAtRisk.getWMap());
                 }
-    
+
             }
 
             for (Date date : dateSet) {
@@ -276,7 +276,7 @@ public class Execute {
                 double signedHours = 0;
                 double highlyLikelyHours = 0;
                 double likelyHours = 0;
-                double internalHours = 0; 
+                double internalHours = 0;
 
                 //Checks if "AT-RISK" projects exists
                 //For ones that inherit "AT-RISK"//weekMapAtRisk
@@ -289,8 +289,6 @@ public class Execute {
                     likelyHours += hours;
                 }
 
-                
-                
                 //Checks if "Signed" projects exists
                 //For ones that inherit "Signed"
                 if (weekMapSigned != null && weekMapSigned.containsKey(date)) {
@@ -301,14 +299,14 @@ public class Execute {
                     ProjectMap.get("Signed").addtoMap(date, signedHours);
 
                 }
-                
+
                 if (weekMapInternal != null && weekMapInternal.containsKey(date)) {
                     double hours = weekMapInternal.get(date);
                     highlyLikelyHours += hours;
                     likelyHours += hours;
                     ProjectMap.get("Internal Projects").addtoMap(date, internalHours);
                 }
-                                                               
+
                 //Checks if "Highly Likely" projects exists
                 //For ones that inherit "Highly Likely"
                 if (weekMapHighlyLikely != null && weekMapHighlyLikely.containsKey(date)) {
@@ -321,18 +319,21 @@ public class Execute {
                 if (weekMapLikely != null && weekMapLikely.containsKey(date)) {
                     ProjectMap.get("Likely").addtoMap(date, likelyHours);
                 }
-                
-
 
             }
         }
     }
 
-        public static void printHashMap(HashMap<Date, Double> weekMap){
-            for (Date s : weekMap.keySet()){
-                System.out.println("Date is" + s + " and hours are " + weekMap.get(s));
-            }
+    /**
+     * Prints the content of a hashmap which contains Date and Double pairs
+     * @param weekMap The hashmap to be printed out 
+     */
+    public static void printHashMap(HashMap<Date, Double> weekMap) {
+        for (Date s : weekMap.keySet()) {
+            System.out.println("Date is" + s + " and hours are " + weekMap.get(s));
         }
+    }
+
     /**
      * Gets the end date (which is a global private variable in this class)
      *

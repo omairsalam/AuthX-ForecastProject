@@ -22,7 +22,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Goes to www.forecastapp.com, logs in, downloads a data CSV file, converts the file to a JSON File which is then output in the directory mentioned
- * @author Omair Alam
+ * @author alam
  *
  */
 public final class WebScrapper {
