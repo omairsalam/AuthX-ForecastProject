@@ -3,6 +3,7 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -15,8 +16,12 @@ import org.json.simple.parser.ParseException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -35,18 +40,32 @@ public final class WebScrapper {
 
 	public WebScrapper(String downloadDirectory, String username, String password){
  
-        FirefoxProfile profile = new FirefoxProfile();
+        /*FirefoxProfile profile = new FirefoxProfile();
         
         //Set the preferences to download to a specific folder 
         profile.setPreference("browser.download.folderList", 2);
         profile.setPreference("browser.download.manager.showWhenStarting", false);
         profile.setPreference("browser.download.dir", downloadDirectory);
         profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/csv");
-        driver = new FirefoxDriver(profile);
+        driver = new FirefoxDriver(profile);*/
+        
         fileDirectory = new String("");
         fileDirectory = downloadDirectory; 
         this.username = username; 
         this.password = password; 
+        
+        System.setProperty("webdriver.chrome.driver", "/Users/alam/Documents/AuthX/AuthX-ForecastProject/ExternalJars/chromedriver");
+        
+        HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+        chromePrefs.put("profile.default_content_settings.popups", 0);
+        chromePrefs.put("download.default_directory", fileDirectory);
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("prefs", chromePrefs);
+        DesiredCapabilities cap = DesiredCapabilities.chrome();
+        cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+        cap.setCapability(ChromeOptions.CAPABILITY, options);
+        driver = new ChromeDriver(cap);
+        
 	}
 	
 	
