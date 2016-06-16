@@ -12,7 +12,9 @@ import java.util.HashMap;
 import org.jfree.chart.JFreeChart;
 
 /**
- * Created by user on 6/8/16.
+ * This class organizes all the background processing from getting the JSON File from Webscrapper to populating the graphs required
+ * for display on the screen. 
+ * @author alam
  */
 public class Driver {
 
@@ -45,7 +47,16 @@ public class Driver {
 
 
     /**
-     * Sets the roleMap of this class
+     * Uses the webscrapper to get a json file from forecastapp.com, calculates an initial roleMap based on default start and end dates,
+     * and gets a list of charts that can be displayed on a JPanel
+     * @param username The username for forecastapp.com
+     * @param password The password for forecastapp.com
+     * @param downloadPath The download directory to store the CSV file and the JSON file 
+     * @return A list of charts that can be plotted on any JPanel 
+     * @throws InterruptedException
+     * @throws ParseException
+     * @throws JSONException
+     * @throws IOException
      * @throws java.text.ParseException 
      */
     public static ArrayList<JFreeChart> login(String username, String password, String downloadPath) throws InterruptedException, ParseException, JSONException, IOException, java.text.ParseException {
@@ -75,7 +86,17 @@ public class Driver {
         //GUIHandler.makeGraphs(chartFrames);
         //GUIHandler.setGraphs(chartFrames);
     }
-    
+    /**
+     * Redraws the graphs based on a new rolemap which is based on new start and end dates 
+     * @param startDate The new start date for the role map
+     * @param endDate The new end date for the rolemap 
+     * @return An Array List of charts that can be used by MainFrame.java for plotting 
+     * @throws InterruptedException
+     * @throws ParseException
+     * @throws JSONException
+     * @throws IOException
+     * @throws java.text.ParseException 
+     */
         public static ArrayList<JFreeChart> recalculateMaps(Date startDate, Date endDate) throws InterruptedException, ParseException, JSONException, IOException, java.text.ParseException {
 
         execute.populateForcastDyanamic(startDate, endDate);
@@ -89,7 +110,4 @@ public class Driver {
         //GUIHandler.setGraphs(chartFrames);
     }
 
-
-    //TODO: Modify end date
-    //TODO: modify employee number
 }

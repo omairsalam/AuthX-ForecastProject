@@ -1,6 +1,5 @@
 package main;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import org.jdesktop.swingx.prompt.PromptSupport;
-import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
@@ -18,28 +16,32 @@ import org.json.simple.parser.ParseException;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
- *
+ * This class acts as the Driver class for the GUI part of the project.
+ * It logs you into Forecastapp.com and uses methods from the Driver.java class (which is the driver for everything
+ * besides the GUI) in order to analyze the data and make appropriate graphs that are then sent back to this 
+ * loginFrame class 
  * @author alam
  */
 public class LoginFrame extends javax.swing.JFrame {
-    
+
     private String dir = new String();
     private static ArrayList<JFreeChart> myCharts = new ArrayList<JFreeChart>();
+    private static final String DEFAULTDIR = "Documents";
 
     /**
-     * Creates new form LoginFrame
+     * Creates new form LoginFrame with a username field, a password field and a
+     * default directory
      */
     public LoginFrame() {
         initComponents();
         PromptSupport.setPrompt("Enter Username", uName); //Sets placeholder text for username
         //PromptSupport.setPrompt("Enter Password", pWord); //Sets placeholder text for password 
         pWord.setEchoChar('*');
-        dir = System.getProperty("user.home")+File.separator+"Documents";
-        
+        dir = System.getProperty("user.home") + File.separator + DEFAULTDIR;
+
         currentDirString.setText(dir);//Set the text of the current directory 
-        
+
     }
 
     /**
@@ -54,15 +56,15 @@ public class LoginFrame extends javax.swing.JFrame {
         authXLogo = new javax.swing.JLabel();
         loginPanel = new javax.swing.JPanel();
         username = new javax.swing.JLabel();
-        Username = new javax.swing.JLabel();
+        password = new javax.swing.JLabel();
         uName = new javax.swing.JTextField();
         fileChooserPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        dirChooseLabel = new javax.swing.JLabel();
         fileChooserButton = new javax.swing.JButton();
         Login = new javax.swing.JButton();
         pWord = new javax.swing.JPasswordField();
         fileChooserPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        currentDir = new javax.swing.JLabel();
         currentDirString = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
 
@@ -77,7 +79,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         username.setText("Username:");
 
-        Username.setText("Password");
+        password.setText("Password");
 
         uName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,7 +87,7 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Choose directory:");
+        dirChooseLabel.setText("Choose directory:");
 
         fileChooserButton.setText("Directory Chooser");
         fileChooserButton.addActionListener(new java.awt.event.ActionListener() {
@@ -100,7 +102,7 @@ public class LoginFrame extends javax.swing.JFrame {
             fileChooserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fileChooserPanelLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addComponent(jLabel1)
+                .addComponent(dirChooseLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(fileChooserButton)
                 .addContainerGap())
@@ -110,7 +112,7 @@ public class LoginFrame extends javax.swing.JFrame {
             .addGroup(fileChooserPanelLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(fileChooserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dirChooseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fileChooserButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -128,7 +130,7 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Current Directory:");
+        currentDir.setText("Current Directory:");
 
         currentDirString.setForeground(new java.awt.Color(0, 0, 255));
         currentDirString.setText("Current String Path");
@@ -142,7 +144,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addGroup(fileChooserPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(currentDirString, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(fileChooserPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(currentDir)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -150,7 +152,7 @@ public class LoginFrame extends javax.swing.JFrame {
             fileChooserPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fileChooserPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(currentDir, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(currentDirString)
                 .addContainerGap(9, Short.MAX_VALUE))
@@ -166,7 +168,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     .addComponent(fileChooserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(loginPanelLayout.createSequentialGroup()
                         .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Username)
+                            .addComponent(password)
                             .addComponent(username))
                         .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(loginPanelLayout.createSequentialGroup()
@@ -195,7 +197,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     .addComponent(uName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Username)
+                    .addComponent(password)
                     .addComponent(pWord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(fileChooserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -240,28 +242,38 @@ public class LoginFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Opens a file browser which allows us to pick a folder to save the .csv file and the converted JSON file 
+     * @param evt
+     */
     private void fileChooserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileChooserButtonActionPerformed
-    JFileChooser chooser = new JFileChooser();
-    chooser.setCurrentDirectory(new java.io.File("."));
-    chooser.setDialogTitle("Working Directory");
-    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-    chooser.setAcceptAllFileFilterUsed(false);
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Working Directory");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
 
-    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-     // System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
-      dir = chooser.getSelectedFile().toString();
-      currentDirString.setText(dir);
-     // System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
-    } else {
-      System.out.println("No Selection ");
-    }
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            // System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+            dir = chooser.getSelectedFile().toString();
+            currentDirString.setText(dir);
+            // System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+        } else {
+            System.out.println("No Selection ");
+        }
     }//GEN-LAST:event_fileChooserButtonActionPerformed
 
+    /**
+     * Logs you into Forecastapp.com and does some more processing in order to
+     * get an array list of charts that need to be plotted
+     *
+     * @param evt
+     */
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         try {
             //Make a directory in the folder the user chooses 
             makeDir();
-            
+
             System.out.println("Current working directory is " + dir);
             String username = uName.getText();
             String password = pWord.getText();
@@ -272,13 +284,12 @@ public class LoginFrame extends javax.swing.JFrame {
             password = "forecast";
             directory = "/Users/alam/Documents";
             /*--------------------------------------------------*/
-            
-            
-            myCharts = Driver.login(username, password, directory );      
+
+            myCharts = Driver.login(username, password, directory);
         } catch (InterruptedException | ParseException | JSONException | IOException | java.text.ParseException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         this.setVisible(false);
         MainFrame s = new MainFrame();
         s.getTagList(myCharts);
@@ -295,19 +306,46 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_pWordActionPerformed
 
     /**
-     * Makes a ForecastData folder in the specified directory 
+     * Makes a ForecastData folder in the specified directory
      */
-    public void makeDir(){
+    public void makeDir() {
         String mySubFolder = "ForecastData";
         File newDir = new File(dir + File.separator + mySubFolder);
         System.out.println("File path is " + newDir.getAbsolutePath());
         dir = newDir.getAbsolutePath();
         boolean success = newDir.mkdir();
     }
-    
-    public ArrayList<JFreeChart> getAllCharts(){
+
+    /**
+     * An accessor method to get all the JFreeCharts made in graph plotter
+     *
+     * @return An array of charts
+     */
+    public ArrayList<JFreeChart> getAllCharts() {
         return myCharts;
     }
+
+    /**
+     * Deletes a directory after deleting all of its contents
+     *
+     * @param path The path to the directory we want to delete
+     * @return True or false representing whether the directory was removed or
+     * not
+     */
+    public static boolean deleteDirectory(File path) {
+        if (path.exists()) {
+            File[] files = path.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isDirectory()) {
+                    deleteDirectory(files[i]);
+                } else {
+                    files[i].delete();
+                }
+            }
+        }
+        return (path.delete());
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -345,17 +383,17 @@ public class LoginFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Login;
-    private javax.swing.JLabel Username;
     private javax.swing.JLabel authXLogo;
+    private javax.swing.JLabel currentDir;
     private javax.swing.JLabel currentDirString;
+    private javax.swing.JLabel dirChooseLabel;
     private javax.swing.JButton fileChooserButton;
     private javax.swing.JPanel fileChooserPanel;
     private javax.swing.JPanel fileChooserPanel1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPasswordField pWord;
+    private javax.swing.JLabel password;
     private javax.swing.JTextField uName;
     private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
