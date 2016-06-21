@@ -85,18 +85,6 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        dateChooserDialog1 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog2 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog3 = new datechooser.beans.DateChooserDialog();
-        jDatePickerUtil1 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil2 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil3 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil4 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil5 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil6 = new org.jdatepicker.util.JDatePickerUtil();
-        dateChooserDialog4 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog5 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog6 = new datechooser.beans.DateChooserDialog();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         authXLogo = new javax.swing.JLabel();
         rolePicker = new javax.swing.JComboBox<>();
@@ -118,7 +106,7 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("AuthX Employee Forecast");
 
         authXLogo.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        authXLogo.setIcon(new javax.swing.ImageIcon("/Users/alam/Documents/AuthX/AuthX-ForecastProject/Images/authx-logo.png")); // NOI18N
+        authXLogo.setIcon(new javax.swing.ImageIcon("Images/authx-logo.png")); // NOI18N
 
         rolePicker.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -440,6 +428,7 @@ public class MainFrame extends javax.swing.JFrame {
         graphPanel.removeAll();
         for (JFreeChart s1 : chartList){
 
+            //If you have the correct role in the chart
             if (s1.getTitle().getText().equals(currentRole)){
                 ChartPanel p = new ChartPanel(s1);
                 p.setSize(graphPanel.getWidth(), graphPanel.getHeight());
@@ -456,6 +445,50 @@ public class MainFrame extends javax.swing.JFrame {
         //In the box EmployeeNumString, display the number of employees corresponding to this graph 
         double numEmployees = myRoleMap.get(currentRole).getNumEmployees();
         employeeNumString.setText(String.valueOf(numEmployees));
+
+
+        /* TESTING FOR DISABLING
+        if (currentRole.equals("BED")){
+            setVisibility(currentRole, "Likely", false);
+        }
+        */
+    }
+
+    /**
+     * Sets the visibilty of a series for a given Role, Project Code.
+     * @param roleName The name of the role that you are in
+     * @param projectCode The name of the project code that you are trying to set
+     * @param visibility The vsibility value; True or false
+     */
+    public void setVisibility(String roleName, String projectCode, boolean visibility){
+
+        graphPanel.removeAll();
+
+        //Go through the chart list
+        for (JFreeChart chart : chartList) {
+
+            //If we've found the right chart based on the role name
+            if (chart.getTitle().getText().equals(roleName)) {
+
+                //Get the index of the project code series we're looking for
+                XYPlot plot = (XYPlot) chart.getPlot();
+                int index = plot.getDataset(0).indexOf(projectCode);
+
+                //If we've found the project code we're looking for
+                if (index != -1){
+
+                    //Then toggle the visibility to false
+                    plot.getRendererForDataset(plot.getDataset(0)).setSeriesVisible(index, visibility);
+                }
+
+                //Adds the new chartpanel to the graph panel and repaints it
+                ChartPanel chartPanel = new ChartPanel(chart);
+                chartPanel.setSize(graphPanel.getWidth(), graphPanel.getHeight());
+                chartPanel.setVisible(true);
+                graphPanel.add(chartPanel);
+                graphPanel.repaint();
+            }
+        }
     }
     
     /**
@@ -539,23 +572,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authXLogo;
-    private datechooser.beans.DateChooserDialog dateChooserDialog1;
-    private datechooser.beans.DateChooserDialog dateChooserDialog2;
-    private datechooser.beans.DateChooserDialog dateChooserDialog3;
-    private datechooser.beans.DateChooserDialog dateChooserDialog4;
-    private datechooser.beans.DateChooserDialog dateChooserDialog5;
-    private datechooser.beans.DateChooserDialog dateChooserDialog6;
     private javax.swing.JLabel datePicker;
     private javax.swing.JLabel datePicker1;
     private javax.swing.JTextField employeeNumString;
     private org.jdesktop.swingx.JXDatePicker endDatePicker;
     private javax.swing.JPanel graphPanel;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil2;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil3;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil4;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil5;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

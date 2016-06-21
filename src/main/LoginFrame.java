@@ -72,7 +72,7 @@ public class LoginFrame extends javax.swing.JFrame {
         setTitle("AuthX Login Page");
 
         authXLogo.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        authXLogo.setIcon(new javax.swing.ImageIcon("/Users/alam/Documents/AuthX/AuthX-ForecastProject/Images/authx-logo.png")); // NOI18N
+        authXLogo.setIcon(new javax.swing.ImageIcon("Images/authx-logo.png")); // NOI18N
 
         loginPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         loginPanel.setForeground(new java.awt.Color(0, 51, 51));
