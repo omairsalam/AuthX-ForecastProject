@@ -23,9 +23,6 @@ public class Driver {
     static WebScrapper webScrapper;
 
 
-    /**
-     * Executes when the program starts
-     */
     public static void main(String[] args){
         
         
@@ -52,11 +49,11 @@ public class Driver {
      * @param password The password for forecastapp.com
      * @param downloadPath The download directory to store the CSV file and the JSON file 
      * @return A list of charts that can be plotted on any JPanel 
-     * @throws InterruptedException
-     * @throws ParseException
-     * @throws JSONException
-     * @throws IOException
-     * @throws java.text.ParseException 
+     * @throws InterruptedException -
+     * @throws ParseException -
+     * @throws JSONException -
+     * @throws IOException -
+     * @throws java.text.ParseException -
      */
     public static ArrayList<JFreeChart> login(String username, String password, String downloadPath) throws InterruptedException, ParseException, JSONException, IOException, java.text.ParseException {
 
@@ -90,11 +87,11 @@ public class Driver {
      * @param startDate The new start date for the role map
      * @param endDate The new end date for the rolemap 
      * @return An Array List of charts that can be used by MainFrame.java for plotting 
-     * @throws InterruptedException
-     * @throws ParseException
-     * @throws JSONException
-     * @throws IOException
-     * @throws java.text.ParseException 
+     * @throws InterruptedException -
+     * @throws ParseException -
+     * @throws JSONException -
+     * @throws IOException -
+     * @throws java.text.ParseException -
      */
         public static ArrayList<JFreeChart> recalculateMaps(Date startDate, Date endDate) throws InterruptedException, ParseException, JSONException, IOException, java.text.ParseException {
 

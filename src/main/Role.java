@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 /**
  *  This is the Role class with two variables type of Map and
  * ArrayList. The Map variable defines the key-value pair of particular role
- * Type -> (associated with) the particular projectType. The list defines the
+ * Type - (associated with) the particular projectType. The list defines the
  * number of employees.
  * @author user 
  *

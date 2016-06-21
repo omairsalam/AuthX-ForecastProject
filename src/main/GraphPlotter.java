@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import junit.framework.Test;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 
 public class GraphPlotter {
@@ -148,15 +149,28 @@ public class GraphPlotter {
             
             //Get all charts as XY Plots
             XYPlot plot = (XYPlot) chart.getPlot();
+            
+            //Change the background colors and the grid line colors 
+            plot.setDomainGridlinePaint(Color.BLACK);
+            plot.setRangeGridlinePaint(Color.BLACK);
+            plot.setBackgroundPaint(Color.WHITE);
+            
+            //Iterate through each line to make it thicker 
             int seriesCount = plot.getSeriesCount();
 
             //Iterate through the series
             for (int i = 0; i < seriesCount; i++) {
 
                 //Increase thickness of each stroke
-                plot.getRenderer().setSeriesStroke(i, new BasicStroke(2));
+                plot.getRenderer().setSeriesStroke(i, new BasicStroke(2)); 
 
             }
+            
+            //Add a horizontal marker
+            ValueMarker marker = new ValueMarker(0);  // position is the value on the axis
+            marker.setStroke(new BasicStroke(3)); //make the line thicker 
+            marker.setPaint(Color.black); //make the color black 
+            plot.addRangeMarker(marker);
 
             //These gets the indexes of each of the project code lines
             //If the project code isn't found, it returns -1.
@@ -213,6 +227,7 @@ public class GraphPlotter {
      * Takes a tag and the number of employees and rescales a particular role
      *
      * @param tag The key for the role
+     * @param roleMap A hashmap that contains the role objects with their tag names as keys 
      * @param numEmployees The new number of employees we want to use
      * @return A new hashmap with the scaled data
      */
@@ -254,7 +269,7 @@ public class GraphPlotter {
     }
     
     /**
-     * Prints out all the contents of a roleMap in the hierarchy of Role -> Project -> (Date, Hours)  
+     * Prints out all the contents of a roleMap in the hierarchy of Role - Project - (Date, Hours)  
      * @param roleMap The hashmap that we want to print out 
      */
     public static void printOut(HashMap<String, Role> roleMap){

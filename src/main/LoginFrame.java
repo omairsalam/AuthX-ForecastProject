@@ -41,6 +41,7 @@ public class LoginFrame extends javax.swing.JFrame {
         dir = System.getProperty("user.home") + File.separator + DEFAULTDIR;
 
         currentDirString.setText(dir);//Set the text of the current directory 
+                
 
     }
 
@@ -282,7 +283,7 @@ public class LoginFrame extends javax.swing.JFrame {
             /*---------COMMENT OUT THIS PIECE OF CODE TO USE DATA FROM FORECASTAPP.COM ----- DON'T COMMENT OUT IF USING RAHUL FILE */
             username = "theoriginalsine@gmail.com";
             password = "forecast";
-            directory = "/Users/user/Documents";
+            directory = "/Users/alam/Documents";
             /*--------------------------------------------------*/
 
             myCharts = Driver.login(username, password, directory);
