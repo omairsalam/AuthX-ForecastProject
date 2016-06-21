@@ -18,7 +18,6 @@ import org.jfree.chart.JFreeChart;
  */
 public class Driver {
 
-    static GUIHandler guiHandler = new GUIHandler();
     static Execute execute = new Execute();
     static GraphPlotter graphPlotter = new GraphPlotter();
     static WebScrapper webScrapper;

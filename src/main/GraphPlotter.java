@@ -27,6 +27,12 @@ import org.jfree.chart.plot.XYPlot;
 
 public class GraphPlotter {
 
+
+    private static final Color COLOR_LIKELY = new Color(237, 126, 49);
+    private static final Color COLOR_HIGHLIKELY = new Color(112, 173, 71);
+    private static final Color COLOR_SIGNEDATRISK = new Color(68, 114, 196);
+    private static final Color COLOR_INTERNALPROJECTS = new Color(112, 48, 160);
+
     /**
      * Converts the roleMap into a format readable by the plotting method
      *
@@ -69,7 +75,7 @@ public class GraphPlotter {
                     //Make a time series for this project 
                     TimeSeries pop; 
                     if (projectCode.equals("Signed")){ //We need to change the label for signed and highly likely 
-                         pop = new TimeSeries("Signed + At Risk  ", Day.class);
+                         pop = new TimeSeries("Signed + At Risk", Day.class);
                     }else{
                          pop = new TimeSeries(projectCode, Day.class);
                     }
@@ -143,14 +149,33 @@ public class GraphPlotter {
             //Get all charts as XY Plots
             XYPlot plot = (XYPlot) chart.getPlot();
             int seriesCount = plot.getSeriesCount();
-            
-            //Increase thickness of each stroke
-            for (int i = 0; i < seriesCount; i++) {    
-                 plot.getRenderer().setSeriesStroke(i, new BasicStroke(2));
-            }
-   
 
-            
+            //Iterate through the series
+            for (int i = 0; i < seriesCount; i++) {
+
+                //Increase thickness of each stroke
+                plot.getRenderer().setSeriesStroke(i, new BasicStroke(2));
+
+            }
+
+            //These gets the indexes of each of the project code lines
+            //If the project code isn't found, it returns -1.
+            int indexLikely = plot.getDataset(0).indexOf("Likely");
+            int indexHighLikely = plot.getDataset(0).indexOf("High Likely");
+            int indexInternalProjects = plot.getDataset(0).indexOf("Internal Projects");
+            int indexSignedAtRisk = plot.getDataset(0).indexOf("Signed + At Risk");
+
+            //These lines set the color of the project code lines based on the indexes you found above
+            if (indexLikely != -1) { plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexLikely, COLOR_LIKELY); }
+            if (indexHighLikely != -1) {
+                plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexHighLikely, COLOR_HIGHLIKELY);
+                //plot.getRendererForDataset(plot.getDataset(0)).setSeriesVisible(indexHighLikely, false); //This is the way you set the visibility of a series
+            }
+            if (indexSignedAtRisk != -1) { plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexSignedAtRisk, COLOR_SIGNEDATRISK); }
+            if (indexInternalProjects != -1) { plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexInternalProjects, COLOR_INTERNALPROJECTS); }
+
+
+
             //ChartFrame frame = new ChartFrame("Internal Admin Graphs", chart);
             myChartList.add(chart);
             //frame.pack();
