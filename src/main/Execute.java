@@ -10,7 +10,7 @@ import org.json.simple.parser.ParseException;
 import org.testng.internal.Graph;
 
 /**
- * This is the execute class with with a variable type of Map. It links ->
+ * This is the execute class with with a variable type of Map. It links -
  * particular role. Another variable is the JSONObject that contains the
  * complete JSONFile.
  *
@@ -32,7 +32,7 @@ public class Execute {
 
     private Date endDate = new Date();
 
-    private int NUMMONTHS = 12;
+    private int NUMWEEKS = 2;
 
     public void setForecastData(JSONArray forecastData) {
         this.forecastData = forecastData;
@@ -53,6 +53,7 @@ public class Execute {
      * @param startDate The start date to look in the data for
      * @param contentArray JSON file that was converted from the CSV; the raw
      * data as a JSON
+     * @return A hashmap that contains the roles with their tags as keys 
      */
     public HashMap<String, Role> initialize(Date startDate, JSONArray contentArray) {
         setForecastData(contentArray);
@@ -60,7 +61,7 @@ public class Execute {
         //Increments month by one
         Calendar currentDate = Calendar.getInstance();
         currentDate.setTime(startDate);
-        currentDate.add(Calendar.MONTH, NUMMONTHS); //changing to a year 
+        currentDate.add(Calendar.WEEK_OF_YEAR, NUMWEEKS); //changing to a year 
         endDate = currentDate.getTime();
 
         try {
@@ -92,8 +93,8 @@ public class Execute {
      * populated after this step is the wMap in the Project class which contains
      * a week-hours method
      *
-     * @throws IOException
-     * @throws ParseException
+     * @throws IOException -
+     * @throws ParseException -
      */
     public void populateForecastStatic() throws IOException, ParseException {
 
@@ -121,7 +122,7 @@ public class Execute {
     }
 
     /**
-     * This method goes through the JSON and generates the Week -> Hours map
+     * This method goes through the JSON and generates the Week - Hours map
      *
      * @param start_date - The start date for which the data should be evaluated
      * for
@@ -363,6 +364,7 @@ public class Execute {
      * date
      *
      * @param date The date which we want to convert to string
+     * @return The date as a forecast type string
      */
     public static String convertDatetoForecastString(Date date) {
         /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

@@ -9,7 +9,7 @@ import java.util.Set;
 
 /**
  * This is the ProjectType class with a variable type of Map. It
- * links number-of-weeks -> associated hours. The class defines two methods
+ * links number-of-weeks - associated hours. The class defines two methods
  * namely addtoMap(Date date,Double hours) which accumulate the no.of hrs of
  * that particular week. Another method is scaledMap(Double no_of_emps) which
  * scaled the graph as per input parameters.
@@ -40,8 +40,8 @@ public class ProjectType {
      * This method accumulate the no.of hrs of that particular week selected by
      * the user.
      *
-     * @param date
-     * @param hours
+     * @param date The Monday of that week
+     * @param hours The hours worked that week
      */
     public void addtoMap(Date date, Double hours) {
         if (wMap.containsKey(date)) {

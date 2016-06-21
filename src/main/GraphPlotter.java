@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import junit.framework.Test;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 
 public class GraphPlotter {
@@ -148,7 +149,11 @@ public class GraphPlotter {
             for (int i = 0; i < seriesCount; i++) {    
                  plot.getRenderer().setSeriesStroke(i, new BasicStroke(2));
             }
-   
+            
+            //Add a horizontal marker
+            ValueMarker marker = new ValueMarker(0);  // position is the value on the axis
+            marker.setPaint(Color.black);
+            plot.addRangeMarker(marker);
 
             
             //ChartFrame frame = new ChartFrame("Internal Admin Graphs", chart);
@@ -188,6 +193,7 @@ public class GraphPlotter {
      * Takes a tag and the number of employees and rescales a particular role
      *
      * @param tag The key for the role
+     * @param roleMap A hashmap that contains the role objects with their tag names as keys 
      * @param numEmployees The new number of employees we want to use
      * @return A new hashmap with the scaled data
      */
@@ -229,7 +235,7 @@ public class GraphPlotter {
     }
     
     /**
-     * Prints out all the contents of a roleMap in the hierarchy of Role -> Project -> (Date, Hours)  
+     * Prints out all the contents of a roleMap in the hierarchy of Role - Project - (Date, Hours)  
      * @param roleMap The hashmap that we want to print out 
      */
     public static void printOut(HashMap<String, Role> roleMap){
