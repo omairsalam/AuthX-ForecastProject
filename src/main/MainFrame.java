@@ -5,6 +5,7 @@
  */
 package main;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
 import org.jdesktop.swingx.prompt.PromptSupport;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 
@@ -399,18 +401,62 @@ public class MainFrame extends javax.swing.JFrame {
         graphPanel.removeAll();
         for (JFreeChart s1 : chartList){
 
+            //If you have the correct role in the chart
             if (s1.getTitle().getText().equals(currentRole)){
                 ChartPanel p = new ChartPanel(s1);
                 p.setSize(graphPanel.getWidth(), graphPanel.getHeight());
                 p.setVisible(true);
                 graphPanel.add(p);
                 graphPanel.repaint();
-
             }
         }
         //In the box EmployeeNumString, display the number of employees corresponding to this graph 
         double numEmployees = myRoleMap.get(currentRole).getNumEmployees();
         employeeNumString.setText(String.valueOf(numEmployees));
+
+
+        /* TESTING FOR DISABLING
+        if (currentRole.equals("BED")){
+            setVisibility(currentRole, "Likely", false);
+        }
+        */
+    }
+
+    /**
+     * Sets the visibilty of a series for a given Role, Project Code.
+     * @param roleName The name of the role that you are in
+     * @param projectCode The name of the project code that you are trying to set
+     * @param visibility The vsibility value; True or false
+     */
+    public void setVisibility(String roleName, String projectCode, boolean visibility){
+
+        graphPanel.removeAll();
+
+        //Go through the chart list
+        for (JFreeChart chart : chartList) {
+
+            //If we've found the right chart based on the role name
+            if (chart.getTitle().getText().equals(roleName)) {
+
+                //Get the index of the project code series we're looking for
+                XYPlot plot = (XYPlot) chart.getPlot();
+                int index = plot.getDataset(0).indexOf(projectCode);
+
+                //If we've found the project code we're looking for
+                if (index != -1){
+
+                    //Then toggle the visibility to false
+                    plot.getRendererForDataset(plot.getDataset(0)).setSeriesVisible(index, visibility);
+                }
+
+                //Adds the new chartpanel to the graph panel and repaints it
+                ChartPanel chartPanel = new ChartPanel(chart);
+                chartPanel.setSize(graphPanel.getWidth(), graphPanel.getHeight());
+                chartPanel.setVisible(true);
+                graphPanel.add(chartPanel);
+                graphPanel.repaint();
+            }
+        }
     }
     
     /**
