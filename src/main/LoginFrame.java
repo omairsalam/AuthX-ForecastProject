@@ -41,6 +41,7 @@ public class LoginFrame extends javax.swing.JFrame {
         dir = System.getProperty("user.home") + File.separator + DEFAULTDIR;
 
         currentDirString.setText(dir);//Set the text of the current directory 
+                
 
     }
 

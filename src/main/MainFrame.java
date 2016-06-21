@@ -12,10 +12,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +30,7 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -85,6 +88,18 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dateChooserDialog1 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog2 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog3 = new datechooser.beans.DateChooserDialog();
+        jDatePickerUtil1 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil2 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil3 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil4 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil5 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil6 = new org.jdatepicker.util.JDatePickerUtil();
+        dateChooserDialog4 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog5 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog6 = new datechooser.beans.DateChooserDialog();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         authXLogo = new javax.swing.JLabel();
         rolePicker = new javax.swing.JComboBox<>();
@@ -101,12 +116,14 @@ public class MainFrame extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         resetButton = new javax.swing.JButton();
         legendPanel = new javax.swing.JPanel();
+        datePicker2 = new javax.swing.JLabel();
+        datePicker3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AuthX Employee Forecast");
 
         authXLogo.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        authXLogo.setIcon(new javax.swing.ImageIcon("Images/authx-logo.png")); // NOI18N
+        authXLogo.setIcon(new javax.swing.ImageIcon("/Users/alam/Documents/AuthX/AuthX-ForecastProject/Images/authx-logo.png")); // NOI18N
 
         rolePicker.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,6 +145,11 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         rolePickerLabel.setText("Role Picker: ");
+        rolePickerLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rolePickerLabelMouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("# Employees:");
 
@@ -178,7 +200,12 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        legendPanel.setLayout(new java.awt.GridLayout(10, 1, 0, 10));
+        datePicker2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        datePicker2.setText("Toggle Graphs");
+
+        datePicker3.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        datePicker3.setForeground(new java.awt.Color(255, 0, 51));
+        datePicker3.setText("Click on the Buttons to toggle visibility");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -190,34 +217,49 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(284, 284, 284))
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 945, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(rolePickerLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rolePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(employeeNumString, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(datePicker)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(datePicker1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(24, 24, 24)
+                                        .addComponent(recalculateData, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(resetButton)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(legendPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 945, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(rolePickerLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rolePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(employeeNumString, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(datePicker)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(datePicker1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(recalculateData, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(resetButton))
-                    .addComponent(jSeparator2))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(66, 66, 66)
+                                .addComponent(datePicker2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(legendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(datePicker3))))
+                        .addContainerGap(12, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,12 +284,16 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(resetButton))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(21, 21, 21))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addComponent(legendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)
+                        .addComponent(datePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(datePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(legendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -372,6 +418,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_employeeNumStringKeyTyped
 
+    /**
+     * Everything is reset to the default condition meaning the graphs are reset to default 
+     * @param evt -
+     */
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         resetButton.setEnabled(false);
         startDatePicker.setDate(initStartDate);
@@ -388,6 +438,10 @@ public class MainFrame extends javax.swing.JFrame {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void rolePickerLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rolePickerLabelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rolePickerLabelMouseClicked
 
     /**
      * Generates a tagArray which is a list of role names populated by parsing the chartList and getting the title from
@@ -427,7 +481,7 @@ public class MainFrame extends javax.swing.JFrame {
         //System.out.println("Current role picked is " + currentRole);
         graphPanel.removeAll();
         for (JFreeChart s1 : chartList){
-
+            //s1.removeLegend();
             //If you have the correct role in the chart
             if (s1.getTitle().getText().equals(currentRole)){
                 ChartPanel p = new ChartPanel(s1);
@@ -435,6 +489,8 @@ public class MainFrame extends javax.swing.JFrame {
                 p.setVisible(true);
                 XYPlot plot = (XYPlot) s1.getPlot();
                 createLegendPanel(plot);
+                
+                
                 graphPanel.add(p, BorderLayout.CENTER);
                 graphPanel.repaint();
                 this.revalidate();
@@ -455,12 +511,11 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     /**
-     * Sets the visibilty of a series for a given Role, Project Code.
+     * Sets the Visibility of a series for a given Role and Project Code.
      * @param roleName The name of the role that you are in
      * @param projectCode The name of the project code that you are trying to set
-     * @param visibility The vsibility value; True or false
      */
-    public void setVisibility(String roleName, String projectCode, boolean visibility){
+    public void setVisibility(String roleName, String projectCode){
 
         graphPanel.removeAll();
 
@@ -477,8 +532,12 @@ public class MainFrame extends javax.swing.JFrame {
                 //If we've found the project code we're looking for
                 if (index != -1){
 
-                    //Then toggle the visibility to false
-                    plot.getRendererForDataset(plot.getDataset(0)).setSeriesVisible(index, visibility);
+                    //If the series is visible, make it invisible, else make it visible 
+                    if (plot.getRendererForDataset(plot.getDataset(0)).isSeriesVisible(index)){
+                        plot.getRendererForDataset(plot.getDataset(0)).setSeriesVisible(index, false);
+                    }else{
+                     plot.getRendererForDataset(plot.getDataset(0)).setSeriesVisible(index, true);
+                    }
                 }
 
                 //Adds the new chartpanel to the graph panel and repaints it
@@ -517,16 +576,36 @@ public class MainFrame extends javax.swing.JFrame {
         return cal.getTime();
     }
     
+    /**
+     * Creates another click enabled legend based on the legend of the current plot being displayed on the graph panel
+     * @param plot The current plot being displayed on the graph panel. 
+     */
     public void createLegendPanel(XYPlot plot) {
-
+    //Empty this panel before doing more work 
     legendPanel.removeAll();
+    //Iterate through all the plots to get their names
     Iterator iterator = plot.getLegendItems().iterator();
+    //Make a button out of every item with the icon being the color that it has 
     while (iterator.hasNext()) {
         LegendItem item = (LegendItem) iterator.next();
-        JLabel label = new JLabel(item.getLabel());
-        label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 14));
-        legendPanel.add(label);
-        label.setIcon(new ColorIcon(10, item.getFillPaint()));
+        JButton myButton = new JButton(item.getLabel());
+        myButton.setIcon(new ColorIcon(10, item.getFillPaint()));
+        myButton.setFont(new Font(myButton.getFont().getName(), Font.PLAIN, 10));
+        myButton.setPreferredSize(new Dimension(160, 30));
+        
+        //Add a mouse listener to be able to perceive mouse clicks on the JLabels
+        myButton.addMouseListener(new java.awt.event.MouseAdapter() {
+               @Override
+               public void mouseClicked(java.awt.event.MouseEvent evt) {
+                   System.out.println("Label clicked is " + myButton.getText());
+                   String currentProject = myButton.getText();
+                   String currentRole = rolePicker.getSelectedItem().toString();
+                   setVisibility(currentRole, currentProject);
+               }
+        });
+        
+
+        legendPanel.add(myButton); //Add the button 
         legendPanel.repaint();
         System.out.println("Label is " + item.getLabel());
 
@@ -572,11 +651,25 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authXLogo;
+    private datechooser.beans.DateChooserDialog dateChooserDialog1;
+    private datechooser.beans.DateChooserDialog dateChooserDialog2;
+    private datechooser.beans.DateChooserDialog dateChooserDialog3;
+    private datechooser.beans.DateChooserDialog dateChooserDialog4;
+    private datechooser.beans.DateChooserDialog dateChooserDialog5;
+    private datechooser.beans.DateChooserDialog dateChooserDialog6;
     private javax.swing.JLabel datePicker;
     private javax.swing.JLabel datePicker1;
+    private javax.swing.JLabel datePicker2;
+    private javax.swing.JLabel datePicker3;
     private javax.swing.JTextField employeeNumString;
     private org.jdesktop.swingx.JXDatePicker endDatePicker;
     private javax.swing.JPanel graphPanel;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil2;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil3;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil4;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil5;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -589,7 +682,9 @@ public class MainFrame extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXDatePicker startDatePicker;
     // End of variables declaration//GEN-END:variables
 
-    
+    /**
+     * A color class meant to make circles with specific colors based on the color of the item in the legend 
+     */
     class ColorIcon implements Icon {
 
         private int size;

@@ -149,19 +149,27 @@ public class GraphPlotter {
             
             //Get all charts as XY Plots
             XYPlot plot = (XYPlot) chart.getPlot();
+            
+            //Change the background colors and the grid line colors 
+            plot.setDomainGridlinePaint(Color.BLACK);
+            plot.setRangeGridlinePaint(Color.BLACK);
+            plot.setBackgroundPaint(Color.WHITE);
+            
+            //Iterate through each line to make it thicker 
             int seriesCount = plot.getSeriesCount();
 
             //Iterate through the series
             for (int i = 0; i < seriesCount; i++) {
 
                 //Increase thickness of each stroke
-                plot.getRenderer().setSeriesStroke(i, new BasicStroke(2));
+                plot.getRenderer().setSeriesStroke(i, new BasicStroke(2)); 
 
             }
             
             //Add a horizontal marker
             ValueMarker marker = new ValueMarker(0);  // position is the value on the axis
-            marker.setPaint(Color.black);
+            marker.setStroke(new BasicStroke(3)); //make the line thicker 
+            marker.setPaint(Color.black); //make the color black 
             plot.addRangeMarker(marker);
 
             //These gets the indexes of each of the project code lines
