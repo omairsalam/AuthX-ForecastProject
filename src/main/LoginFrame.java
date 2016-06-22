@@ -33,7 +33,6 @@ public class LoginFrame extends javax.swing.JFrame {
         return dir;
     }
 
-
     /**
      * Creates new form LoginFrame with a username field, a password field and a
      * default directory
@@ -282,8 +281,8 @@ public class LoginFrame extends javax.swing.JFrame {
             String directory = dir;
 
             /*---------COMMENT OUT THIS PIECE OF CODE TO USE DATA FROM FORECASTAPP.COM ----- DON'T COMMENT OUT IF USING RAHUL FILE */
-            username = "theoriginalsine@gmail.com";
-            password = "forecast";
+            //username = "theoriginalsine@gmail.com";
+            //password = "forecast";
             //directory = "/Users/alam/Documents";
             /*--------------------------------------------------*/
 

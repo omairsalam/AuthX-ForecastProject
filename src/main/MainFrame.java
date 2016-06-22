@@ -87,18 +87,6 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        dateChooserDialog1 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog2 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog3 = new datechooser.beans.DateChooserDialog();
-        jDatePickerUtil1 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil2 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil3 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil4 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil5 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil6 = new org.jdatepicker.util.JDatePickerUtil();
-        dateChooserDialog4 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog5 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog6 = new datechooser.beans.DateChooserDialog();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         authXLogo = new javax.swing.JLabel();
         rolePicker = new javax.swing.JComboBox<>();
@@ -123,7 +111,7 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("AuthX Employee Forecast");
 
         authXLogo.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        authXLogo.setIcon(new javax.swing.ImageIcon("/Users/alam/Documents/AuthX/AuthX-ForecastProject/Images/authx-logo.png")); // NOI18N
+        authXLogo.setIcon(new javax.swing.ImageIcon("Images/authx-logo.png")); // NOI18N
 
         rolePicker.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -637,12 +625,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authXLogo;
-    private datechooser.beans.DateChooserDialog dateChooserDialog1;
-    private datechooser.beans.DateChooserDialog dateChooserDialog2;
-    private datechooser.beans.DateChooserDialog dateChooserDialog3;
-    private datechooser.beans.DateChooserDialog dateChooserDialog4;
-    private datechooser.beans.DateChooserDialog dateChooserDialog5;
-    private datechooser.beans.DateChooserDialog dateChooserDialog6;
     private javax.swing.JLabel datePicker;
     private javax.swing.JLabel datePicker1;
     private javax.swing.JLabel datePicker2;
@@ -651,12 +633,6 @@ public class MainFrame extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXDatePicker endDatePicker;
     private javax.swing.JButton exportGraphs;
     private javax.swing.JPanel graphPanel;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil2;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil3;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil4;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil5;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

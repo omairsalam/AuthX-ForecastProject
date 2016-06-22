@@ -5,13 +5,8 @@ import java.awt.Color;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
-import org.json.JSONException;
-import org.json.simple.JSONArray;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartFactory;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -40,7 +35,7 @@ public class GraphPlotter {
 
         //Iterate through Roles in the role map
         for (String tag : roleMap.keySet()) {
-            if (!tag.isEmpty()) {
+            if (!tag.trim().isEmpty()) {
                 TimeSeriesCollection dataset = new TimeSeriesCollection();
 
                 //Add a particular dataset for one graph to this graph set 
@@ -178,86 +173,4 @@ public class GraphPlotter {
         HashMap<String, TimeSeriesCollection> graphSets = getFormattedData(roleMap);
         return createFrameList(graphSets);
     }
-
-    /**
-     * Takes a tag and the number of employees and rescales a particular role
-     *
-     * @param tag The key for the role
-     * @param roleMap A hashmap that contains the role objects with their tag
-     * names as keys
-     * @param numEmployees The new number of employees we want to use
-     * @return A new hashmap with the scaled data
-     */
-    public static HashMap<String, Role> rescale(HashMap<String, Role> roleMap, String tag, int numEmployees) {
-
-        HashMap<String, Role> scaledRoleMap = new HashMap<String, Role>();
-
-        roleMap.get(tag).setNumEmployees(numEmployees);
-
-        for (String roleName : roleMap.keySet()) {
-            Role role = roleMap.get(roleName);
-            Role roleClone = role.clone();
-
-            scaledRoleMap.put(roleName, roleClone);
-        }
-
-        return scaledRoleMap;
-    }
-
-    /**
-     * Takes a particular role and rescales its week-hours map
-     *
-     * @param currentRole The role that we want to rescale
-     * @param numEmployees The number of employees which we want to use as a
-     * rescale factor
-     */
-    public static void rescaleRole(Role currentRole, int numEmployees) {
-        if (currentRole == null) {
-            System.err.println("There was no role for this tag!");
-        }
-        HashMap<String, ProjectType> projects = currentRole.getPmap();
-        for (String pCode : projects.keySet()) {
-            HashMap<Date, Double> wMap = projects.get(pCode).getWMap();
-            for (Date key : wMap.keySet()) {
-                wMap.put(key, (wMap.get(key) - (5 * 8 * numEmployees)) / 8);
-            }
-        }
-
-    }
-
-    /**
-     * Prints out all the contents of a roleMap in the hierarchy of Role -
-     * Project - (Date, Hours)
-     *
-     * @param roleMap The hashmap that we want to print out
-     */
-    public static void printOut(HashMap<String, Role> roleMap) {
-        for (String roleName : roleMap.keySet()) {
-            System.out.println("Role: " + roleName);
-
-            Role role = roleMap.get(roleName);
-            HashMap<String, ProjectType> projectTypeMap = role.getPmap();
-
-            for (String projectCode : projectTypeMap.keySet()) {
-                System.out.println("    Project Code: " + projectCode);
-
-                HashMap<Date, Double> weekMapHours = projectTypeMap.get(projectCode).getWMap();
-
-                double employeeNumber = role.getEmp_Set().size();
-                HashMap<Date, Double> weekMapEmployees = projectTypeMap.get(projectCode).scaleMap(employeeNumber);
-
-                for (Date weekDate : weekMapHours.keySet()) {
-                    double hours = weekMapHours.get(weekDate);
-                    double employeeHours = weekMapEmployees.get(weekDate);
-
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    String forecastDate = sdf.format(weekDate);
-
-                    System.out.print("        Date: " + forecastDate);
-                    System.out.println(" Hours: " + hours + ", Employees: " + employeeHours);
-                }
-            }
-        }
-    }
-
 }
