@@ -25,9 +25,14 @@ import org.json.simple.parser.ParseException;
  */
 public class LoginFrame extends javax.swing.JFrame {
 
-    private String dir = new String();
+    private static String dir = new String();
     private static ArrayList<JFreeChart> myCharts = new ArrayList<JFreeChart>();
     private static final String DEFAULTDIR = "Documents";
+
+    public static String getDirectory(){
+        return dir;
+    }
+
 
     /**
      * Creates new form LoginFrame with a username field, a password field and a
@@ -283,7 +288,7 @@ public class LoginFrame extends javax.swing.JFrame {
             /*---------COMMENT OUT THIS PIECE OF CODE TO USE DATA FROM FORECASTAPP.COM ----- DON'T COMMENT OUT IF USING RAHUL FILE */
             username = "theoriginalsine@gmail.com";
             password = "forecast";
-            directory = "/Users/alam/Documents";
+            directory = "/Users/user/Documents";
             /*--------------------------------------------------*/
 
             myCharts = Driver.login(username, password, directory);
