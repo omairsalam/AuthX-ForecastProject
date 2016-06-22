@@ -18,6 +18,7 @@ import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,6 +42,7 @@ import org.jfree.chart.LegendItem;
 import org.jfree.chart.plot.XYPlot;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
+import org.jfree.chart.ChartUtilities;
 
 
 
@@ -89,18 +91,6 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        dateChooserDialog1 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog2 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog3 = new datechooser.beans.DateChooserDialog();
-        jDatePickerUtil1 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil2 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil3 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil4 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil5 = new org.jdatepicker.util.JDatePickerUtil();
-        jDatePickerUtil6 = new org.jdatepicker.util.JDatePickerUtil();
-        dateChooserDialog4 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog5 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog6 = new datechooser.beans.DateChooserDialog();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         authXLogo = new javax.swing.JLabel();
         rolePicker = new javax.swing.JComboBox<>();
@@ -509,6 +499,23 @@ public class MainFrame extends javax.swing.JFrame {
         */
     }
 
+    public void exportAllGraphs() throws IOException {
+
+        String dir = LoginFrame.getDirectory();
+
+        String mySubFolder = "Graphs";
+        File newDir = new File(dir + File.separator + mySubFolder);
+        System.out.println("File path is " + newDir.getAbsolutePath());
+        String directory = newDir.getAbsolutePath();
+        newDir.mkdir();
+        directory += "/";
+
+        for (JFreeChart chart : chartList){
+            File file = new File(directory + chart.getTitle().getText().toString() + ".png");
+            ChartUtilities.saveChartAsPNG(file, chart, 892, 503);
+        }
+    }
+
     /**
      * Sets the Visibility of a series for a given Role and Project Code.
      * @param roleName The name of the role that you are in
@@ -650,12 +657,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authXLogo;
-    private datechooser.beans.DateChooserDialog dateChooserDialog1;
-    private datechooser.beans.DateChooserDialog dateChooserDialog2;
-    private datechooser.beans.DateChooserDialog dateChooserDialog3;
-    private datechooser.beans.DateChooserDialog dateChooserDialog4;
-    private datechooser.beans.DateChooserDialog dateChooserDialog5;
-    private datechooser.beans.DateChooserDialog dateChooserDialog6;
     private javax.swing.JLabel datePicker;
     private javax.swing.JLabel datePicker1;
     private javax.swing.JLabel datePicker2;
@@ -663,12 +664,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField employeeNumString;
     private org.jdesktop.swingx.JXDatePicker endDatePicker;
     private javax.swing.JPanel graphPanel;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil2;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil3;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil4;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil5;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
