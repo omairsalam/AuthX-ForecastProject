@@ -111,7 +111,7 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("AuthX Employee Forecast");
 
         authXLogo.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        authXLogo.setIcon(new javax.swing.ImageIcon("Images/authx-logo.png")); // NOI18N
+        authXLogo.setIcon(new javax.swing.ImageIcon("images/authx-logo.png")); // NOI18N
 
         rolePicker.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
