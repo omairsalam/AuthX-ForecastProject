@@ -1,12 +1,18 @@
 package main;
 
+import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.json.CDL;
@@ -62,8 +68,10 @@ public final class WebScrapper {
         fileDirectory = downloadDirectory;
         this.username = username;
         this.password = password;
+        
+        System.setProperty("webdriver.chrome.driver", "/Users/alam/Documents/AuthX/AuthX-ForecastProject/ExternalJars/chromedriver");
 
-        System.setProperty("webdriver.chrome.driver", "ExternalJars/chromedriver");
+        //System.setProperty("webdriver.chrome.driver", "ExternalJars/chromedriver");
         
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
@@ -108,7 +116,7 @@ public final class WebScrapper {
         driver = new JBrowserDriver(jBrowser);
 
         //webClient.addWebWindowListener(new WebWindowListener(
- */
+        */
     }
 
     /**
@@ -144,17 +152,16 @@ public final class WebScrapper {
      * Navigate to the exports page and download the file to the computer at the
      * link specific in the construction of the driver
      */
-    private void getData() {
-
+    private void getData() throws MalformedURLException, IOException {
         //wait for the page after the login page to be loaded 
         WebDriverWait wait = new WebDriverWait(driver, 500);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='ember-view dropdown-button app-nav-dropdown']")));
-
+        
         //Page after login page loaded!
         //Find the schedule button and click it to open the drop down menu 
         WebElement schedule = driver.findElement(By.xpath("//*[@class='ember-view dropdown-button app-nav-dropdown']"));
         schedule.click(); //clicks on schedule button 
-
+        
         //System.out.print(driver.findElement(By.xpath("//*[@id='ember883']")).getText());
         //wait for the page after the login page to be loaded 
         wait = new WebDriverWait(driver, 500);
@@ -167,7 +174,7 @@ public final class WebScrapper {
         //Wait for the Export page to be loaded!
         wait = new WebDriverWait(driver, 500);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='button button-primary button-active-like-disabled']")));
-
+        
         //We are on the exports page now
         //Wait for the Export page to be loaded!
         wait = new WebDriverWait(driver, 500);
@@ -179,12 +186,7 @@ public final class WebScrapper {
 
         WebElement downloadData = driver.findElement(By.xpath("//button[@class='button button-primary button-active-like-disabled']")); //clicks on export button in drop down
         downloadData.click();
-
-
-
-
-                
-
+                          
     }
 
     /**
@@ -232,7 +234,7 @@ public final class WebScrapper {
         String path = fileDirectory + "/JSONFile.json";
         //String jsonFile = convertToJSON(csvFile);
         String jsonFile = convertToJSON(csvFile);
-        System.out.println("Converted stream is " + jsonFile);
+        //System.out.println("Converted stream is " + jsonFile);
         FileWriter writer = new FileWriter(new File(path));
         writer.append(jsonFile);
         writer.close();
@@ -260,7 +262,7 @@ public final class WebScrapper {
 
         //return lastModifiedFile; //DO NOT COMMENT OUT IF USING RAHUL FILE 
         /*COMMENT OUT BOTTOM LINE IF USING FORECASTAPP.COM INSTEAD OF RAHUL's FILE */
-        return new File("/Users/user/Documents/Forecast-0613.csv");
+        return new File("/Users/alam/Documents/Forecast-0613.csv");
     }
 
     /**
@@ -298,7 +300,7 @@ public final class WebScrapper {
         openTestSite();
         System.out.println("Website opened");
         login();
-        System.out.println("Loggin Completed");
+        System.out.println("Log in Completed");
         getData();
         System.out.println("Data Acquisiton Completed");
 

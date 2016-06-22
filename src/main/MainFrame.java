@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -58,6 +59,7 @@ public class MainFrame extends javax.swing.JFrame {
     private static ArrayList<JFreeChart> chartList = new ArrayList<>();
     private static HashMap<String, Role> myRoleMap = new HashMap<>();
     private static final int MONTHLOOKAHEAD = 1; 
+    private static final int RANGELIMIT = 4; 
     private static Date initStartDate;
     private static Date initEndDate;
 
@@ -72,7 +74,7 @@ public class MainFrame extends javax.swing.JFrame {
         initStartDate = startDatePicker.getDate();
         endDatePicker.setDate(Driver.execute.getEndDate()); //set the end date to a week from the start date 
         initEndDate = endDatePicker.getDate();
-        resetButton.setEnabled(false);
+        resetButton.setEnabled(true);
      
         //Get current number of employees
         myRoleMap = Driver.execute.getRoleMap();
@@ -90,6 +92,18 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dateChooserDialog1 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog2 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog3 = new datechooser.beans.DateChooserDialog();
+        jDatePickerUtil1 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil2 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil3 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil4 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil5 = new org.jdatepicker.util.JDatePickerUtil();
+        jDatePickerUtil6 = new org.jdatepicker.util.JDatePickerUtil();
+        dateChooserDialog4 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog5 = new datechooser.beans.DateChooserDialog();
+        dateChooserDialog6 = new datechooser.beans.DateChooserDialog();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         authXLogo = new javax.swing.JLabel();
         rolePicker = new javax.swing.JComboBox<>();
@@ -107,7 +121,8 @@ public class MainFrame extends javax.swing.JFrame {
         resetButton = new javax.swing.JButton();
         legendPanel = new javax.swing.JPanel();
         datePicker2 = new javax.swing.JLabel();
-        datePicker3 = new javax.swing.JLabel();
+        datePicker5 = new javax.swing.JLabel();
+        exportGraphs = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AuthX Employee Forecast");
@@ -193,9 +208,17 @@ public class MainFrame extends javax.swing.JFrame {
         datePicker2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         datePicker2.setText("Toggle Graphs");
 
-        datePicker3.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        datePicker3.setForeground(new java.awt.Color(255, 0, 51));
-        datePicker3.setText("Click on the Buttons to toggle visibility");
+        datePicker5.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        datePicker5.setForeground(new java.awt.Color(255, 0, 51));
+        datePicker5.setText("Click on the Buttons to toggle visibility");
+
+        exportGraphs.setForeground(new java.awt.Color(0, 204, 0));
+        exportGraphs.setText("Export All");
+        exportGraphs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportGraphsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -243,13 +266,15 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addGap(66, 66, 66)
                                 .addComponent(datePicker2))
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(legendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(legendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(datePicker3))))
-                        .addContainerGap(12, Short.MAX_VALUE))))
+                                .addComponent(datePicker5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(exportGraphs, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(15, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,19 +297,18 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(recalculateData)
                     .addComponent(resetButton))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
+                        .addComponent(exportGraphs)
+                        .addGap(35, 35, 35)
                         .addComponent(datePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(datePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(legendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(datePicker5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(legendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -413,7 +437,7 @@ public class MainFrame extends javax.swing.JFrame {
      * @param evt -
      */
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        resetButton.setEnabled(false);
+        //resetButton.setEnabled(false);
         startDatePicker.setDate(initStartDate);
         endDatePicker.setDate(initEndDate);
         try {
@@ -432,6 +456,16 @@ public class MainFrame extends javax.swing.JFrame {
     private void rolePickerLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rolePickerLabelMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_rolePickerLabelMouseClicked
+
+    private void exportGraphsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportGraphsActionPerformed
+        try {
+            exportAllGraphs();        // TODO add your handling code here:
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (java.text.ParseException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_exportGraphsActionPerformed
 
     /**
      * Generates a tagArray which is a list of role names populated by parsing the chartList and getting the title from
@@ -478,6 +512,7 @@ public class MainFrame extends javax.swing.JFrame {
                 p.setSize(graphPanel.getWidth(), graphPanel.getHeight());
                 p.setVisible(true);
                 XYPlot plot = (XYPlot) s1.getPlot();
+                plot.getRangeAxis().setRangeWithMargins(-RANGELIMIT, RANGELIMIT);
                 createLegendPanel(plot);
                 
                 
@@ -500,7 +535,12 @@ public class MainFrame extends javax.swing.JFrame {
         */
     }
 
-    public void exportAllGraphs() throws IOException {
+    /**
+     * Exports all graphs from the panel into user file 
+     * @throws IOException -
+     * @throws java.text.ParseException -
+     */
+    public void exportAllGraphs() throws IOException, java.text.ParseException {
 
         String dir = LoginFrame.getDirectory();
 
@@ -510,10 +550,12 @@ public class MainFrame extends javax.swing.JFrame {
         String directory = newDir.getAbsolutePath();
         newDir.mkdir();
         directory += "/";
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
         for (JFreeChart chart : chartList){
-            File file = new File(directory + chart.getTitle().getText().toString() + ".png");
-            ChartUtilities.saveChartAsPNG(file, chart, 892, 503);
+            File file = new File(directory + chart.getTitle().getText().toString() + "-" + sdf.format(startDatePicker.getDate()) + "-" + sdf.format(endDatePicker.getDate()) + ".png");
+            ChartUtilities.saveChartAsPNG(file, chart, graphPanel.getWidth(), graphPanel.getHeight());
         }
     }
 
@@ -658,13 +700,26 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authXLogo;
+    private datechooser.beans.DateChooserDialog dateChooserDialog1;
+    private datechooser.beans.DateChooserDialog dateChooserDialog2;
+    private datechooser.beans.DateChooserDialog dateChooserDialog3;
+    private datechooser.beans.DateChooserDialog dateChooserDialog4;
+    private datechooser.beans.DateChooserDialog dateChooserDialog5;
+    private datechooser.beans.DateChooserDialog dateChooserDialog6;
     private javax.swing.JLabel datePicker;
     private javax.swing.JLabel datePicker1;
     private javax.swing.JLabel datePicker2;
-    private javax.swing.JLabel datePicker3;
+    private javax.swing.JLabel datePicker5;
     private javax.swing.JTextField employeeNumString;
     private org.jdesktop.swingx.JXDatePicker endDatePicker;
+    private javax.swing.JButton exportGraphs;
     private javax.swing.JPanel graphPanel;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil2;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil3;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil4;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil5;
+    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
