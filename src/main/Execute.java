@@ -32,7 +32,7 @@ public class Execute {
 
     private Date endDate = new Date();
 
-    private int NUMWEEKS = 2;
+    private int NUMWEEKS = 6;
 
     public void setForecastData(JSONArray forecastData) {
         this.forecastData = forecastData;

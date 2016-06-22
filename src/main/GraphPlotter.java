@@ -43,7 +43,6 @@ public class GraphPlotter {
      * and the time series collection i.e. works-hours as a value
      */
     public static HashMap<String, TimeSeriesCollection> getFormattedData(HashMap<String, Role> roleMap) {
-
         //Create a collection of graph sets which store the graphs for each role type (i.e. FED's etc)
         HashMap<String, TimeSeriesCollection> graphSets = new HashMap<String, TimeSeriesCollection>();
 
@@ -104,6 +103,7 @@ public class GraphPlotter {
                         //System.out.print(" and empHours is " + employeeHours + '\n');
                         pop.add(new Day(day, month, year), employeeHours);
                     }
+                    
                     dataset.addSeries(pop);
                 }
             }
@@ -154,6 +154,8 @@ public class GraphPlotter {
             plot.setDomainGridlinePaint(Color.BLACK);
             plot.setRangeGridlinePaint(Color.BLACK);
             plot.setBackgroundPaint(Color.WHITE);
+            
+            
             
             //Iterate through each line to make it thicker 
             int seriesCount = plot.getSeriesCount();

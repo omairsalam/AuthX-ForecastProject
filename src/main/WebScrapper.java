@@ -2,12 +2,17 @@ package main;
 
 import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.json.CDL;
@@ -42,8 +47,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public final class WebScrapper {
 
-    //private JBrowserDriver driver = null;
-    private WebDriver driver = null;
+    private JBrowserDriver driver = null;
+    //private WebDriver driver = null;
     private String fileDirectory = null;
     private String username = new String();
     private String password = new String();
@@ -63,7 +68,7 @@ public final class WebScrapper {
         fileDirectory = downloadDirectory;
         this.username = username;
         this.password = password;
-
+        /*
         System.setProperty("webdriver.chrome.driver", "/Users/alam/Documents/AuthX/AuthX-ForecastProject/ExternalJars/chromedriver");
         
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
@@ -75,7 +80,7 @@ public final class WebScrapper {
         cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
         cap.setCapability(ChromeOptions.CAPABILITY, options);
         driver = new ChromeDriver(cap);
-         
+         */
  /*
         String[] cli_args = new String[]{ "--ignore-ssl-errors=true" };
         
@@ -100,7 +105,7 @@ public final class WebScrapper {
         
          */
  
-        /*
+        
         DesiredCapabilities jBrowser = DesiredCapabilities.htmlUnit();
 
         Capabilities caps = new DesiredCapabilities();
@@ -109,7 +114,7 @@ public final class WebScrapper {
         driver = new JBrowserDriver(jBrowser);
 
         //webClient.addWebWindowListener(new WebWindowListener(
- */
+ 
     }
 
     /**
@@ -145,17 +150,16 @@ public final class WebScrapper {
      * Navigate to the exports page and download the file to the computer at the
      * link specific in the construction of the driver
      */
-    private void getData() {
-
+    private void getData() throws MalformedURLException, IOException {
         //wait for the page after the login page to be loaded 
         WebDriverWait wait = new WebDriverWait(driver, 500);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='ember-view dropdown-button app-nav-dropdown']")));
-
+        
         //Page after login page loaded!
         //Find the schedule button and click it to open the drop down menu 
         WebElement schedule = driver.findElement(By.xpath("//*[@class='ember-view dropdown-button app-nav-dropdown']"));
         schedule.click(); //clicks on schedule button 
-
+        
         //System.out.print(driver.findElement(By.xpath("//*[@id='ember883']")).getText());
         //wait for the page after the login page to be loaded 
         wait = new WebDriverWait(driver, 500);
@@ -168,7 +172,7 @@ public final class WebScrapper {
         //Wait for the Export page to be loaded!
         wait = new WebDriverWait(driver, 500);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='button button-primary button-active-like-disabled']")));
-
+        
         //We are on the exports page now
         //Wait for the Export page to be loaded!
         wait = new WebDriverWait(driver, 500);
@@ -180,12 +184,7 @@ public final class WebScrapper {
 
         WebElement downloadData = driver.findElement(By.xpath("//button[@class='button button-primary button-active-like-disabled']")); //clicks on export button in drop down
         downloadData.click();
-
-
-
-
-                
-
+                          
     }
 
     /**
@@ -233,7 +232,7 @@ public final class WebScrapper {
         String path = fileDirectory + "/JSONFile.json";
         //String jsonFile = convertToJSON(csvFile);
         String jsonFile = convertToJSON(csvFile);
-        System.out.println("Converted stream is " + jsonFile);
+        //System.out.println("Converted stream is " + jsonFile);
         FileWriter writer = new FileWriter(new File(path));
         writer.append(jsonFile);
         writer.close();
@@ -299,7 +298,7 @@ public final class WebScrapper {
         openTestSite();
         System.out.println("Website opened");
         login();
-        System.out.println("Loggin Completed");
+        System.out.println("Log in Completed");
         getData();
         System.out.println("Data Acquisiton Completed");
 

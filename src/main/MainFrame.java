@@ -56,6 +56,7 @@ public class MainFrame extends javax.swing.JFrame {
     private static ArrayList<JFreeChart> chartList = new ArrayList<>();
     private static HashMap<String, Role> myRoleMap = new HashMap<>();
     private static final int MONTHLOOKAHEAD = 1; 
+    private static final int RANGELIMIT = 4; 
     private static Date initStartDate;
     private static Date initEndDate;
 
@@ -70,7 +71,7 @@ public class MainFrame extends javax.swing.JFrame {
         initStartDate = startDatePicker.getDate();
         endDatePicker.setDate(Driver.execute.getEndDate()); //set the end date to a week from the start date 
         initEndDate = endDatePicker.getDate();
-        resetButton.setEnabled(false);
+        resetButton.setEnabled(true);
      
         //Get current number of employees
         myRoleMap = Driver.execute.getRoleMap();
@@ -117,7 +118,7 @@ public class MainFrame extends javax.swing.JFrame {
         resetButton = new javax.swing.JButton();
         legendPanel = new javax.swing.JPanel();
         datePicker2 = new javax.swing.JLabel();
-        datePicker3 = new javax.swing.JLabel();
+        datePicker5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AuthX Employee Forecast");
@@ -203,9 +204,9 @@ public class MainFrame extends javax.swing.JFrame {
         datePicker2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         datePicker2.setText("Toggle Graphs");
 
-        datePicker3.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        datePicker3.setForeground(new java.awt.Color(255, 0, 51));
-        datePicker3.setText("Click on the Buttons to toggle visibility");
+        datePicker5.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        datePicker5.setForeground(new java.awt.Color(255, 0, 51));
+        datePicker5.setText("Click on the Buttons to toggle visibility");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -253,13 +254,12 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addGap(66, 66, 66)
                                 .addComponent(datePicker2))
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(legendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(legendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(datePicker3))))
-                        .addContainerGap(12, Short.MAX_VALUE))))
+                                .addComponent(datePicker5)))
+                        .addContainerGap(15, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,19 +282,17 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(recalculateData)
                     .addComponent(resetButton))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
+                        .addGap(58, 58, 58)
                         .addComponent(datePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(datePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(legendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(datePicker5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(legendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -423,7 +421,7 @@ public class MainFrame extends javax.swing.JFrame {
      * @param evt -
      */
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        resetButton.setEnabled(false);
+        //resetButton.setEnabled(false);
         startDatePicker.setDate(initStartDate);
         endDatePicker.setDate(initEndDate);
         try {
@@ -488,6 +486,7 @@ public class MainFrame extends javax.swing.JFrame {
                 p.setSize(graphPanel.getWidth(), graphPanel.getHeight());
                 p.setVisible(true);
                 XYPlot plot = (XYPlot) s1.getPlot();
+                plot.getRangeAxis().setRangeWithMargins(-RANGELIMIT, RANGELIMIT);
                 createLegendPanel(plot);
                 
                 
@@ -660,7 +659,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel datePicker;
     private javax.swing.JLabel datePicker1;
     private javax.swing.JLabel datePicker2;
-    private javax.swing.JLabel datePicker3;
+    private javax.swing.JLabel datePicker5;
     private javax.swing.JTextField employeeNumString;
     private org.jdesktop.swingx.JXDatePicker endDatePicker;
     private javax.swing.JPanel graphPanel;
