@@ -41,7 +41,6 @@ public class LoginFrame extends javax.swing.JFrame {
     public LoginFrame() {
         initComponents();
         PromptSupport.setPrompt("Enter Username", uName); //Sets placeholder text for username
-        //PromptSupport.setPrompt("Enter Password", pWord); //Sets placeholder text for password 
         pWord.setEchoChar('*');
         dir = System.getProperty("user.home") + File.separator + DEFAULTDIR;
 
@@ -260,10 +259,8 @@ public class LoginFrame extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
 
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            // System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
             dir = chooser.getSelectedFile().toString();
             currentDirString.setText(dir);
-            // System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
         } else {
             System.out.println("No Selection ");
         }
@@ -280,7 +277,6 @@ public class LoginFrame extends javax.swing.JFrame {
             //Make a directory in the folder the user chooses 
             makeDir();
 
-            System.out.println("Current working directory is " + dir);
             String username = uName.getText();
             String password = pWord.getText();
             String directory = dir;
@@ -298,7 +294,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         this.setVisible(false);
         MainFrame s = new MainFrame();
-        s.getTagList(myCharts);
+        MainFrame.getTagList(myCharts);
         s.populateComboBox();
         s.setVisible(true);
     }//GEN-LAST:event_LoginActionPerformed
@@ -317,7 +313,6 @@ public class LoginFrame extends javax.swing.JFrame {
     public void makeDir() {
         String mySubFolder = "ForecastData";
         File newDir = new File(dir + File.separator + mySubFolder);
-        System.out.println("File path is " + newDir.getAbsolutePath());
         dir = newDir.getAbsolutePath();
         boolean success = newDir.mkdir();
     }

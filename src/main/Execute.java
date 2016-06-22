@@ -2,12 +2,10 @@ package main;
 
 import java.io.IOException;
 import java.util.*;
-import java.text.SimpleDateFormat;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-import org.testng.internal.Graph;
 
 /**
  * This is the execute class with with a variable type of Map. It links -
@@ -24,15 +22,15 @@ import org.testng.internal.Graph;
 //TODO: Handle the case in which project type is empty, ""
 public class Execute {
 
-    private HashMap<String, Role> roleMap = new HashMap<String, Role>();
+    private HashMap<String, Role> roleMap = new HashMap<>();
 
     private JSONArray forecastData;
 
-    LinkedHashSet<Date> dateSet = new LinkedHashSet<Date>();
+    LinkedHashSet<Date> dateSet = new LinkedHashSet<>();
 
     private Date endDate = new Date();
 
-    private int NUMWEEKS = 6;
+    private final int NUMWEEKS = 6;
 
     public void setForecastData(JSONArray forecastData) {
         this.forecastData = forecastData;
@@ -66,10 +64,7 @@ public class Execute {
 
         try {
             populateForecastStatic();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (IOException | ParseException e) {
         }
         populateForcastDyanamic(startDate, endDate);
 
@@ -155,7 +150,7 @@ public class Execute {
             String personLabel = (String) jsonObject.get("Person");
 
             if (personLabel.contains("Unassigned")) {
-                System.out.println("Unassigned person found!");
+                //System.out.println("Unassigned person found!");
 
             } else {
                 role.getEmp_Set().add(personLabel);
@@ -199,10 +194,8 @@ public class Execute {
      * the preceeding project types in this list
      */
     public void processRoleHierarchy() {
-        System.out.println("List of rolenames is" + roleMap.keySet());
         for (String roleName : roleMap.keySet()) {
             Role role = roleMap.get(roleName);
-            System.out.println("Role name is " + roleName);
 
             HashMap<String, ProjectType> ProjectMap = role.getPmap();
 
@@ -210,54 +203,27 @@ public class Execute {
             ProjectType projectTypeLikely = ProjectMap.get("Likely");
             if (projectTypeLikely != null) {
                 weekMapLikely = projectTypeLikely.getWMap();
-                if (roleName.equals("BED")) {
-                    //    System.out.println("Hashmap for " + roleName + " with project label: Likely  is");
-                    //     printHashMap(projectTypeLikely.getWMap());
-                }
+
             }
-            for (int i = 0; i < 10; i++) {
-                System.out.println("*");
-            }
+
 
             HashMap<Date, Double> weekMapHighlyLikely = null;
             ProjectType projectTypeHighlyLikely = ProjectMap.get("High Likely");
             if (projectTypeHighlyLikely != null) {
                 weekMapHighlyLikely = projectTypeHighlyLikely.getWMap();
-                if (roleName.equals("BED")) {
-                    //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeHighlyLikely  is");
-                    //    printHashMap(projectTypeHighlyLikely.getWMap());
-                }
-            }
-
-            for (int i = 0; i < 10; i++) {
-                System.out.println("*");
             }
 
             HashMap<Date, Double> weekMapSigned = null;
             ProjectType projectTypeSigned = ProjectMap.get("Signed");
             if (projectTypeSigned != null) {
                 weekMapSigned = projectTypeSigned.getWMap();
-                if (roleName.equals("BED")) {
-                    //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeSigned  is");
-                    //    printHashMap(projectTypeSigned.getWMap());
-                }
+
             }
 
-            for (int i = 0; i < 10; i++) {
-                System.out.println("*");
-            }
-
-            /*HashMap<Date, Double> weekMapAtRisk = null;
-                           ProjectType projectTypeAtRisk = ProjectMap.get("AT-RISK");
-                           if (projectTypeAtRisk != null){ weekMapAtRisk = projectTypeAtRisk.getWMap(); }*/
             HashMap<Date, Double> weekMapAtRisk = null;
             ProjectType projectTypeAtRisk = ProjectMap.get("At Risk");
             if (projectTypeAtRisk != null) {
                 weekMapAtRisk = projectTypeAtRisk.getWMap();
-                if (roleName.equals("BED")) {
-                    //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeAtRisk  is: ");
-                    //            printHashMap(projectTypeAtRisk.getWMap());
-                }
 
             }
 
@@ -265,11 +231,6 @@ public class Execute {
             ProjectType projectTypeInternal = ProjectMap.get("Internal Projects");
             if (projectTypeInternal != null) {
                 weekMapInternal = projectTypeInternal.getWMap();
-                if (roleName.equals("BED")) {
-                    //    System.out.println("Hashmap for " + roleName + " with project label: projectTypeAtRisk  is: ");
-                    //            printHashMap(projectTypeAtRisk.getWMap());
-                }
-
             }
 
             for (Date date : dateSet) {
@@ -378,7 +339,6 @@ public class Execute {
         int month = c.get(Calendar.MONTH) + 1;
 
         String formattedDate = month + "/" + day + "/" + year % 100;
-        //System.out.println("Date is " + formattedDate);
         return formattedDate;
     }
 

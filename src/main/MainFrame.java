@@ -6,18 +6,14 @@
 package main;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -29,13 +25,10 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import org.jdesktop.swingx.prompt.PromptSupport;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -45,27 +38,29 @@ import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 import org.jfree.chart.ChartUtilities;
 
-
-
 /**
- * This class makes a JFrame in which the graphs are displayed and various graph options are provided therefore most of the GUI work 
- * in displaying the graphs is done here. It is called on by the login class
- * which passes in some parameters, along with some other parameters being passed from the Driver.java class. 
+ * This class makes a JFrame in which the graphs are displayed and various graph
+ * options are provided therefore most of the GUI work in displaying the graphs
+ * is done here. It is called on by the login class which passes in some
+ * parameters, along with some other parameters being passed from the
+ * Driver.java class.
+ *
  * @author alam
  */
 public class MainFrame extends javax.swing.JFrame {
-    
+
     private static ArrayList<String> tagArray = new ArrayList<>();
     private static ArrayList<JFreeChart> chartList = new ArrayList<>();
     private static HashMap<String, Role> myRoleMap = new HashMap<>();
-    private static final int MONTHLOOKAHEAD = 1; 
-    private static final int RANGELIMIT = 4; 
+    private static final int MONTHLOOKAHEAD = 1;
+    private static final int RANGELIMIT = 4;
     private static Date initStartDate;
     private static Date initEndDate;
 
     /**
-     * Creates new MainFrame which contains the graphs that we want to plot, date pickers to change the start and 
-     * end dates, an option to change the number of employees, and an option to select a Role to display its graphs 
+     * Creates new MainFrame which contains the graphs that we want to plot,
+     * date pickers to change the start and end dates, an option to change the
+     * number of employees, and an option to select a Role to display its graphs
      */
     public MainFrame() {
 
@@ -75,12 +70,12 @@ public class MainFrame extends javax.swing.JFrame {
         endDatePicker.setDate(Driver.execute.getEndDate()); //set the end date to a week from the start date 
         initEndDate = endDatePicker.getDate();
         resetButton.setEnabled(true);
-     
+
         //Get current number of employees
         myRoleMap = Driver.execute.getRoleMap();
-     recalculateData.setEnabled(false); //recalculate should be false initially 
-     PromptSupport.setPrompt("Number of Employees", employeeNumString); //Sets placeholder text for password 
-     
+        recalculateData.setEnabled(false); //recalculate should be false initially 
+        PromptSupport.setPrompt("Number of Employees", employeeNumString); //Sets placeholder text for password 
+
     }
 
     /**
@@ -315,50 +310,29 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Shows the graphs when we click on a particular role in the role picker combo box 
-     * @param evt 
+     * Shows the graphs when we click on a particular role in the role picker
+     * combo box
+     *
+     * @param evt
      */
     private void rolePickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rolePickerActionPerformed
-      showGraphs();
+        showGraphs();
     }//GEN-LAST:event_rolePickerActionPerformed
 
     /**
-     * Remake the chats based on a different number of employees entered by the user 
-     * @param evt 
+     * Remake the chats based on a different number of employees entered by the
+     * user
+     *
+     * @param evt
      */
     private void employeeNumStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeNumStringActionPerformed
-        
-        /*//Enable the recalculate button so the user can press it 
-        recalculateData.setEnabled(true);  
-        //Get the current role that we are at 
-        String currentRoleName = rolePicker.getSelectedItem().toString();
-        
-        //The default value of number of employees
-        double employeeNumber = myRoleMap.get(currentRoleName).getNumEmployees();
-        
-        
-        //If the field is empty, we need to simply switch back to the previous known value
-        //If its not empty, parse the text and use it as the default value 
-        if (employeeNumString.getText().equals("")){
-            employeeNumString.setText(String.valueOf(employeeNumber));
-        }else{
-             employeeNumber = Double.parseDouble(employeeNumString.getText());
-        }
-        //We are in a current Role as specified by the combo box so go grab this 
-        Role role = myRoleMap.get(currentRoleName);
-        //Change the number of employees in that role object
-        role.setNumEmployees(employeeNumber);
-        //Based on this new number, remake the charts and obtain the chart list 
-        chartList = GraphPlotter.getAllFrames(myRoleMap);
-        //use these new charts to show the graphs again 
-        showGraphs();
 
-        */
     }//GEN-LAST:event_employeeNumStringActionPerformed
 
     /**
-     * Gets a start date from the user and picks and end date based on that 
-     * @param evt 
+     * Gets a start date from the user and picks and end date based on that
+     *
+     * @param evt
      */
     private void startDatePickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startDatePickerActionPerformed
         Date startDate = startDatePicker.getDate();
@@ -368,41 +342,42 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_startDatePickerActionPerformed
 
     /**
-     * Allows the user to recalculate the graphs 
-     * @param evt 
+     * Allows the user to recalculate the graphs
+     *
+     * @param evt
      */
     private void endDatePickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endDatePickerActionPerformed
         recalculateData.setEnabled(true); //if we play with end date, end date picker should be enabled 
     }//GEN-LAST:event_endDatePickerActionPerformed
 
     /**
-     * When the recalculate button is pressed, make new charts based on the start and end dates
-     * @param evt 
+     * When the recalculate button is pressed, make new charts based on the
+     * start and end dates
+     *
+     * @param evt
      */
     private void recalculateDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recalculateDataActionPerformed
-        recalculateData.setEnabled(false);  
+        recalculateData.setEnabled(false);
         resetButton.setEnabled(true);
-       // System.out.println("Start date is " + getStartOfWeek(startDatePicker.getDate()));
-       // System.out.println("End date is " + getStartOfWeek(endDatePicker.getDate()));
-         try {
+        try {
             ArrayList<JFreeChart> importedCharts = Driver.recalculateMaps(getStartOfWeek(startDatePicker.getDate()), endDatePicker.getDate()); //get new charts based on
             //we didn't put an end date on the picker because our loop has something like iterate while its less than endDatePicker
             //so only start date has to be matched to start of the week so it can match up with the keys in the JSON file
             myRoleMap = Driver.execute.getRoleMap(); //get the new rolemap for this chart
-            
+
             //Check if the employee number changed or not 
             String currentRoleName = rolePicker.getSelectedItem().toString();
             Double currentNumboxVal = Double.parseDouble(employeeNumString.getText());
             Double currentNumRoleMapVal = myRoleMap.get(currentRoleName).getNumEmployees();
-            
-            if (!Objects.equals(currentNumboxVal, currentNumRoleMapVal)){
+
+            if (!Objects.equals(currentNumboxVal, currentNumRoleMapVal)) {
                 //We are in a current Role as specified by the combo box so go grab this 
                 Role role = myRoleMap.get(currentRoleName);
                 //Change the number of employees in that role object
                 role.setNumEmployees(currentNumboxVal);
                 chartList = GraphPlotter.getAllFrames(myRoleMap); //refresh the chartList with this new value for numRoleMap
                 showGraphs();
-            }else{
+            } else {
                 getTagList(importedCharts); //get a new tag list for these charts 
                 showGraphs(); //repopulate all the graphs 
             }
@@ -417,23 +392,25 @@ public class MainFrame extends javax.swing.JFrame {
 
     /**
      * Key checker for the number of employees. Only allows digits and dots
-     * @param evt 
+     *
+     * @param evt
      */
     private void employeeNumStringKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_employeeNumStringKeyTyped
 
-            //    System.out.println("Key pressed is " + evt.getKeyChar());
         char c = evt.getKeyChar();
-         if (!Character.isDigit(c) && c != '.' && evt.getExtendedKeyCode() != KeyEvent.VK_BACK_SPACE && evt.getExtendedKeyCode()!=KeyEvent.VK_ENTER){
-             JOptionPane.showMessageDialog(this, "Please only enter decimal numbers or digits!", "Error", JOptionPane.ERROR_MESSAGE);
+        if (!Character.isDigit(c) && c != '.' && evt.getExtendedKeyCode() != KeyEvent.VK_BACK_SPACE && evt.getExtendedKeyCode() != KeyEvent.VK_ENTER) {
+            JOptionPane.showMessageDialog(this, "Please only enter decimal numbers or digits!", "Error", JOptionPane.ERROR_MESSAGE);
             evt.consume();
-         }else{
-             recalculateData.setEnabled(true);
-         }
+        } else {
+            recalculateData.setEnabled(true);
+        }
 
     }//GEN-LAST:event_employeeNumStringKeyTyped
 
     /**
-     * Everything is reset to the default condition meaning the graphs are reset to default 
+     * Everything is reset to the default condition meaning the graphs are reset
+     * to default
+     *
      * @param evt -
      */
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
@@ -460,66 +437,65 @@ public class MainFrame extends javax.swing.JFrame {
     private void exportGraphsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportGraphsActionPerformed
         try {
             exportAllGraphs();        // TODO add your handling code here:
-        } catch (IOException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (java.text.ParseException ex) {
+        } catch (IOException | java.text.ParseException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_exportGraphsActionPerformed
 
     /**
-     * Generates a tagArray which is a list of role names populated by parsing the chartList and getting the title from
-     * each. 
-     * @param importedChartList The list of charts that contains the role names as the title 
+     * Generates a tagArray which is a list of role names populated by parsing
+     * the chartList and getting the title from each.
+     *
+     * @param importedChartList The list of charts that contains the role names
+     * as the title
      */
-    public static void getTagList(ArrayList<JFreeChart> importedChartList){
+    public static void getTagList(ArrayList<JFreeChart> importedChartList) {
         tagArray.clear();
         chartList = importedChartList;
-        for (JFreeChart s : importedChartList){
-            if(s.getTitle().getText().equals("")){
+        for (JFreeChart s : importedChartList) {
+            if (s.getTitle().getText().equals("")) {
                 // do not this add an empty title graph to the tag list 
-            }else{
+            } else {
                 tagArray.add(s.getTitle().getText());
             }
         }
-    } 
-    
+    }
+
     /**
      * Populates the role picker combo box based on the tag Array
      */
-    public void populateComboBox(){
+    public void populateComboBox() {
         rolePicker.removeAll();
-        rolePicker.setModel(new DefaultComboBoxModel());rolePicker.removeAll();
-        for (String s : tagArray){
+        rolePicker.setModel(new DefaultComboBoxModel());
+        rolePicker.removeAll();
+        for (String s : tagArray) {
             rolePicker.addItem(s);
         }
     }
-    
+
     /**
-     * Adds the chart to the displaying JPanel. Gets the current role that is being displayed by the role picker combo box,
-     * gets the chart associated with this role title, for instance if role name is BED, then the chart with the title BED
-     * is needed. 
+     * Adds the chart to the displaying JPanel. Gets the current role that is
+     * being displayed by the role picker combo box, gets the chart associated
+     * with this role title, for instance if role name is BED, then the chart
+     * with the title BED is needed.
      */
-    public void showGraphs(){
+    public void showGraphs() {
         String currentRole = rolePicker.getSelectedItem().toString();
-        //System.out.println("Current role picked is " + currentRole);
         graphPanel.removeAll();
-        for (JFreeChart s1 : chartList){
-            //s1.removeLegend();
+        for (JFreeChart s1 : chartList) {
+
             //If you have the correct role in the chart
-            if (s1.getTitle().getText().equals(currentRole)){
+            if (s1.getTitle().getText().equals(currentRole)) {
                 ChartPanel p = new ChartPanel(s1);
                 p.setSize(graphPanel.getWidth(), graphPanel.getHeight());
                 p.setVisible(true);
                 XYPlot plot = (XYPlot) s1.getPlot();
                 plot.getRangeAxis().setRangeWithMargins(-RANGELIMIT, RANGELIMIT);
                 createLegendPanel(plot);
-                
-                
+
                 graphPanel.add(p, BorderLayout.CENTER);
                 graphPanel.repaint();
                 this.revalidate();
-                
 
             }
         }
@@ -527,16 +503,11 @@ public class MainFrame extends javax.swing.JFrame {
         double numEmployees = myRoleMap.get(currentRole).getNumEmployees();
         employeeNumString.setText(String.valueOf(numEmployees));
 
-
-        /* TESTING FOR DISABLING
-        if (currentRole.equals("BED")){
-            setVisibility(currentRole, "Likely", false);
-        }
-        */
     }
 
     /**
-     * Exports all graphs from the panel into user file 
+     * Exports all graphs from the panel into user file
+     *
      * @throws IOException -
      * @throws java.text.ParseException -
      */
@@ -546,14 +517,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         String mySubFolder = "Graphs";
         File newDir = new File(dir + File.separator + mySubFolder);
-        System.out.println("File path is " + newDir.getAbsolutePath());
         String directory = newDir.getAbsolutePath();
         newDir.mkdir();
         directory += "/";
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-        for (JFreeChart chart : chartList){
+        for (JFreeChart chart : chartList) {
             File file = new File(directory + chart.getTitle().getText().toString() + "-" + sdf.format(startDatePicker.getDate()) + "-" + sdf.format(endDatePicker.getDate()) + ".png");
             ChartUtilities.saveChartAsPNG(file, chart, graphPanel.getWidth(), graphPanel.getHeight());
         }
@@ -561,10 +531,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     /**
      * Sets the Visibility of a series for a given Role and Project Code.
+     *
      * @param roleName The name of the role that you are in
-     * @param projectCode The name of the project code that you are trying to set
+     * @param projectCode The name of the project code that you are trying to
+     * set
      */
-    public void setVisibility(String roleName, String projectCode){
+    public void setVisibility(String roleName, String projectCode) {
 
         graphPanel.removeAll();
 
@@ -579,13 +551,13 @@ public class MainFrame extends javax.swing.JFrame {
                 int index = plot.getDataset(0).indexOf(projectCode);
 
                 //If we've found the project code we're looking for
-                if (index != -1){
+                if (index != -1) {
 
                     //If the series is visible, make it invisible, else make it visible 
-                    if (plot.getRendererForDataset(plot.getDataset(0)).isSeriesVisible(index)){
+                    if (plot.getRendererForDataset(plot.getDataset(0)).isSeriesVisible(index)) {
                         plot.getRendererForDataset(plot.getDataset(0)).setSeriesVisible(index, false);
-                    }else{
-                     plot.getRendererForDataset(plot.getDataset(0)).setSeriesVisible(index, true);
+                    } else {
+                        plot.getRendererForDataset(plot.getDataset(0)).setSeriesVisible(index, true);
                     }
                 }
 
@@ -598,104 +570,69 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
     }
-    
+
     /**
-     * Given a start date, increments it by a certain period 
-     * @param startDate The date we start with 
-     * @return The date incremented by a predefined period 
+     * Given a start date, increments it by a certain period
+     *
+     * @param startDate The date we start with
+     * @return The date incremented by a predefined period
      */
-    public Date getEndDate(Date startDate){
-        Calendar cal = Calendar.getInstance(); 
+    public Date getEndDate(Date startDate) {
+        Calendar cal = Calendar.getInstance();
         cal.setTime(startDate);
         cal.add(Calendar.MONTH, MONTHLOOKAHEAD);
         return cal.getTime();
     }
-    
+
     /**
      * Given a date, gets the first day of that week
+     *
      * @param startDate The start date
-     * @return The first day of that week 
+     * @return The first day of that week
      */
-    public Date getStartOfWeek(Date startDate){
+    public Date getStartOfWeek(Date startDate) {
         Calendar cal = Calendar.getInstance();
         cal.setFirstDayOfWeek(Calendar.MONDAY); //Default first day is Sunday, lets change that to Monday 
         cal.setTime(startDate);
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-        //System.out.println("Start of this week:       " + cal.getTime());
         return cal.getTime();
     }
-    
+
     /**
-     * Creates another click enabled legend based on the legend of the current plot being displayed on the graph panel
-     * @param plot The current plot being displayed on the graph panel. 
+     * Creates another click enabled legend based on the legend of the current
+     * plot being displayed on the graph panel
+     *
+     * @param plot The current plot being displayed on the graph panel.
      */
     public void createLegendPanel(XYPlot plot) {
-    //Empty this panel before doing more work 
-    legendPanel.removeAll();
-    //Iterate through all the plots to get their names
-    Iterator iterator = plot.getLegendItems().iterator();
-    //Make a button out of every item with the icon being the color that it has 
-    while (iterator.hasNext()) {
-        LegendItem item = (LegendItem) iterator.next();
-        JButton myButton = new JButton(item.getLabel());
-        myButton.setIcon(new ColorIcon(10, item.getFillPaint()));
-        myButton.setFont(new Font(myButton.getFont().getName(), Font.PLAIN, 10));
-        myButton.setPreferredSize(new Dimension(160, 30));
-        
-        //Add a mouse listener to be able to perceive mouse clicks on the JLabels
-        myButton.addMouseListener(new java.awt.event.MouseAdapter() {
-               @Override
-               public void mouseClicked(java.awt.event.MouseEvent evt) {
-                   System.out.println("Label clicked is " + myButton.getText());
-                   String currentProject = myButton.getText();
-                   String currentRole = rolePicker.getSelectedItem().toString();
-                   setVisibility(currentRole, currentProject);
-               }
-        });
-        
+        //Empty this panel before doing more work 
+        legendPanel.removeAll();
+        //Iterate through all the plots to get their names
+        Iterator iterator = plot.getLegendItems().iterator();
+        //Make a button out of every item with the icon being the color that it has 
+        while (iterator.hasNext()) {
+            LegendItem item = (LegendItem) iterator.next();
+            JButton myButton = new JButton(item.getLabel());
+            myButton.setIcon(new ColorIcon(10, item.getFillPaint()));
+            myButton.setFont(new Font(myButton.getFont().getName(), Font.PLAIN, 10));
+            myButton.setPreferredSize(new Dimension(160, 30));
 
-        legendPanel.add(myButton); //Add the button 
-        legendPanel.repaint();
-        System.out.println("Label is " + item.getLabel());
-
-    }
-    legendPanel.repaint();
-    this.revalidate();
-}
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            //Add a mouse listener to be able to perceive mouse clicks on the JLabels
+            myButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    String currentProject = myButton.getText();
+                    String currentRole = rolePicker.getSelectedItem().toString();
+                    setVisibility(currentRole, currentProject);
                 }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+            });
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame().setVisible(true);
-            }
-        });
+            legendPanel.add(myButton); //Add the button 
+            legendPanel.repaint();
+
+        }
+        legendPanel.repaint();
+        this.revalidate();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -733,7 +670,8 @@ public class MainFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     /**
-     * A color class meant to make circles with specific colors based on the color of the item in the legend 
+     * A color class meant to make circles with specific colors based on the
+     * color of the item in the legend
      */
     class ColorIcon implements Icon {
 
@@ -748,8 +686,8 @@ public class MainFrame extends javax.swing.JFrame {
         public void paintIcon(Component c, Graphics g, int x, int y) {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+                    RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
             g2d.setPaint(paint);
             g2d.fillOval(x, y, size, size);
         }
@@ -763,6 +701,6 @@ public class MainFrame extends javax.swing.JFrame {
         public int getIconHeight() {
             return size;
         }
-}
+    }
 
 }

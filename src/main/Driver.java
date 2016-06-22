@@ -23,12 +23,6 @@ public class Driver {
     static WebScrapper webScrapper;
 
 
-    public static void main(String[] args){
-        
-        
-        //guiHandler.displayLogin();
-    }
-
     //Rescales the specified map for the number of employees
     /**
      * Rescales the specified graph for the role for the given employee number
@@ -57,17 +51,9 @@ public class Driver {
      */
     public static ArrayList<JFreeChart> login(String username, String password, String downloadPath) throws InterruptedException, ParseException, JSONException, IOException, java.text.ParseException {
 
-        //String downloadPath = args[0];
-        //String username = args[1];
-        //String password = args[2];
-
-        //downloadPath = "/Users/user/Desktop";
-        //username = "theoriginalsine@gmail.com";
-        //password = "forecast";
 
         webScrapper = new WebScrapper(downloadPath, username, password);
-        //webScrapper.downloadJSONArray();
-        //System.out.println("Start date is " + webScrapper.getStartDate());
+
 
         JSONArray content = webScrapper.downloadJSONArray();
 
@@ -79,8 +65,6 @@ public class Driver {
         ArrayList<JFreeChart> charts = p1.getAllFrames(roleMap);
         return charts;
 
-        //GUIHandler.makeGraphs(chartFrames);
-        //GUIHandler.setGraphs(chartFrames);
     }
     /**
      * Redraws the graphs based on a new rolemap which is based on new start and end dates 
@@ -102,8 +86,6 @@ public class Driver {
         ArrayList<JFreeChart> charts = graphPlotter.getAllFrames(roleMap);
         return charts;
 
-        //GUIHandler.makeGraphs(chartFrames);
-        //GUIHandler.setGraphs(chartFrames);
     }
 
 }

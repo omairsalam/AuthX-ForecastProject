@@ -8,11 +8,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
-
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import junit.framework.Test;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 
@@ -47,7 +41,6 @@ public class GraphPlotter {
         //Iterate through Roles in the role map
         for (String tag : roleMap.keySet()) {
             if (!tag.isEmpty()) {
-                System.out.println("Tag: " + tag);
                 TimeSeriesCollection dataset = new TimeSeriesCollection();
 
                 //Add a particular dataset for one graph to this graph set 
@@ -56,15 +49,10 @@ public class GraphPlotter {
                 Role role = roleMap.get(tag);
                 HashMap<String, ProjectType> projectTypeMap = role.getPmap();
 
-                if (tag.equals("BED")) {
-                    System.out.println("Employees in BED are: " + role.getEmp_Set());
-                }
-
                 //Iterate through ProjectTypes in this role
                 for (String projectCode : projectTypeMap.keySet()) {
                     //Add a filter for the project codes that we actually need to see 
                     if (projectCode.equals("Internal Projects") || projectCode.equals("High Likely") || projectCode.equals("Likely") || projectCode.equals("Signed")) {
-                        System.out.println("    Project Label: " + projectCode);
 
                         //Scaling the map for the number of employees
                         double employeeNumber = role.getNumEmployees();
@@ -88,16 +76,6 @@ public class GraphPlotter {
                             int year = cal.get(Calendar.YEAR);
                             int month = cal.get(Calendar.MONTH) + 1;
                             int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                            /*if (tag.equals("BED") && projectCode.equals("Signed")){
-                            System.out.println("        Date: " + day + " " + month + " " + year + " Hours: " + employeeHours);
-                         }*/
-                            //Omair: Do the plotting here
-                            //X = Day, month, years
-                            //Y = employeeHours
-                            //Add a point to the time series
-                            //System.out.print("Day is " + new Day(day, month, year).toString());
-                            //System.out.print(" and empHours is " + employeeHours + '\n');
                             pop.add(new Day(day, month, year), employeeHours);
                         }
 
@@ -107,7 +85,6 @@ public class GraphPlotter {
             }
 
         }
-        //printOut(roleMap);
         return graphSets;
     }
 
@@ -123,9 +100,6 @@ public class GraphPlotter {
     public static ArrayList<JFreeChart> createFrameList(HashMap<String, TimeSeriesCollection> graphSet) {
 
         ArrayList<JFreeChart> myChartList = new ArrayList<JFreeChart>();
-        for (String tag : graphSet.keySet()) {
-            System.out.println("Tag is " + tag);
-        }
 
         for (String tag : graphSet.keySet()) {
             JFreeChart chart = ChartFactory.createTimeSeriesChart(
@@ -137,11 +111,8 @@ public class GraphPlotter {
                     true,
                     false);
 
-            //Sets background color of chart to white
-            //chart.setBackgroundPaint(Color.RED);
             chart.getPlot().setBackgroundPaint(new Color(225, 225, 225));
             chart.getPlot().setOutlineVisible(true);
-            //chart.setBackgroundImageAlpha(0.2f);
             chart.setBorderPaint(Color.BLACK);
 
             //Get all charts as XY Plots
@@ -191,23 +162,7 @@ public class GraphPlotter {
                 plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexInternalProjects, COLOR_INTERNALPROJECTS);
             }
 
-            //ChartFrame frame = new ChartFrame("Internal Admin Graphs", chart);
             myChartList.add(chart);
-            //frame.pack();
-            //frame.setVisible(true);
-
-            /*
-			try {
-				 ChartUtilities.saveChartAsPNG(new File("/Users/user/Documents/chart1.png"), chart, 500, 300);
-				// create and display a frame...
-
-
-
-				 } catch (IOException e) {
-				 System.err.println("Problem occurred creating chart.");
-				 }
-             */
-            //TODO: Implement this exporting, do not hardcode it
         }
         return myChartList;
     }
@@ -305,31 +260,4 @@ public class GraphPlotter {
         }
     }
 
-    public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException, InterruptedException, JSONException {
-
-        String dir = "/Users/alam/Documents";
-        WebScrapper webScrapper = new WebScrapper(dir, "theoriginalsine@gmail.com", "forecast");
-
-        JSONArray contentArray = webScrapper.downloadJSONArray();
-
-        Execute execute = new Execute();
-        execute.setForecastData(contentArray);
-
-        execute.populateForecastStatic();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //setting the format that we want
-
-        String startString = "2016-05-30";  // Specify start date as string
-        Calendar endCalenderDate = Calendar.getInstance();
-        endCalenderDate.setTime(sdf.parse(startString)); //setup end as start first so we can use increment using the Calender class API
-        endCalenderDate.add(Calendar.DATE, 120); //end date is 3 months beyond start date
-
-        Date startDate = sdf.parse(startString);
-        Date endDate = endCalenderDate.getTime();
-
-        execute.populateForcastDyanamic(startDate, endDate);
-
-        //HashMap<String, TimeSeriesCollection> graphSets = getFormattedData(execute.getRoleMap());
-        //createFrameList(graphSets);
-    }
 }
