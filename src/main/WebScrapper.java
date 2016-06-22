@@ -47,7 +47,7 @@ public final class WebScrapper {
         this.username = username;
         this.password = password;
         
-        System.setProperty("webdriver.chrome.driver", "ExternalJars/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "lib/chromedriver");
 
         
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
