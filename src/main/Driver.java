@@ -1,6 +1,5 @@
 package main;
 
-import org.jfree.chart.ChartFrame;
 import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
@@ -21,20 +20,6 @@ public class Driver {
     static Execute execute = new Execute();
     static GraphPlotter graphPlotter = new GraphPlotter();
     static WebScrapper webScrapper;
-
-
-    //Rescales the specified map for the number of employees
-    /**
-     * Rescales the specified graph for the role for the given employee number
-     * @param roleName the name of the role to rescale
-     * @param employeeNumber the number of employees to scale the map for
-     */
-    public static void rescaleMap(String roleName, int employeeNumber){
-        HashMap<String, Role> roleMapClone = graphPlotter.rescale(execute.getRoleMap(), roleName, employeeNumber);
-        ArrayList<JFreeChart> chartList = graphPlotter.getAllFrames(roleMapClone);
-        //guiHandler.setGraphs(chartList);
-    }
-
 
     /**
      * Uses the webscrapper to get a json file from forecastapp.com, calculates an initial roleMap based on default start and end dates,

@@ -1,38 +1,24 @@
 package main;
 
-import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import org.json.CDL;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.openqa.jetty.html.Page;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -61,7 +47,7 @@ public final class WebScrapper {
         this.username = username;
         this.password = password;
         
-        System.setProperty("webdriver.chrome.driver", "/Users/alam/Documents/AuthX/AuthX-ForecastProject/ExternalJars/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "ExternalJars/chromedriver");
 
         
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
@@ -217,9 +203,10 @@ public final class WebScrapper {
             }
         }
 
-        //return lastModifiedFile; //DO NOT COMMENT OUT IF USING RAHUL FILE 
+        return lastModifiedFile; //DO NOT COMMENT OUT IF USING RAHUL FILE
+
         /*COMMENT OUT BOTTOM LINE IF USING FORECASTAPP.COM INSTEAD OF RAHUL's FILE */
-        return new File("/Users/alam/Documents/Forecast-0613.csv");
+        //return new File("/Users/alam/Documents/Forecast-0613.csv");
     }
 
     /**
