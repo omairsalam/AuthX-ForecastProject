@@ -56,14 +56,6 @@ public final class WebScrapper {
 
     public WebScrapper(String downloadDirectory, String username, String password) {
 
-        /*FirefoxProfile profile = new FirefoxProfile();
-        
-        //Set the preferences to download to a specific folder 
-        profile.setPreference("browser.download.folderList", 2);
-        profile.setPreference("browser.download.manager.showWhenStarting", false);
-        profile.setPreference("browser.download.dir", downloadDirectory);
-        profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/csv");
-        driver = new FirefoxDriver(profile);*/
         fileDirectory = new String("");
         fileDirectory = downloadDirectory;
         this.username = username;
@@ -71,7 +63,6 @@ public final class WebScrapper {
         
         System.setProperty("webdriver.chrome.driver", "/Users/alam/Documents/AuthX/AuthX-ForecastProject/ExternalJars/chromedriver");
 
-        //System.setProperty("webdriver.chrome.driver", "ExternalJars/chromedriver");
         
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
@@ -83,40 +74,7 @@ public final class WebScrapper {
         cap.setCapability(ChromeOptions.CAPABILITY, options);
         driver = new ChromeDriver(cap);
          
- /*
-        String[] cli_args = new String[]{ "--ignore-ssl-errors=true" };
-        
-        Capabilities caps = new DesiredCapabilities();
-                ((DesiredCapabilities) caps).setJavascriptEnabled(true);                
-                ((DesiredCapabilities) caps).setCapability("takesScreenshot", true);  
-                ((DesiredCapabilities) caps).setCapability(
-                        PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-                        "/Users/alam/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs"
-                    );
-                ((DesiredCapabilities) caps).setCapability("download.default_directory", fileDirectory);
-                ((DesiredCapabilities) caps).setCapability( PhantomJSDriverService.PHANTOMJS_CLI_ARGS, cli_args );
-         */
- /*
-        String[] cli_args = new String[]{ "--ignore-ssl-errors=true" };
-        DesiredCapabilities caps = DesiredCapabilities.phantomjs();
-        caps.setCapability( PhantomJSDriverService.PHANTOMJS_CLI_ARGS, cli_args );
-        caps.setCapability( PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "/Users/alam/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs");
-        driver =  new PhantomJSDriver( caps );
-
-        //driver = new PhantomJSDriver(caps);
-        
-         */
  
-        /*
-        DesiredCapabilities jBrowser = DesiredCapabilities.htmlUnit();
-
-        Capabilities caps = new DesiredCapabilities();
-        ((DesiredCapabilities) caps).setJavascriptEnabled(true);
-        ((DesiredCapabilities) caps).setCapability("download.default_directory", fileDirectory);
-        driver = new JBrowserDriver(jBrowser);
-
-        //webClient.addWebWindowListener(new WebWindowListener(
-        */
     }
 
     /**
@@ -145,7 +103,6 @@ public final class WebScrapper {
         password_editbox.sendKeys(this.password);
         submit_button.click();
 
-        //System.out.println("Login Successful");
     }
 
     /**
@@ -232,9 +189,9 @@ public final class WebScrapper {
      */
     private void exportJSON(File csvFile) throws JSONException, IOException {
         String path = fileDirectory + "/JSONFile.json";
-        //String jsonFile = convertToJSON(csvFile);
+
         String jsonFile = convertToJSON(csvFile);
-        //System.out.println("Converted stream is " + jsonFile);
+
         FileWriter writer = new FileWriter(new File(path));
         writer.append(jsonFile);
         writer.close();
@@ -296,13 +253,9 @@ public final class WebScrapper {
     public org.json.simple.JSONArray downloadJSONArray() throws InterruptedException, JSONException, IOException, ParseException {
 
         //Open website and download data to named directory 
-        System.out.println("Started System");
         openTestSite();
-        System.out.println("Website opened");
         login();
-        System.out.println("Log in Completed");
         getData();
-        System.out.println("Data Acquisiton Completed");
 
         //Put thread to sleep so that library can update itself 
         try {
@@ -315,7 +268,6 @@ public final class WebScrapper {
 
         //Convert the CSV to JSON
         File csvFileAddr = getLatestFilefromDir(fileDirectory + "/");
-        System.out.println("Address of latest File is + " + csvFileAddr.getPath());
 
         //Put JSON In folder
         exportJSON(csvFileAddr);
@@ -336,15 +288,5 @@ public final class WebScrapper {
         DateFormat format = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
         Date date = format.parse(startDate);
         return date;
-    }
-
-    public static void main(String[] args) throws IOException, InterruptedException, JSONException, ParseException, java.text.ParseException {
-
-        WebScrapper webSrcapper = new WebScrapper("/Users/alam/Documents/GRE/", "theoriginalsine@gmail.com", "forecast"); //this will be given as a parameter 
-        webSrcapper.downloadJSONArray();
-        System.out.println(webSrcapper.getStartDate());
-
-        //String jSONResult = convertToJSON(new File("/Users/alam/Documents/forecast-project-export-from-2016-06-13-to-2017-06-30.csv"));
-        //System.out.println(jSONResult);
     }
 }
