@@ -1,5 +1,6 @@
 package main;
 
+import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -46,8 +47,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public final class WebScrapper {
 
-    private JBrowserDriver driver = null;
-    //private WebDriver driver = null;
+    //private JBrowserDriver driver = null;
+    private WebDriver driver = null;
     private String fileDirectory = null;
     private String username = new String();
     private String password = new String();
@@ -67,10 +68,10 @@ public final class WebScrapper {
         fileDirectory = downloadDirectory;
         this.username = username;
         this.password = password;
-        /*
+        
         System.setProperty("webdriver.chrome.driver", "/Users/alam/Documents/AuthX/AuthX-ForecastProject/ExternalJars/chromedriver");
 
-        System.setProperty("webdriver.chrome.driver", "ExternalJars/chromedriver");
+        //System.setProperty("webdriver.chrome.driver", "ExternalJars/chromedriver");
         
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
@@ -81,7 +82,7 @@ public final class WebScrapper {
         cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
         cap.setCapability(ChromeOptions.CAPABILITY, options);
         driver = new ChromeDriver(cap);
-         */
+         
  /*
         String[] cli_args = new String[]{ "--ignore-ssl-errors=true" };
         
@@ -106,7 +107,7 @@ public final class WebScrapper {
         
          */
  
-        
+        /*
         DesiredCapabilities jBrowser = DesiredCapabilities.htmlUnit();
 
         Capabilities caps = new DesiredCapabilities();
@@ -115,7 +116,7 @@ public final class WebScrapper {
         driver = new JBrowserDriver(jBrowser);
 
         //webClient.addWebWindowListener(new WebWindowListener(
- 
+        */
     }
 
     /**
@@ -261,7 +262,7 @@ public final class WebScrapper {
 
         //return lastModifiedFile; //DO NOT COMMENT OUT IF USING RAHUL FILE 
         /*COMMENT OUT BOTTOM LINE IF USING FORECASTAPP.COM INSTEAD OF RAHUL's FILE */
-        return new File("/Users/user/Documents/Forecast-0613.csv");
+        return new File("/Users/alam/Documents/Forecast-0613.csv");
     }
 
     /**

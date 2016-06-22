@@ -1,6 +1,5 @@
 package main;
 
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import org.jfree.data.time.Day;
@@ -28,7 +27,6 @@ import org.jfree.chart.plot.XYPlot;
 
 public class GraphPlotter {
 
-
     private static final Color COLOR_LIKELY = new Color(237, 126, 49);
     private static final Color COLOR_HIGHLIKELY = new Color(112, 173, 71);
     private static final Color COLOR_SIGNEDATRISK = new Color(68, 114, 196);
@@ -48,63 +46,63 @@ public class GraphPlotter {
 
         //Iterate through Roles in the role map
         for (String tag : roleMap.keySet()) {
-            System.out.println("Tag: " + tag);
-            TimeSeriesCollection dataset = new TimeSeriesCollection();
+            if (!tag.isEmpty()) {
+                System.out.println("Tag: " + tag);
+                TimeSeriesCollection dataset = new TimeSeriesCollection();
 
-            //Add a particular dataset for one graph to this graph set 
-            graphSets.put(tag, dataset);
+                //Add a particular dataset for one graph to this graph set 
+                graphSets.put(tag, dataset);
 
-            Role role = roleMap.get(tag);
-            HashMap<String, ProjectType> projectTypeMap = role.getPmap();
-            
-            if (tag.equals("BED")){
-                System.out.println("Employees in BED are: " + role.getEmp_Set());
-            }
+                Role role = roleMap.get(tag);
+                HashMap<String, ProjectType> projectTypeMap = role.getPmap();
 
-            //Iterate through ProjectTypes in this role
-            for (String projectCode : projectTypeMap.keySet()) {
-                //Add a filter for the project codes that we actually need to see 
-                if ( projectCode.equals("Internal Projects") || projectCode.equals("High Likely") || projectCode.equals("Likely") || projectCode.equals("Signed")) {
-                    System.out.println("    Project Label: " + projectCode);
+                if (tag.equals("BED")) {
+                    System.out.println("Employees in BED are: " + role.getEmp_Set());
+                }
 
-                    //Scaling the map for the number of employees
-                    double employeeNumber = role.getNumEmployees();
-                    
-                    HashMap<Date, Double> weekMapEmployees = projectTypeMap.get(projectCode).scaleMap(employeeNumber);
+                //Iterate through ProjectTypes in this role
+                for (String projectCode : projectTypeMap.keySet()) {
+                    //Add a filter for the project codes that we actually need to see 
+                    if (projectCode.equals("Internal Projects") || projectCode.equals("High Likely") || projectCode.equals("Likely") || projectCode.equals("Signed")) {
+                        System.out.println("    Project Label: " + projectCode);
 
-                    //Make a time series for this project 
-                    TimeSeries pop; 
-                    if (projectCode.equals("Signed")){ //We need to change the label for signed and highly likely 
-                         pop = new TimeSeries("Signed + At Risk", Day.class);
-                    }else{
-                         pop = new TimeSeries(projectCode, Day.class);
-                    }
+                        //Scaling the map for the number of employees
+                        double employeeNumber = role.getNumEmployees();
 
-                    //Goes through the weeks -> hours and builds up the points into a list
-                    for (Date weekDate : weekMapEmployees.keySet()) {
-                        double employeeHours = weekMapEmployees.get(weekDate);
+                        HashMap<Date, Double> weekMapEmployees = projectTypeMap.get(projectCode).scaleMap(employeeNumber);
 
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(weekDate);
-                        int year = cal.get(Calendar.YEAR);
-                        int month = cal.get(Calendar.MONTH) + 1;
-                        int day = cal.get(Calendar.DAY_OF_MONTH);
+                        //Make a time series for this project 
+                        TimeSeries pop;
+                        if (projectCode.equals("Signed")) { //We need to change the label for signed and highly likely 
+                            pop = new TimeSeries("Signed + At Risk", Day.class);
+                        } else {
+                            pop = new TimeSeries(projectCode, Day.class);
+                        }
 
-                        /*if (tag.equals("BED") && projectCode.equals("Signed")){
+                        //Goes through the weeks -> hours and builds up the points into a list
+                        for (Date weekDate : weekMapEmployees.keySet()) {
+                            double employeeHours = weekMapEmployees.get(weekDate);
+
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(weekDate);
+                            int year = cal.get(Calendar.YEAR);
+                            int month = cal.get(Calendar.MONTH) + 1;
+                            int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                            /*if (tag.equals("BED") && projectCode.equals("Signed")){
                             System.out.println("        Date: " + day + " " + month + " " + year + " Hours: " + employeeHours);
                          }*/
-                        
+                            //Omair: Do the plotting here
+                            //X = Day, month, years
+                            //Y = employeeHours
+                            //Add a point to the time series
+                            //System.out.print("Day is " + new Day(day, month, year).toString());
+                            //System.out.print(" and empHours is " + employeeHours + '\n');
+                            pop.add(new Day(day, month, year), employeeHours);
+                        }
 
-                        //Omair: Do the plotting here
-                        //X = Day, month, years
-                        //Y = employeeHours
-                        //Add a point to the time series
-                        //System.out.print("Day is " + new Day(day, month, year).toString());
-                        //System.out.print(" and empHours is " + employeeHours + '\n');
-                        pop.add(new Day(day, month, year), employeeHours);
+                        dataset.addSeries(pop);
                     }
-                    
-                    dataset.addSeries(pop);
                 }
             }
 
@@ -138,25 +136,22 @@ public class GraphPlotter {
                     true,
                     true,
                     false);
-            
-            
+
             //Sets background color of chart to white
             //chart.setBackgroundPaint(Color.RED);
-            chart.getPlot().setBackgroundPaint(new Color(225,225,225));
+            chart.getPlot().setBackgroundPaint(new Color(225, 225, 225));
             chart.getPlot().setOutlineVisible(true);
             //chart.setBackgroundImageAlpha(0.2f);
             chart.setBorderPaint(Color.BLACK);
-            
+
             //Get all charts as XY Plots
             XYPlot plot = (XYPlot) chart.getPlot();
-            
+
             //Change the background colors and the grid line colors 
             plot.setDomainGridlinePaint(Color.BLACK);
             plot.setRangeGridlinePaint(Color.BLACK);
             plot.setBackgroundPaint(Color.WHITE);
-            
-            
-            
+
             //Iterate through each line to make it thicker 
             int seriesCount = plot.getSeriesCount();
 
@@ -164,10 +159,10 @@ public class GraphPlotter {
             for (int i = 0; i < seriesCount; i++) {
 
                 //Increase thickness of each stroke
-                plot.getRenderer().setSeriesStroke(i, new BasicStroke(2)); 
+                plot.getRenderer().setSeriesStroke(i, new BasicStroke(2));
 
             }
-            
+
             //Add a horizontal marker
             ValueMarker marker = new ValueMarker(0);  // position is the value on the axis
             marker.setStroke(new BasicStroke(3)); //make the line thicker 
@@ -182,15 +177,19 @@ public class GraphPlotter {
             int indexSignedAtRisk = plot.getDataset(0).indexOf("Signed + At Risk");
 
             //These lines set the color of the project code lines based on the indexes you found above
-            if (indexLikely != -1) { plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexLikely, COLOR_LIKELY); }
+            if (indexLikely != -1) {
+                plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexLikely, COLOR_LIKELY);
+            }
             if (indexHighLikely != -1) {
                 plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexHighLikely, COLOR_HIGHLIKELY);
                 //plot.getRendererForDataset(plot.getDataset(0)).setSeriesVisible(indexHighLikely, false); //This is the way you set the visibility of a series
             }
-            if (indexSignedAtRisk != -1) { plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexSignedAtRisk, COLOR_SIGNEDATRISK); }
-            if (indexInternalProjects != -1) { plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexInternalProjects, COLOR_INTERNALPROJECTS); }
-
-
+            if (indexSignedAtRisk != -1) {
+                plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexSignedAtRisk, COLOR_SIGNEDATRISK);
+            }
+            if (indexInternalProjects != -1) {
+                plot.getRendererForDataset(plot.getDataset(0)).setSeriesPaint(indexInternalProjects, COLOR_INTERNALPROJECTS);
+            }
 
             //ChartFrame frame = new ChartFrame("Internal Admin Graphs", chart);
             myChartList.add(chart);
@@ -229,7 +228,8 @@ public class GraphPlotter {
      * Takes a tag and the number of employees and rescales a particular role
      *
      * @param tag The key for the role
-     * @param roleMap A hashmap that contains the role objects with their tag names as keys 
+     * @param roleMap A hashmap that contains the role objects with their tag
+     * names as keys
      * @param numEmployees The new number of employees we want to use
      * @return A new hashmap with the scaled data
      */
@@ -269,19 +269,21 @@ public class GraphPlotter {
         }
 
     }
-    
+
     /**
-     * Prints out all the contents of a roleMap in the hierarchy of Role - Project - (Date, Hours)  
-     * @param roleMap The hashmap that we want to print out 
+     * Prints out all the contents of a roleMap in the hierarchy of Role -
+     * Project - (Date, Hours)
+     *
+     * @param roleMap The hashmap that we want to print out
      */
-    public static void printOut(HashMap<String, Role> roleMap){
-        for (String roleName : roleMap.keySet()){
+    public static void printOut(HashMap<String, Role> roleMap) {
+        for (String roleName : roleMap.keySet()) {
             System.out.println("Role: " + roleName);
 
             Role role = roleMap.get(roleName);
             HashMap<String, ProjectType> projectTypeMap = role.getPmap();
 
-            for (String projectCode : projectTypeMap.keySet()){
+            for (String projectCode : projectTypeMap.keySet()) {
                 System.out.println("    Project Code: " + projectCode);
 
                 HashMap<Date, Double> weekMapHours = projectTypeMap.get(projectCode).getWMap();
@@ -289,7 +291,7 @@ public class GraphPlotter {
                 double employeeNumber = role.getEmp_Set().size();
                 HashMap<Date, Double> weekMapEmployees = projectTypeMap.get(projectCode).scaleMap(employeeNumber);
 
-                for (Date weekDate : weekMapHours.keySet()){
+                for (Date weekDate : weekMapHours.keySet()) {
                     double hours = weekMapHours.get(weekDate);
                     double employeeHours = weekMapEmployees.get(weekDate);
 
@@ -302,8 +304,6 @@ public class GraphPlotter {
             }
         }
     }
-
-    
 
     public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException, InterruptedException, JSONException {
 
