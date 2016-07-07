@@ -1,6 +1,7 @@
 package main;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.json.simple.JSONArray;
@@ -97,7 +98,7 @@ public class Execute {
 
             JSONObject jobject = (JSONObject) forecastData.get(tuple);
 
-            String tag = (String) jobject.get("Tags");
+            String tag = (String) jobject.get("Team Tags");
             String projectCode = (String) jobject.get("Project Label");
             String personLabel = (String) jobject.get("Person");
 
@@ -139,7 +140,7 @@ public class Execute {
             JSONObject jsonObject = (JSONObject) obj;
 
             //This gets the proper objects from the JSON
-            String roleString = (String) jsonObject.get("Tags");
+            String roleString = (String) jsonObject.get("Team Tags");
             String projectTypeString = (String) jsonObject.get("Project Label"); //changed project code to project label 
 
             //This gets the appropriate roles and project types
@@ -328,17 +329,21 @@ public class Execute {
      * @return The date as a forecast type string
      */
     public static String convertDatetoForecastString(Date date) {
-        /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String forecastDate = sdf.format(date);
-		return forecastDate;*/
-
+        //These lines were used for certain JSONs which has slashes in their date format, like MM/DD/YY
+        //This only happened with a specific JSON file, and it has been uneeded with the real code
+        /*
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         int year = c.get(Calendar.YEAR);
         int day = c.get(Calendar.DAY_OF_MONTH);
         int month = c.get(Calendar.MONTH) + 1;
-
         String formattedDate = month + "/" + day + "/" + year % 100;
+        */
+        ////////
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = sdf.format(date);
+
         return formattedDate;
     }
 

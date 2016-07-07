@@ -96,34 +96,30 @@ public final class WebScrapper {
      * link specific in the construction of the driver
      */
     private void getData() throws MalformedURLException, IOException {
-        //wait for the page after the login page to be loaded 
-        WebDriverWait wait = new WebDriverWait(driver, 500);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='ember-view dropdown-button app-nav-dropdown']")));
-        
-        //Page after login page loaded!
-        //Find the schedule button and click it to open the drop down menu 
-        WebElement schedule = driver.findElement(By.xpath("//*[@class='ember-view dropdown-button app-nav-dropdown']"));
-        schedule.click(); //clicks on schedule button 
-        
-        //System.out.print(driver.findElement(By.xpath("//*[@id='ember883']")).getText());
-        //wait for the page after the login page to be loaded 
-        wait = new WebDriverWait(driver, 500);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[.='Export']")));
+        //Put thread to sleep so that library can update itself
+        try {
+            Thread.sleep(500);                 //1000 milliseconds is one second.
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
 
-        //Find export button and click on it 
-        WebElement export = driver.findElement(By.xpath("//*[.='Export']")); //clicks on export button in drop down
-        export.click();
+        //wait for the page after the login page to be loaded
+        WebDriverWait wait = new WebDriverWait(driver, 500);
+
+        //NOTICE
+        //Hard navigation to the export page; If this url changes or a new account if migrated to then this needs to be changed
+        driver.navigate().to("https://forecastapp.com/95939/export");
 
         //Wait for the Export page to be loaded!
-        wait = new WebDriverWait(driver, 500);
+        wait = new WebDriverWait(driver,250);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='button button-primary button-active-like-disabled']")));
-        
+
         //We are on the exports page now
         //Wait for the Export page to be loaded!
-        wait = new WebDriverWait(driver, 500);
+        wait = new WebDriverWait(driver, 250);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='range-start ']")));
 
-        //Get the start date from this page 
+        //Get the start date from this page
         WebElement startDateContent = driver.findElement(By.xpath("//*[@class='range-start ']"));
         startDate = startDateContent.getText();
 
@@ -246,7 +242,7 @@ public final class WebScrapper {
 
         //Put thread to sleep so that library can update itself 
         try {
-            Thread.sleep(2000);                 //1000 milliseconds is one second.
+            Thread.sleep(5000);                 //1000 milliseconds is one second.
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
