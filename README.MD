@@ -27,4 +27,11 @@ These steps were automated using a Java program called AutomaticHarvestClient wh
 </p>
 
 <p> This is what the Automate Forecast App does i.e. it automates all the steps from acquiring the data to sifting through it to plotting it. </p> 
+
+<p> In order to run this project, please execute LoginFrame.java. <p> 
+
+<h3> Dependencies </h3>
+<p> Please note that for this project to work, your PC has to have Chrome installed. The reason why one of these softwares is needed is that the webscapping tool selenium uses a live web browser to navigate to www.forecastapp.com and get data from it. </p> 
+
+
   
