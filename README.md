@@ -32,3 +32,4 @@ These steps were automated using a Java program called AutomaticHarvestClient wh
 
 <h3> Dependencies </h3>
 <p> Please note that for this project to work, your PC has to have Chrome installed. The reason why one of these softwares is needed is that the webscapping tool selenium uses a live web browser to navigate to www.forecastapp.com and get data from it. </p> 
+<p> Also note that you have to switch to the DEVELOP branch in order to see the code, the master branch has still not been merged with the develop branch as of yet! Sorry for the inconvenience! </p>
